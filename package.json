@@ -1,0 +1,30 @@
+{
+  "name": "oslllo-svg-fixer",
+  "version": "0.0.1",
+  "description": "",
+  "main": "src/index.js",
+  "scripts": {
+    "dev:test": "node tests/dev.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/oslllo/svg-fixer.git"
+  },
+  "keywords": [
+    "svg",
+    "svg-fixer"
+  ],
+  "author": "Ghustavh Ehm",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/oslllo/svg-fixer/issues"
+  },
+  "homepage": "https://github.com/oslllo/svg-fixer#readme",
+  "dependencies": {
+    "fast-glob": "^3.2.2",
+    "jsdom": "^16.2.2",
+    "potrace": "^2.1.5",
+    "sharp": "^0.25.2"
+  }
+}
