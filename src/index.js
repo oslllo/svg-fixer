@@ -1,4 +1,4 @@
-const fs = require('fs')
+const fs = require('fs-extra')
 const path = require('path')
 const sharp = require('sharp')
 const potrace = require('potrace')
@@ -9,25 +9,32 @@ const { JSDOM } = jsdom
 const appDir = path.resolve(`${__dirname}/../`)
 const tempDir = `${appDir}/temp`
 
-function SvgFixer(source, dest, options = {}) {
+/**
+ * 
+ * @param {string} source - Directory containing svg icons to fix
+ * @param {string} dest - Destination directory to store fixed icons
+ * @returns {Promise}
+ */
+function svgFixer(source, dest) {
     return new Promise(async (resolve, reject) => {
-        await init()
-        const entries = await fg(source)
-        console.log(entries)
+        await init([ source, dest ])
+        const entries = await fg(path.join(source, '/*.svg'))
         for(var i = 0; i < entries.length; i++) {
             entry = entries[i]
             var fixed = await fix(entry)
             fs.writeFileSync(`${dest}/${path.basename(entry)}`, fixed)
-            console.log(i)
         }
         resolve()
     })
 }
 
-async function init() {
+async function init(folders) {
     return new Promise((resolve, reject) => {
-        if(! fs.existsSync(tempDir)) {
-            fs.mkdirSync(tempDir)
+        folders.push(tempDir)
+        for(var i = 0; i < folders.length; i++) {
+            if(! fs.existsSync(folders[i])) {
+                fs.mkdirSync(folders[i])
+            }
         }
         resolve()
     })
@@ -82,4 +89,4 @@ function tracer(func, path, params = null) {
     })
 }
 
-module.exports = SvgFixer
+module.exports = svgFixer

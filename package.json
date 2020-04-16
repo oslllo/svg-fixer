@@ -1,10 +1,10 @@
 {
   "name": "oslllo-svg-fixer",
-  "version": "0.0.1",
-  "description": "",
+  "version": "0.0.3",
+  "description": "Fix line svg images to path",
   "main": "src/index.js",
   "scripts": {
-    "dev:test": "node tests/dev.js",
+    "debug:test": "node tests/debug.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -25,6 +25,7 @@
     "fast-glob": "^3.2.2",
     "jsdom": "^16.2.2",
     "potrace": "^2.1.5",
-    "sharp": "^0.25.2"
+    "sharp": "^0.25.2",
+    "fs-extra": "^9.0.0"
   }
 }
