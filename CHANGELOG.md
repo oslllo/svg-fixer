@@ -19,3 +19,8 @@
 - Create destination folder if it does not exist.
 - Remove debug functions
 - Switch from `fs` to `fs-extra`
+
+## 0.2.0
+
+- Added progress bar
+

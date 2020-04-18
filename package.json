@@ -21,11 +21,16 @@
     "url": "https://github.com/oslllo/svg-fixer/issues"
   },
   "homepage": "https://github.com/oslllo/svg-fixer#readme",
-  "dependencies": {
+  "dependencies": {},
+  "devDependencies": {
+    "canvas": "^2.6.1",
+    "cli-progress": "^3.7.0",
+    "colors": "^1.4.0",
     "fast-glob": "^3.2.2",
+    "fs-extra": "^9.0.0",
+    "image-data-uri": "^2.0.1",
     "jsdom": "^16.2.2",
     "potrace": "^2.1.5",
-    "sharp": "^0.25.2",
-    "fs-extra": "^9.0.0"
+    "sharp": "^0.25.2"
   }
 }

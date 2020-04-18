@@ -15,7 +15,7 @@ async function run() {
         for(folder in folders) {
             var iconPath = `${source}/${folders[folder]}`
             var destPath = `${dest}/${folders[folder]}`
-            console.log('iconPath', iconPath)
+            // console.log('iconPath', iconPath)
             await svgFixer(iconPath, destPath)
         }
         console.log('done')
