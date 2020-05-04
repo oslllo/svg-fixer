@@ -4,8 +4,8 @@
   "description": "Fix line svg images to path",
   "main": "src/index.js",
   "scripts": {
-    "debug:test": "node tests/debug.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "debug:test": "node tests/debug/debug.js",
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -21,16 +21,18 @@
     "url": "https://github.com/oslllo/svg-fixer/issues"
   },
   "homepage": "https://github.com/oslllo/svg-fixer#readme",
-  "dependencies": {},
-  "devDependencies": {
-    "canvas": "^2.6.1",
-    "cli-progress": "^3.7.0",
+  "dependencies": {
+    "cli-progress": "^3.8.1",
     "colors": "^1.4.0",
     "fast-glob": "^3.2.2",
     "fs-extra": "^9.0.0",
-    "image-data-uri": "^2.0.1",
+    "image-size": "^0.8.3",
     "jsdom": "^16.2.2",
-    "potrace": "^2.1.5",
+    "oslllo-potrace": "^0.0.5",
     "sharp": "^0.25.2"
+  },
+  "devDependencies": {
+    "jest": "^25.5.2",
+    "looks-same": "^7.2.2"
   }
 }
