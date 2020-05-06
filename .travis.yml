@@ -1,0 +1,21 @@
+os: linux
+dist: bionic
+
+language: node_js
+
+node:
+  - '12'
+
+before_script:
+  - npm install -g jest
+  - npm install --dev
+
+cache:
+  npm: true
+
+script:
+  - jest
+
+branches:
+  except:
+  - dev

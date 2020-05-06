@@ -20,6 +20,12 @@ function SVGFixer(source, dest, options = {}) {
 			`'options' argument should be an object, ${typeof options} given`
 		);
 	}
+	if (path.isAbsolute(source) == false) {
+		source = path.resolve(source);
+	}
+	if (path.isAbsolute(dest) == false) {
+		dest = path.resolve(dest);
+	}
 	this.source = source;
 	this.dest = dest;
 	this.svgs = fg.sync(path.join(source, "/*.svg"));

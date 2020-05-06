@@ -1,7 +1,7 @@
 {
   "name": "oslllo-svg-fixer",
   "version": "0.1.0",
-  "description": "Fix line svg images to path",
+  "description": "Attempts to fix your svg by turning it into a single path (and making it font compatible as a bonus).",
   "main": "src/index.js",
   "scripts": {
     "debug:test": "node tests/debug/debug.js",
@@ -26,7 +26,6 @@
     "colors": "^1.4.0",
     "fast-glob": "^3.2.2",
     "fs-extra": "^9.0.0",
-    "image-size": "^0.8.3",
     "jsdom": "^16.2.2",
     "oslllo-potrace": "^0.0.5",
     "sharp": "^0.25.2"

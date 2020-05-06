@@ -7,30 +7,47 @@ const looksame = require("looks-same");
 const sharp = require("sharp");
 const { JSDOM } = require("jsdom");
 
-var source = path.resolve("tests/icons");
-var dest = path.resolve("tests/fixed");
-var failed = path.resolve("tests/failed");
+const RELATIVE_BROKEN_ICONS_PATH = "tests/assets/broken-icons";
+const RELATIVE_FAILED_ICONS_PATH = "tests/assets/failed-icons";
+const RELATIVE_FIXED_ICONS_PATH = "tests/assets/fixed-icons";
 
-var icons = fs.readdirSync(path.resolve("tests/icons"));
+const ABSOLUTE_BROKEN_ICONS_PATH = path.resolve(RELATIVE_BROKEN_ICONS_PATH);
+const ABSOLUTE_FAILED_ICONS_PATH = path.resolve(RELATIVE_FAILED_ICONS_PATH);
+const ABSOLUTE_FIXED_ICONS_PATH = path.resolve(RELATIVE_FIXED_ICONS_PATH);
 
-if (fs.existsSync(dest)) {
-	fs.emptyDirSync(dest);
+if (fs.existsSync(ABSOLUTE_FIXED_ICONS_PATH)) {
+	fs.emptyDirSync(ABSOLUTE_FIXED_ICONS_PATH);
 }
 
-if (fs.existsSync(failed)) {
-	fs.emptyDirSync(failed);
+if (fs.existsSync(ABSOLUTE_FAILED_ICONS_PATH)) {
+	fs.emptyDirSync(ABSOLUTE_FAILED_ICONS_PATH);
 }
 
 describe("svgfixer.fix()", () => {
 	var options = {};
+
 	test("resolves with valid arguments", async () => {
-		await expect(svgfixer.fix(source, dest)).resolves.not.toThrow();
+		await expect(
+			svgfixer.fix(ABSOLUTE_BROKEN_ICONS_PATH, ABSOLUTE_FIXED_ICONS_PATH)
+		).resolves.not.toThrow();
 	}, 30000);
+
+	test("resolves with relative source and destination paths", async () => {
+		await expect(
+			svgfixer.fix(RELATIVE_BROKEN_ICONS_PATH, RELATIVE_FIXED_ICONS_PATH)
+		).resolves.not.toThrow();
+	}, 30000);
+
 	test("throws with invalid arguments", async () => {
 		await expect(svgfixer.fix(1, 2, 3)).rejects.toThrow(TypeError);
-		await expect(svgfixer.fix(1, dest, options)).rejects.toThrow(TypeError);
-		await expect(svgfixer.fix(source, 2, options)).rejects.toThrow(TypeError);
-		await expect(svgfixer.fix(source, dest, 3)).rejects.toThrow(TypeError);
+		await expect(
+			svgfixer.fix(1, ABSOLUTE_FIXED_ICONS_PATH, options)
+		).rejects.toThrow(TypeError);
+		await expect(
+			svgfixer.fix(ABSOLUTE_BROKEN_ICONS_PATH, 2, options)
+		).rejects.toThrow(TypeError);
+		await expect(
+			svgfixer.fix(ABSOLUTE_BROKEN_ICONS_PATH, ABSOLUTE_FIXED_ICONS_PATH, 3)
+		).rejects.toThrow(TypeError);
 	});
 });
-

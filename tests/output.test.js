@@ -7,14 +7,14 @@ const looksame = require("looks-same");
 const sharp = require("sharp");
 const { JSDOM } = require("jsdom");
 
-var source = path.resolve("tests/icons");
-var dest = path.resolve("tests/fixed");
-var failed = path.resolve("tests/failed");
-var fixed = fs.readdirSync(dest);
+var brokenIconsPath = path.resolve("tests/assets/broken-icons");
+var failedIconsPath = path.resolve("tests/assets/failed-icons");
+var fixedIconsPath = path.resolve("tests/assets/fixed-icons");
+var fixedIconsArray = fs.readdirSync(fixedIconsPath);
 
 describe("input and output SVGs are the same", () => {
-	var fixedMapped = fixed.map((value, index) => {
-		return [value, index];
+	var fixedIconsMapped = fixedIconsArray.map((iconExtensionName, index) => {
+		return [iconExtensionName, index];
 	});
 	async function getPngBuffer(p, options) {
 		var p = path.resolve(p);
@@ -25,11 +25,11 @@ describe("input and output SVGs are the same", () => {
 		var buffer = await svgfixer.core.svgToPng(svgElement.outerHTML, options);
 		return buffer;
 	}
-	test.each(fixedMapped)(
-		"%p matches source icon",
-		async (value, index, done) => {
-			var iconBuffer = await getPngBuffer(`tests/icons/${value}`,  { extend: true });
-			var fixedBuffer = await getPngBuffer(`tests/fixed/${value}`, { extend: true });
+	test.each(fixedIconsMapped)(
+		"%p matches expected icon",
+		async (iconExtensionName, index, done) => {
+			var iconBuffer = await getPngBuffer(`${brokenIconsPath}/${iconExtensionName}`,  { extend: true });
+			var fixedBuffer = await getPngBuffer(`${fixedIconsPath}/${iconExtensionName}`, { extend: true });
 			looksame(
 				iconBuffer,
 				fixedBuffer,
@@ -39,8 +39,8 @@ describe("input and output SVGs are the same", () => {
 						console.log(error);
 					}
 					if (equal != true) {
-						await sharp(iconBuffer).toFile(`tests/failed/${index}.png`);
-						await sharp(fixedBuffer).toFile(`tests/failed/${index}-fixed.png`);
+						await sharp(iconBuffer).toFile(`${failedIcons}/${index}.png`);
+						await sharp(fixedBuffer).toFile(`${failedIcons}/${index}-fixed.png`);
 					}
 					expect(equal).toBe(true);
 					done();
