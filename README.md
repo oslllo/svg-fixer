@@ -32,13 +32,7 @@ Attempts to fix your svg by turning it into a fill / single path (and making it 
 
     #### `SVG Icon`
 
-    <span>
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-    <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
-    <line x1="9" y1="9" x2="15" y2="15" />
-    <line x1="15" y1="9" x2="9" y2="15" />
-    </svg>
-    </span>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2" /><line x1="9" y1="9" x2="15" y2="15" /><line x1="15" y1="9" x2="9" y2="15" /></svg>
 
     #### `SVG Code`
 
@@ -109,27 +103,70 @@ npm install oslllo-svg-fixer
 const svgfixer = require('oslllo-svg-fixer');
 ```
 
-Using `svgfixer.fix()`
+#### Using `svgfixer.fix()`
 
 ```js
-svgfixer.fix('source/svg/dir', 'destination/svg/dir')
-.then(() => {
-    // ...
-})
-.catch((err) => {
-    // ...
-});
+async function svgfixerFixExample() {
+    // You can use a path that points to a directory with SVGs.
+    await svgfixer.fix('directory/containing/svgs', 'directory/to-store/fixed-svgs');
+    // Or a path that point directly so a single file.
+    await svgfixer.fix('directory/containing/broken-icon.svg', 'directory/to-store/fixed-svgs');
+}
 ```
 
-Using `svgfixer.SVGFixer()`
+#### Using `svgfixer.SVGFixer()`
 
 ```js
-var fixer = new svgfixer.SVGFixer('source/svg/dir', 'destination/svg/dir');
+async function svgfixerSVGFixerExample() {
+    // Create a new fixer instance.
+    var fixer = new svgfixer.SVGFixer();
+    // Set fixer options/parameters
+    fixer.setOptions({
+        throwIfPathDoesNotExist: true,
+        showProgressBar: false,
+    });
+    // Set source and destination paths
+    fixer.setSourceAndDest('directory/containing/svgs', 'directory/to-store/fixed-svgs');
+    // Begin processing the SVGs.
+    await fixer.process();
+}
 ```
 
-```js
-const svgfixer = require('oslllo-svg-fixer');
+## Wrapper API `(svgfixer = require("oslllo-svg-fixer"))`
 
+- `svgfixer.fix(source, destination, options)`: Wrapper for `SVGFixer` that simplifies use down to one function call. `source` path, `destination` path and parameter `options`.
 
-svgFixer('source/dir', 'destination/dir')
+## SVGFixer Class API `(svgfixer = new svgfixer.SVGFixer())`
+
+- `svgfixer.setOptions(options)`: set options/paramaters.
+- `svgfixer.setSourceAndDest(source, destination)`: set source and destination paths.
+- `svgfixer.process()`: begin processing/fixing the SVG files.
+
+## Parameters
+
+- `throwIfPathDoesNotExist`: throw error if any path does not exist. **default(true)**
+- `showProgressBar`: show progress bar in CLI. **default(false)**
+
+## Changelog
+
+Please see [CHANGELOG](https://github.com/oslllo/svg-fixer/blob/master/CHANGELOG.md) for more information what has changed recently.
+
+## Test
+
+```shell
+npm test
 ```
+
+## Credits
+
+These amazing font tools I used.
+
+[icomoon.io](https://icomoon.io/app/#/select)
+
+[fontello.com](http://fontello.com)
+
+[webfont](https://www.npmjs.com/package/webfont)
+
+## License
+
+The MIT License (MIT). Please see [License File](https://github.com/oslllo/svg-fixer/blob/master/LICENSE) for more information.
