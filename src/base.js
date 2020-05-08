@@ -1,53 +1,27 @@
 "use strict";
 
 const path = require("path");
-const fg = require("fast-glob");
-const cliprogress = require("cli-progress");
-const core = require("./core");
-const colors = require("colors");
+const { Core } = require("./core");
 
-function SVGFixer(source, dest, options = {}) {
-	if (typeof source !== "string") {
-		throw TypeError(
-			`'source' argument should be a string, ${typeof source} given.`
-		);
-	} else if (typeof dest !== "string") {
-		throw TypeError(
-			`'dest' argument should be a string, ${typeof dest} given`
-			);
-	} else if (typeof options !== "object") {
-		throw TypeError(
-			`'options' argument should be an object, ${typeof options} given`
-		);
-	}
-	if (path.isAbsolute(source) == false) {
-		source = path.resolve(source);
-	}
-	if (path.isAbsolute(dest) == false) {
-		dest = path.resolve(dest);
-	}
-	this.source = source;
-	this.dest = dest;
-	this.svgs = fg.sync(path.join(source, "/*.svg"));
+function SVGFixer(source, destination, options) {
+	this.source;
+	this.destination;
+	this.svgs;
+	this.progressbar;
 	this.options = {
+		throwIfPathDoesNotExist: true,
 		showProgressBar: false,
 	};
-	if (arguments.length === 3) {
+	if (options) {
 		this.setOptions(options);
 	}
-	if (this.options.showProgressBar) {
-		this.progressbar = new cliprogress.SingleBar(
-			{
-				format:
-					`${colors.yellow("Progress")} |` +
-					colors.yellow("{bar}") +
-					"| {percentage}% || {value}/{total} Chunks || Speed: {speed}",
-			},
-			cliprogress.Presets.shades_classic
-		);
+	if (source && destination) {
+		this.setSourceAndDest(source, destination);
 	}
 }
 
-SVGFixer.prototype = core;
 
-module.exports = SVGFixer;
+
+SVGFixer.prototype = Core;
+
+module.exports = { SVGFixer };
