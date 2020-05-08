@@ -11,7 +11,7 @@ before_script:
   - npm install --dev
 
 cache:
-  npm: true
+  npm: false
 
 script:
   - jest --runInBand
