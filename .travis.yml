@@ -14,7 +14,7 @@ cache:
   npm: true
 
 script:
-  - jest
+  - jest --runInBand
 
 branches:
   except:
