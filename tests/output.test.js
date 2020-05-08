@@ -1,6 +1,6 @@
 "use strict";
 
-const svgfixer = require("..");
+const { fix, Core } = require("..");
 const fs = require("fs-extra");
 const path = require("path");
 const looksame = require("looks-same");
@@ -20,9 +20,9 @@ describe("input and output SVGs are the same", () => {
 		var p = path.resolve(p);
 		var raw = fs.readFileSync(p, "utf8");
 		var dom = new JSDOM(raw);
-        var svgElement = svgfixer.core.getSvgElementFromDom(dom);
-        svgfixer.core.upscaleSvgElementDimensions(svgElement, 250);
-		var buffer = await svgfixer.core.svgToPng(svgElement.outerHTML, options);
+        var svgElement = Core.getSvgElementFromDom(dom);
+        Core.upscaleSvgElementDimensions(svgElement, 250);
+		var buffer = await Core.svgToPng(svgElement.outerHTML, options);
 		return buffer;
 	}
 	test.each(fixedIconsMapped)(
