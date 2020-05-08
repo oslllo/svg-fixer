@@ -28,10 +28,14 @@ var ABSOLUTE_BROKEN_ICON_FILE_PATHS_ARRAY;
 
 if (fs.existsSync(ABSOLUTE_FIXED_ICONS_DIR_PATH)) {
 	fs.emptyDirSync(ABSOLUTE_FIXED_ICONS_DIR_PATH);
+} else {
+	fs.mkdirSync(ABSOLUTE_FIXED_ICONS_DIR_PATH);
 }
 
 if (fs.existsSync(ABSOLUTE_FAILED_ICONS_DIR_PATH)) {
 	fs.emptyDirSync(ABSOLUTE_FAILED_ICONS_DIR_PATH);
+} else {
+	fs.mkdirSync(ABSOLUTE_FAILED_ICONS_DIR_PATH);
 }
 
 describe("svgfixer.fix()", () => {
