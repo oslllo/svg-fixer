@@ -139,28 +139,4 @@ describe("svgfixer.fix()", () => {
 			svgfixer.fix(RELATIVE_BROKEN_ICONS_DIR_PATH_SINGLE, ABSOLUTE_FIXED_ICONS_DIR_PATH, 1)
 		).rejects.toThrow(TypeError);
 	})
-
-	// test("throws with invalid arguments", async () => {
-	// 	// All invalid
-	// 	await expect(svgfixer.fix(1, 2, 3)).rejects.toThrow(TypeError);
-	// 	// Source is invalid
-	// 	await expect(
-	// 		svgfixer.fix(1, ABSOLUTE_FIXED_ICONS_DIR_PATH, options)
-	// 	).rejects.toThrow(TypeError);
-	// 	await expect(
-	// 		svgfixer.fix(1, ABSOLUTE_FIXED_ICONS_DIR_PATH, options)
-	// 	).rejects.toThrow(TypeError);
-	// 	// Destination is invalid
-	// 	await expect(
-	// 		svgfixer.fix(ABSOLUTE_BROKEN_ICONS_DIR_PATH, 2, options)
-	// 	).rejects.toThrow(TypeError);
-	// 	// Options is invalid
-	// 	await expect(
-	// 		svgfixer.fix(
-	// 			ABSOLUTE_BROKEN_ICONS_DIR_PATH,
-	// 			ABSOLUTE_FIXED_ICONS_DIR_PATH,
-	// 			3
-	// 		)
-	// 	).rejects.toThrow(TypeError);
-	// });
 });
