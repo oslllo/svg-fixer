@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.3.1
+
+- Updated README.md
+
 ## 0.3.0
 
 - Refactored whole codebase.

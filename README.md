@@ -26,15 +26,15 @@ Attempts to fix your svg by turning it into a fill / single path (and making it 
 
     ---
 
-    ### Example
+    <h3>Example</h3>
 
-    > The SVG we will be using for this example:
+    <blockquote>The SVG we will be using for this example:</blockquote>
 
-    #### `SVG Icon`
+    <h4><pre>SVG Icon</pre></h4>
 
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2" /><line x1="9" y1="9" x2="15" y2="15" /><line x1="15" y1="9" x2="9" y2="15" /></svg>
+    ![SVG Icon](media/images/svg-icon.png)
 
-    #### `SVG Code`
+    <h4><pre>SVG Code</pre></h4>
 
     ```xml
     <svg
@@ -132,11 +132,11 @@ async function svgfixerSVGFixerExample() {
 }
 ```
 
-## Wrapper API `(svgfixer = require("oslllo-svg-fixer"))`
+#### Wrapper API `(svgfixer = require("oslllo-svg-fixer"))`
 
 - `svgfixer.fix(source, destination, options)`: Wrapper for `SVGFixer` that simplifies use down to one function call. `source` path, `destination` path and parameter `options`.
 
-## SVGFixer Class API `(svgfixer = new svgfixer.SVGFixer())`
+#### SVGFixer Class API `(svgfixer = new svgfixer.SVGFixer())`
 
 - `svgfixer.setOptions(options)`: set options/paramaters.
 - `svgfixer.setSourceAndDest(source, destination)`: set source and destination paths.
