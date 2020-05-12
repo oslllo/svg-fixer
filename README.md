@@ -1,7 +1,7 @@
 # SVG Fixer
 
-![Travis (.org)](https://img.shields.io/travis/oslllo/svg-fixer?label=Travis%20CI)
-![npm](https://img.shields.io/npm/v/oslllo-svg-fixer)
+[![Travis (.org)](https://img.shields.io/travis/oslllo/svg-fixer?label=Travis%20CI)](https://travis-ci.org/github/oslllo/svg-fixer)
+[![npm](https://img.shields.io/npm/v/oslllo-svg-fixer)](https://www.npmjs.com/package/oslllo-svg-fixer)
 
 Attempts to fix your svg by turning it into a fill / single path (and making it font compatible as a bonus).
 
@@ -109,7 +109,7 @@ npm install oslllo-svg-fixer
 const svgfixer = require('oslllo-svg-fixer');
 ```
 
-#### Using `svgfixer.fix()`
+#### Using `svgfixer.fix()` wrapper
 
 ```js
 async function svgfixerFixExample() {
@@ -120,7 +120,7 @@ async function svgfixerFixExample() {
 }
 ```
 
-#### Using `svgfixer.SVGFixer()`
+#### Using `svgfixer.SVGFixer()` class
 
 ```js
 async function svgfixerSVGFixerExample() {
