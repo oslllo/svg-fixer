@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.3.3
+
+- Added badge links to `README.md`.
+- Updated `README.md` content.
+- Added new tags to `package.json`.
+
 ## 0.3.2
 
 - Updated README.md
