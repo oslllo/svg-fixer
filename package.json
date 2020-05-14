@@ -30,14 +30,17 @@
   "dependencies": {
     "cli-progress": "^3.8.1",
     "colors": "^1.4.0",
+    "es6-promise-pool": "^2.5.0",
     "fast-glob": "^3.2.2",
     "fs-extra": "^9.0.0",
     "jsdom": "^16.2.2",
     "oslllo-potrace": "^0.0.5",
-    "sharp": "^0.25.2"
+    "sharp": "^0.25.2",
+    "tiny-async-pool": "^1.1.0"
   },
   "devDependencies": {
     "jest": "^25.5.2",
-    "looks-same": "^7.2.2"
+    "looks-same": "^7.2.2",
+    "stopwatch-node": "^1.0.2"
   }
 }
