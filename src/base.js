@@ -11,6 +11,7 @@ function SVGFixer(source, destination, options) {
 	this.options = {
 		throwIfPathDoesNotExist: true,
 		showProgressBar: false,
+		fixConcurrency: 50
 	};
 	if (options) {
 		this.setOptions(options);
@@ -19,8 +20,6 @@ function SVGFixer(source, destination, options) {
 		this.setSourceAndDest(source, destination);
 	}
 }
-
-
 
 SVGFixer.prototype = Core;
 
