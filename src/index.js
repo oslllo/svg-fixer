@@ -10,7 +10,7 @@ function fix(source, destination, options) {
 			svgfixer.setSourceAndDest(source, destination);
 			svgfixer.setOptions(options);
 			await svgfixer.process();
-			resolve();
+			resolve({ instance: svgfixer });
 		} catch (e) {
 			reject(e);
 		}
