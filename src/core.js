@@ -9,7 +9,6 @@ const potrace = require("oslllo-potrace");
 const path = require("path");
 const cliprogress = require("cli-progress");
 const asyncPool = require("tiny-async-pool");
-const PromisePool = require('es6-promise-pool')
 
 const Core = {
 	optionsChanged: function () {
@@ -226,25 +225,11 @@ const Core = {
 								data: raw,
 								source: svg,
 							},
-							progressbar: {
-								// index,
-							},
 						});
 						resolve();
 					});
 				}
-				var svgIndex = -1;
-				function promiseProducer() {
-					if (svgIndex < self.svgs.length - 1) {
-						svgIndex++;
-						return _fixInstance(self.svgs[svgIndex]);
-					} else {
-						return null;
-					}
-				}
-				var pool = new PromisePool(promiseProducer, 50);
-				var poolPromise = pool.start();
-				await poolPromise;
+				var results = await asyncPool(this.options.fixConcurrency, this.svgs, _fixInstance);
 				process.teardown();
 				resolve(storage.buffers);
 			} catch (e) {
