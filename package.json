@@ -1,6 +1,6 @@
 {
   "name": "oslllo-svg-fixer",
-  "version": "0.3.3",
+  "version": "0.4.0",
   "description": "Attempts to fix your svg by turning it into a fill / single path (and making it font compatible as a bonus).",
   "main": "src/index.js",
   "scripts": {
