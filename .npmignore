@@ -1,0 +1,5 @@
+tests
+media
+node_modules
+jest.config.js
+.travis.yml
