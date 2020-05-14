@@ -41,6 +41,25 @@ if (fs.existsSync(ABSOLUTE_FAILED_ICONS_DIR_PATH)) {
 describe("svgfixer.fix()", () => {
 	var options = {};
 
+	test("can set paramenters", async () => {
+		var testParameters = {
+			throwIfPathDoesNotExist: false,
+			showProgressBar: true,
+			fixConcurrency: 55,
+		};
+		var { instance } = await svgfixer.fix(
+			RELATIVE_BROKEN_ICONS_DIR_PATH_SINGLE,
+			RELATIVE_FIXED_ICONS_DIR_PATH,
+			testParameters
+		);
+		var _options = instance.options;
+		expect(_options.throwIfPathDoesNotExist).toBe(
+			testParameters.throwIfPathDoesNotExist
+		);
+		expect(_options.showProgressBar).toBe(testParameters.showProgressBar);
+		expect(_options.fixConcurrency).toBe(testParameters.fixConcurrency);
+	});
+
 	test("resolves with valid arguments", async () => {
 		await expect(
 			svgfixer.fix(
@@ -120,7 +139,11 @@ describe("svgfixer.fix()", () => {
 
 	test("throws with invalid destination argument", async () => {
 		await expect(
-			svgfixer.fix(RELATIVE_BROKEN_ICONS_DIR_PATH_SINGLE, "invalid/path", options)
+			svgfixer.fix(
+				RELATIVE_BROKEN_ICONS_DIR_PATH_SINGLE,
+				"invalid/path",
+				options
+			)
 		).rejects.toThrow(TypeError);
 		await expect(
 			svgfixer.fix(
@@ -132,11 +155,15 @@ describe("svgfixer.fix()", () => {
 		await expect(
 			svgfixer.fix(RELATIVE_BROKEN_ICONS_DIR_PATH_SINGLE, 1, options)
 		).rejects.toThrow(TypeError);
-	})
+	});
 
 	test("throws with invalid options argument", async () => {
 		await expect(
-			svgfixer.fix(RELATIVE_BROKEN_ICONS_DIR_PATH_SINGLE, ABSOLUTE_FIXED_ICONS_DIR_PATH, 1)
+			svgfixer.fix(
+				RELATIVE_BROKEN_ICONS_DIR_PATH_SINGLE,
+				ABSOLUTE_FIXED_ICONS_DIR_PATH,
+				1
+			)
 		).rejects.toThrow(TypeError);
-	})
+	});
 });

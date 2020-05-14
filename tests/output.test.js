@@ -39,8 +39,8 @@ describe("input and output SVGs are the same", () => {
 						console.log(error);
 					}
 					if (equal != true) {
-						await sharp(iconBuffer).toFile(`${failedIcons}/${index}.png`);
-						await sharp(fixedBuffer).toFile(`${failedIcons}/${index}-fixed.png`);
+						await sharp(iconBuffer).toFile(`${failedIconsPath}/${index}.png`);
+						await sharp(fixedBuffer).toFile(`${failedIconsPath}/${index}-fixed.png`);
 					}
 					expect(equal).toBe(true);
 					done();

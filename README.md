@@ -152,6 +152,7 @@ async function svgfixerSVGFixerExample() {
 
 - `throwIfPathDoesNotExist`: throw error if any path does not exist. **default(true)**
 - `showProgressBar`: show progress bar in CLI. **default(false)**
+- `fixConcurrency`: how many svgs can be fixed at the same time. **default(50)**
 
 ## Changelog
 

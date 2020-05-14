@@ -8,6 +8,7 @@ const sharp = require("sharp");
 const potrace = require("oslllo-potrace");
 const path = require("path");
 const cliprogress = require("cli-progress");
+const asyncPool = require("tiny-async-pool");
 
 const Core = {
 	optionsChanged: function () {
@@ -114,6 +115,9 @@ const Core = {
 		this.setSource(source);
 		this.setDest(destination);
 	},
+	newDom: function (content = '<html></html>') {
+		return new JSDOM(content);
+	},
 	process: function () {
 		return new Promise(async (resolve, reject) => {
 			try {
@@ -123,6 +127,7 @@ const Core = {
 					objects: [],
 					buffers: [],
 				};
+				var progress = 0;
 				var process = {
 					setup: function () {
 						if (spb) {
@@ -134,7 +139,8 @@ const Core = {
 					},
 					tick: function (data) {
 						if (spb) {
-							self.progressbar.update(data.progressbar.index);
+							progress++;
+							self.progressbar.update(progress);
 						}
 						storage.objects.push(data.svg);
 					},
@@ -158,71 +164,72 @@ const Core = {
 					},
 				};
 				process.setup();
-				var trace = new potrace.Potrace();
-				var tracedDom = new JSDOM(`<html></html>`);
-				var dom = new JSDOM(`<html></html>`);
-				for (var svgIndex = 0; svgIndex < this.svgs.length; svgIndex++) {
-					var svg = this.svgs[svgIndex];
-					if (! this.pathIsFile(svg)) {
-						console.log(
-							`Expected a direct path to file, ${svg} given. Skipping entry.`
+				var tracedDom = this.newDom();
+				var dom = this.newDom();
+				function _fixInstance(svgPath) {
+					return new Promise(async (resolve, reject) => {
+						var svg = svgPath;
+						if (! self.pathIsFile(svg)) {
+							console.log(
+								`Expected a direct path to file, ${svg} given. Skipping entry.`
+							);
+							resolve();
+						}
+						var svgData = fs.readFileSync(svg, "utf8");
+						dom.window.document.write(svgData);
+						var svgNode = self.getSvgElementFromDom(dom);
+						var originalSvgNode = svgNode.cloneNode(true);
+						var {
+							svgUpscaled,
+							svgUpscaleMultiplier,
+						} = self.upscaleSvgElementDimensions(svgNode);
+
+						var svgNodeDimensions = self.getSvgElementDimensions(svgNode);
+						var originalSvgNodeDimensions = self.getSvgElementDimensions(
+							originalSvgNode
 						);
-						continue;
-					}
-					var svgData = fs.readFileSync(svg, "utf8");
-					dom.window.document.write(svgData);
-					var svgNode = this.getSvgElementFromDom(dom);
-					var originalSvgNode = svgNode.cloneNode(true);
-					var {
-						svgUpscaled,
-						svgUpscaleMultiplier,
-					} = this.upscaleSvgElementDimensions(svgNode);
 
-					var svgNodeDimensions = this.getSvgElementDimensions(svgNode);
-					var originalSvgNodeDimensions = this.getSvgElementDimensions(
-						originalSvgNode
-					);
+						var originalAttributes = Object.values(
+							originalSvgNode.attributes
+						).map(function (attribute) {
+							return { name: attribute.name, value: attribute.value };
+						});
 
-					var originalAttributes = Object.values(
-						originalSvgNode.attributes
-					).map(function (attribute) {
-						return { name: attribute.name, value: attribute.value };
-					});
-
-					var raw = svgNode.outerHTML;
-					var svgBuffer = Buffer.from(raw);
-					var svgPngBuffer = await this.svgToPng(svgBuffer);
-					await trace.loadImage(svgPngBuffer);
-					await trace.process();
-					var scale = 1;
-					if (svgUpscaled) {
-						scale = originalSvgNodeDimensions.height / svgNodeDimensions.height;
-					}
-					var tracedSvg = trace.getSVG(scale);
-					tracedDom.window.document.write(tracedSvg);
-					var tracedSvgNode = this.getSvgElementFromDom(tracedDom);
-					while (tracedSvgNode.attributes.length > 0) {
-						tracedSvgNode.removeAttribute(tracedSvgNode.attributes[0].name);
-					}
-					for (
-						var attrIndex = 0;
-						tracedSvgNode.attributes.length < originalAttributes.length;
-						attrIndex++
-					) {
-						var attribute = originalAttributes[attrIndex];
-						tracedSvgNode.setAttribute(attribute.name, attribute.value);
-					}
-					var raw = tracedSvgNode.outerHTML;
-					process.tick({
-						svg: {
-							data: raw,
-							source: svg,
-						},
-						progressbar: {
-							index: svgIndex,
-						},
+						var raw = svgNode.outerHTML;
+						var svgBuffer = Buffer.from(raw);
+						var svgPngBuffer = await self.svgToPng(svgBuffer);
+						var trace = new potrace.Potrace();
+						await trace.loadImage(svgPngBuffer);
+						await trace.process();
+						var scale = 1;
+						if (svgUpscaled) {
+							scale = originalSvgNodeDimensions.height / svgNodeDimensions.height;
+						}
+						var tracedSvg = trace.getSVG(scale);
+						tracedDom.window.document.write(tracedSvg);
+						var tracedSvgNode = self.getSvgElementFromDom(tracedDom);
+						while (tracedSvgNode.attributes.length > 0) {
+							tracedSvgNode.removeAttribute(tracedSvgNode.attributes[0].name);
+						}
+						for (
+							var attrIndex = 0;
+							tracedSvgNode.attributes.length < originalAttributes.length;
+							attrIndex++
+						) {
+							var attribute = originalAttributes[attrIndex];
+							tracedSvgNode.setAttribute(attribute.name, attribute.value);
+						}
+						var raw = tracedSvgNode.outerHTML;
+						process.tick({
+							svg: {
+								data: raw,
+								source: svg,
+							},
+						});
+						resolve();
 					});
 				}
+				var results = await asyncPool(this.options.fixConcurrency, this.svgs, _fixInstance);
 				process.teardown();
 				resolve(storage.buffers);
 			} catch (e) {

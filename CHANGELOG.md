@@ -1,5 +1,22 @@
 # Changelog
 
+## 0.4.0
+
+- Increase perfomance by ~67%
+
+    |Version|completion (%)|Time (seconds)|Number of SVGs fixed|
+    |------|------|-----|-----|
+    |v0.4.0|100.00|~ 127|1315|
+    |v0.3.3|100.00|~ 190|1315|
+    |-|-|-|-|
+    |**VPS**|**CPU**|**RAM**|||
+    ||Intel(R) Xeon(R) E5-1650 v3 3.50GHz (2x) | 1548MiB|||
+
+- reduced npm package size.
+- added new parameter `fixConcurrency` to control how many svgs to fix at a given time.
+- added and fixed tests.
+- updated `README.md`.
+
 ## 0.3.3
 
 - Added badge links to `README.md`.
