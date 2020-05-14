@@ -12,14 +12,19 @@
     "url": "git+https://github.com/oslllo/svg-fixer.git"
   },
   "keywords": [
-    "oslllo",
-    "svg-fixer",
     "converts-svg",
+    "svg-fixer",
     "svg-icons",
     "font-pack",
     "svg",
     "font",
-    "fill"
+    "fill",
+    "stroke-fill",
+    "fontello",
+    "icomoon",
+    "webfont",
+    "stroke-to-fill",
+    "oslllo"
   ],
   "author": "Ghustavh Ehm",
   "license": "MIT",
@@ -30,11 +35,10 @@
   "dependencies": {
     "cli-progress": "^3.8.1",
     "colors": "^1.4.0",
-    "es6-promise-pool": "^2.5.0",
     "fast-glob": "^3.2.2",
     "fs-extra": "^9.0.0",
     "jsdom": "^16.2.2",
-    "oslllo-potrace": "^0.0.5",
+    "oslllo-potrace": "^0.0.8",
     "sharp": "^0.25.2",
     "tiny-async-pool": "^1.1.0"
   },
