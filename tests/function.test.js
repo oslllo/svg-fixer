@@ -44,7 +44,7 @@ describe("svgfixer.fix()", () => {
 	test("can set paramenters", async () => {
 		var testParameters = {
 			throwIfPathDoesNotExist: false,
-			showProgressBar: true,
+			showProgressBar: false,
 			fixConcurrency: 55,
 		};
 		var { instance } = await svgfixer.fix(
