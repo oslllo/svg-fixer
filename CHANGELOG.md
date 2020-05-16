@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.4.1
+
+- fix advisory https://www.npmjs.com/advisories/1500.
+
 ## 0.4.0
 
 - Increase perfomance by ~67%
