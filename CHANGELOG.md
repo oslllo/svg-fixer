@@ -1,8 +1,12 @@
 # Changelog
 
+## 0.4.2
+
+- Fixed incorrect svg data when source svg has 'px', 'rem' or 'em' on height and width attributes as a unit of measurement. See ([#5](https://github.com/oslllo/svg-fixer/issues/5))
+
 ## 0.4.1
 
-- fix advisory https://www.npmjs.com/advisories/1500.
+- fixed advisory https://www.npmjs.com/advisories/1500.
 
 ## 0.4.0
 
