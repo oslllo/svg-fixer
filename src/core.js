@@ -57,7 +57,7 @@ const Core = {
 		if (!exists && throwErr) {
 			var errorMessage = `path ${p} does not exist.`;
 			if (name) {
-				errorMessage = `${name} ${errorMessage}`
+				errorMessage = `${name} ${errorMessage}`;
 			}
 			throw TypeError(errorMessage);
 			return;
@@ -74,7 +74,7 @@ const Core = {
 	setSource: function (source) {
 		switch (true) {
 			case typeof source === "string":
-				this.pathExists(source, 'Source');
+				this.pathExists(source, "Source");
 				source = this.makePathAbsolute(source);
 				break;
 			default:
@@ -91,7 +91,7 @@ const Core = {
 	setDest: function (destination) {
 		switch (true) {
 			case typeof destination === "string":
-				this.pathExists(destination, 'Destination');
+				this.pathExists(destination, "Destination");
 				destination = this.makePathAbsolute(destination);
 				break;
 			default:
@@ -115,7 +115,7 @@ const Core = {
 		this.setSource(source);
 		this.setDest(destination);
 	},
-	newDom: function (content = '<html></html>') {
+	newDom: function (content = "<html></html>") {
 		return new JSDOM(content);
 	},
 	process: function () {
@@ -169,7 +169,7 @@ const Core = {
 				function _fixInstance(svgPath) {
 					return new Promise(async (resolve, reject) => {
 						var svg = svgPath;
-						if (! self.pathIsFile(svg)) {
+						if (!self.pathIsFile(svg)) {
 							console.log(
 								`Expected a direct path to file, ${svg} given. Skipping entry.`
 							);
@@ -203,7 +203,8 @@ const Core = {
 						await trace.process();
 						var scale = 1;
 						if (svgUpscaled) {
-							scale = originalSvgNodeDimensions.height / svgNodeDimensions.height;
+							scale =
+								originalSvgNodeDimensions.height / svgNodeDimensions.height;
 						}
 						var tracedSvg = trace.getSVG(scale);
 						tracedDom.window.document.write(tracedSvg);
@@ -229,7 +230,11 @@ const Core = {
 						resolve();
 					});
 				}
-				var results = await asyncPool(this.options.fixConcurrency, this.svgs, _fixInstance);
+				var results = await asyncPool(
+					this.options.fixConcurrency,
+					this.svgs,
+					_fixInstance
+				);
 				process.teardown();
 				resolve(storage.buffers);
 			} catch (e) {
@@ -241,7 +246,7 @@ const Core = {
 		return dom.window.document.getElementsByTagName("svg")[index];
 	},
 	makePathAbsolute: function (p) {
-		if (! path.isAbsolute(p)) {
+		if (!path.isAbsolute(p)) {
 			p = path.resolve(p);
 		}
 
@@ -302,21 +307,52 @@ const Core = {
 			}
 		});
 	},
-	getSvgElementDimensions: function (svgElement) {
-		var dimensions = ["width", "height"];
-		var d = { width: 0, height: 0 };
-		if (
-			svgElement.hasAttribute(dimensions[0]) &&
-			svgElement.hasAttribute(dimensions[1])
-		) {
-			d.width = Number(svgElement.getAttribute(dimensions[0]));
-			d.height = Number(svgElement.getAttribute(dimensions[1]));
-		} else if (svgElement.hasAttribute("viewBox")) {
-			var wxyz = svgElement.getAttribute("viewBox").split(" ");
-			d.width = Number(wxyz[2]);
-			d.height = Number(wxyz[3]);
+	filterDimensionUnits: function (dimension) {
+		var _units = ["rem", "px", "em"];
+		for (var i = 0; i < _units.length; i++) {
+			var _unit = _units[i];
+			if (dimension.search(_unit) !== -1) {
+				var _replaced = dimension.replace(_unit, "");
+				switch (_unit) {
+					case "px":
+						return _replaced;
+						break;
+					case "em":
+					case "rem":
+						return _replaced * 16;
+						break;
+				}
+			}
 		}
-		return d;
+		return dimension;
+	},
+	getSvgElementDimensions: function (svgElement) {
+		var _dimensionNames = ["width", "height"];
+		var _d = { width: 0, height: 0 };
+		if (
+			svgElement.hasAttribute(_dimensionNames[0]) &&
+			svgElement.hasAttribute(_dimensionNames[1])
+		) {
+			var _width = svgElement.getAttribute(_dimensionNames[0]);
+			var _height = svgElement.getAttribute(_dimensionNames[1]);
+			for (var i = 0; i < _dimensionNames.length; i++) {
+				switch (_dimensionNames[i]) {
+					case "width":
+						_width = this.filterDimensionUnits(_width);
+						break;
+					case "height":
+						_height = this.filterDimensionUnits(_height);
+						break;
+				}
+			}
+			_d.width = Number(_width);
+			_d.height = Number(_height);
+		} else if (svgElement.hasAttribute("viewBox")) {
+			var _viewbox = svgElement.getAttribute("viewBox").split(" ");
+			_d.width = Number(_viewbox[2]);
+			_d.height = Number(_viewbox[3]);
+		}
+		return _d;
 	},
 	upscaleSvgElementDimensions: function (svgElement, upscaleTo = 600) {
 		var svgUpscaled = false;
