@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.4.3
+
+- Update `package.json` description.
+
 ## 0.4.2
 
 - Fixed incorrect svg data when source svg has 'px', 'rem' or 'em' on height and width attributes as a unit of measurement. See ([#5](https://github.com/oslllo/svg-fixer/issues/5))
