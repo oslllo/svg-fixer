@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.4.4
+
+- Updated dependencies. Fixes [#7](https://github.com/oslllo/svg-fixer/issues/7)
+
 ## 0.4.3
 
 - Update `package.json` description.
