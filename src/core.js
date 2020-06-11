@@ -9,8 +9,98 @@ const potrace = require("oslllo-potrace");
 const path = require("path");
 const cliprogress = require("cli-progress");
 const asyncPool = require("tiny-async-pool");
+const jimp = require("jimp");
+const PromisePool = require('@supercharge/promise-pool')
+
+
+// class SvgToPngConverter {
+// 	constructor() {
+// 	  this._init = this._init.bind(this);
+// 	  this._cleanUp = this._cleanUp.bind(this);
+// 	  this.convertFromInput = this.convertFromInput.bind(this);
+// 	}
+  
+// 	_init() {
+// 	  this.canvas = document.createElement("canvas");
+// 	  this.imgPreview = document.createElement("img");
+// 	  this.imgPreview.style = "position: absolute; top: -9999px";
+// 	  document.body.appendChild(this.imgPreview);
+// 	  this.canvasCtx = this.canvas.getContext("2d");
+// 	}
+  
+// 	_cleanUp() {
+// 	  document.body.removeChild(this.imgPreview);
+// 	}
+  
+// 	convertFromInput(input, callback) {
+// 	  this._init();
+  
+// 	  let _this = this;
+  
+// 	  this.imgPreview.onload = function () {
+// 		const img = new Image();
+// 		_this.canvas.width = _this.imgPreview.clientWidth;
+// 		_this.canvas.height = _this.imgPreview.clientHeight;
+// 		img.crossOrigin = "anonymous";
+// 		img.src = _this.imgPreview.src;
+  
+// 		img.onload = function () {
+// 		  _this.canvasCtx.drawImage(img, 0, 0);
+  
+// 		  let imgData = _this.canvas.toDataURL("image/png");
+  
+// 		  if (typeof callback == "function") {
+// 			callback(imgData);
+// 		  }
+  
+// 		  _this._cleanUp();
+// 		};
+// 	  };
+  
+// 	  this.imgPreview.src = input;
+// 	}
+  
+//   }
+
+//   let input = "https://restcountries.eu/data/afg.svg"
+// new SvgToPngConverter().convertFromInput(input, function(imgData){
+//     // You now have your png data in base64 (imgData). 
+//     // Do what ever you wish with it here.
+// });
 
 const Core = {
+	svgToPngUri: function (svg) {
+		return new Promise((resolve, reject) => {
+			var svgElement = this.getSvgElementFromDom(this.newDom(svg));
+			var svgDimensions = this.getSvgElementDimensions(svgElement);
+			var dom = this.newDom('', { resources: "usable" });
+			var document = dom.window.document;
+			var canvas = document.createElement("canvas");
+			var imgPreview = document.createElement("img");
+			var canvasCtx = canvas.getContext("2d");
+			imgPreview.style = "position: absolute; top: -9999px";
+			document.body.appendChild(imgPreview);
+			const encoded = encodeURIComponent(svg)
+			.replace(/'/g, '%27')
+			.replace(/"/g, '%22')
+			const header = 'data:image/svg+xml,'
+			const dataUrl = header + encoded
+			imgPreview.src = dataUrl;
+			imgPreview.onload = function () {
+				const img = new dom.window.Image();
+				canvas.width = svgDimensions.width;
+				canvas.height = svgDimensions.height;
+				img.src = imgPreview.src
+				img.onload = function () {
+					canvasCtx.drawImage(img, 0, 0);
+					var uri = canvas.toDataURL("image/png");
+					resolve({ uri, svgDimensions, encoded });
+				}
+			}
+
+		})
+		// document.body.removeChild(this.imgPreview);
+	},
 	optionsChanged: function () {
 		if (this.options.showProgressBar) {
 			this.progressbar = new cliprogress.SingleBar(
@@ -115,8 +205,8 @@ const Core = {
 		this.setSource(source);
 		this.setDest(destination);
 	},
-	newDom: function (content = "<html></html>") {
-		return new JSDOM(content);
+	newDom: function (content = "<html></html>", options = {}) {
+		return new JSDOM(content, options);
 	},
 	process: function () {
 		return new Promise(async (resolve, reject) => {
@@ -230,11 +320,17 @@ const Core = {
 						resolve();
 					});
 				}
-				var results = await asyncPool(
-					this.options.fixConcurrency,
-					this.svgs,
-					_fixInstance
-				);
+				// console.log(this.svgs);
+				// var results = await asyncPool(
+				// 	2,
+				// 	this.svgs,
+				// 	_fixInstance
+				// );
+
+				// var { results, errors } = await PromisePool.for(this.svgs).process(async s => _fixInstance(s));
+				for (var i = 0; i < this.svgs.length; i++) {
+					await _fixInstance(this.svgs[i])
+				}
 				process.teardown();
 				resolve(storage.buffers);
 			} catch (e) {
@@ -282,25 +378,76 @@ const Core = {
 				svg = Buffer.from(svg);
 			}
 			try {
-				var s = await sharp(svg).png();
+				function blankImage (dimensions) {
+					return new Promise((resolve, reject) => {
+
+						new jimp(dimensions.width, dimensions.height, 0xFFFFFF, (err, image) => {
+							// !here
+							console.log("Done Processing", dimensions)
+							// image.resize(dimensions.width, dimensions.height)
+							if (err) {
+								reject(err)
+							} else {
+								resolve(image);
+							}
+						})
+					})
+				}
+				// console.log(svg.toString())
+				var { uri, svgDimensions } = await this.svgToPngUri(svg.toString());
+				// console.log("TEST", uri)
+				// var s = await sharp(svg).png();
+				var s = await jimp.read(Buffer.from(uri.replace(/^data:image\/png;base64,/, ""), 'base64'));
+							
 				if (options.flatten) {
-					s = s.flatten({ background: { r: 255, g: 255, b: 255 } });
+					// s = s.flatten({ background: { r: 255, g: 255, b: 255 } });
+					try {
+						var blank = await blankImage(svgDimensions)
+					} catch (e) {
+						console.log(e)
+					}
 				}
 				if (options.extend) {
-					s = s.extend({
-						top: 5,
-						bottom: 5,
-						left: 5,
-						right: 5,
-						background: { r: 255, g: 255, b: 255, alpha: 1 },
-					});
+					var extension = svgDimensions;
+					for (var d in extension) {
+						extension[d] = extension[d] + 10;
+					}
+					try {
+						var blank = await blankImage(extension)
+					} catch (e) {
+						console.log(e)
+					}
+					
+					// s = s.extend({
+					// 	top: 5,
+					// 	bottom: 5,
+					// 	left: 5,
+					// 	right: 5,
+					// 	background: { r: 255, g: 255, b: 255, alpha: 1 },
+					// });
 				}
+				
+				s = blank.composite(s, 0, 0);
 				if (options.destination !== null) {
-					await s.toFile(options.destination);
-					resolve();
+					// await s.toFile(options.destination);
+					s.write(options.destination, (err) => {
+						if (err) {
+							reject(err)
+						} else {
+							// console.log("Path")
+							resolve()
+						}
+					})
 				} else {
-					var buffer = await s.toBuffer();
-					resolve(buffer);
+					// var buffer = await s.toBuffer();
+					s.getBuffer(jimp.MIME_PNG, (err, buffer) => {
+						if (err) {
+							reject(err)
+						} else {
+							// console.log("Buffer")
+							resolve(buffer);
+						}
+					})
 				}
 			} catch (e) {
 				reject(e);

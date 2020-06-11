@@ -5,7 +5,6 @@ const fs = require("fs-extra");
 const fg = require("fast-glob");
 const path = require("path");
 const looksame = require("looks-same");
-const sharp = require("sharp");
 const { JSDOM } = require("jsdom");
 
 const RELATIVE_BROKEN_ICONS_DIR_PATH = "tests/assets/broken-icons";
@@ -58,7 +57,7 @@ describe("svgfixer.fix()", () => {
 		);
 		expect(_options.showProgressBar).toBe(testParameters.showProgressBar);
 		expect(_options.fixConcurrency).toBe(testParameters.fixConcurrency);
-	});
+	}, 20000);
 
 	test("resolves with valid arguments", async () => {
 		await expect(
@@ -67,7 +66,7 @@ describe("svgfixer.fix()", () => {
 				ABSOLUTE_FIXED_ICONS_DIR_PATH
 			)
 		).resolves.not.toThrow();
-	}, 30000);
+	}, 70000);
 
 	ABSOLUTE_BROKEN_ICON_FILE_PATHS_ARRAY = fg.sync(
 		path.join(path.resolve(RELATIVE_BROKEN_ICONS_DIR_PATH), "/*.svg")

@@ -4,7 +4,7 @@ const { fix, Core } = require("..");
 const fs = require("fs-extra");
 const path = require("path");
 const looksame = require("looks-same");
-const sharp = require("sharp");
+// const sharp = require("sharp");
 const { JSDOM } = require("jsdom");
 
 var brokenIconsPath = path.resolve("tests/assets/broken-icons");
@@ -39,8 +39,10 @@ describe("input and output SVGs are the same", () => {
 						console.log(error);
 					}
 					if (equal != true) {
-						await sharp(iconBuffer).toFile(`${failedIconsPath}/${index}.png`);
-						await sharp(fixedBuffer).toFile(`${failedIconsPath}/${index}-fixed.png`);
+						await Core.svgToPng(iconBuffer, { opts: `${failedIconsPath}/${index}.png` });
+						await Core.svgToPng(iconBuffer, { opts: `${failedIconsPath}/${index}-fixed.png` });
+						// await sharp(iconBuffer).toFile(`${failedIconsPath}/${index}.png`);
+						// await sharp(fixedBuffer).toFile(`${failedIconsPath}/${index}-fixed.png`);
 					}
 					expect(equal).toBe(true);
 					done();

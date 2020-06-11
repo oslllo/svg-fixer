@@ -33,13 +33,14 @@
   },
   "homepage": "https://github.com/oslllo/svg-fixer#readme",
   "dependencies": {
+    "@supercharge/promise-pool": "^1.2.0",
     "cli-progress": "^3.8.2",
     "colors": "^1.4.0",
     "fast-glob": "^3.2.2",
     "fs-extra": "^9.0.1",
+    "jimp": "^0.13.0",
     "jsdom": "^16.2.2",
     "oslllo-potrace": "^0.0.9",
-    "sharp": "^0.25.3",
     "tiny-async-pool": "^1.1.0"
   },
   "devDependencies": {
