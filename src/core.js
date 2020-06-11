@@ -4,7 +4,6 @@ const colors = require("colors");
 const fs = require("fs");
 const fg = require("fast-glob");
 const { JSDOM } = require("jsdom");
-const sharp = require("sharp");
 const potrace = require("oslllo-potrace");
 const path = require("path");
 const cliprogress = require("cli-progress");

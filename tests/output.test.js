@@ -4,7 +4,6 @@ const { fix, Core } = require("..");
 const fs = require("fs-extra");
 const path = require("path");
 const looksame = require("looks-same");
-// const sharp = require("sharp");
 const { JSDOM } = require("jsdom");
 
 var brokenIconsPath = path.resolve("tests/assets/broken-icons");
