@@ -57,7 +57,7 @@ describe("svgfixer.fix()", () => {
 		);
 		expect(_options.showProgressBar).toBe(testParameters.showProgressBar);
 		expect(_options.fixConcurrency).toBe(testParameters.fixConcurrency);
-	}, 20000);
+	});
 
 	test("resolves with valid arguments", async () => {
 		await expect(
@@ -66,7 +66,7 @@ describe("svgfixer.fix()", () => {
 				ABSOLUTE_FIXED_ICONS_DIR_PATH
 			)
 		).resolves.not.toThrow();
-	}, 70000);
+	}, 20000);
 
 	ABSOLUTE_BROKEN_ICON_FILE_PATHS_ARRAY = fg.sync(
 		path.join(path.resolve(RELATIVE_BROKEN_ICONS_DIR_PATH), "/*.svg")
@@ -118,7 +118,7 @@ describe("svgfixer.fix()", () => {
 				RELATIVE_FIXED_ICONS_DIR_PATH
 			)
 		).resolves.not.toThrow();
-	}, 30000);
+	});
 
 	test("throws with invalid source argument", async () => {
 		await expect(

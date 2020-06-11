@@ -40,8 +40,6 @@ describe("input and output SVGs are the same", () => {
 					if (equal != true) {
 						await Core.svgToPng(iconBuffer, { opts: `${failedIconsPath}/${index}.png` });
 						await Core.svgToPng(iconBuffer, { opts: `${failedIconsPath}/${index}-fixed.png` });
-						// await sharp(iconBuffer).toFile(`${failedIconsPath}/${index}.png`);
-						// await sharp(fixedBuffer).toFile(`${failedIconsPath}/${index}-fixed.png`);
 					}
 					expect(equal).toBe(true);
 					done();
