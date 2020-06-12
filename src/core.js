@@ -9,6 +9,7 @@ const path = require("path");
 const cliprogress = require("cli-progress");
 const asyncPool = require("tiny-async-pool");
 const jimp = require("jimp");
+const process = require('process');
 
 const Core = {
 	svgToPngUri: function (svg) {
@@ -54,6 +55,16 @@ const Core = {
 			);
 		}
 	},
+	slh: function (p) {
+		const isExtendedLengthPath = /^\\\\\?\\/.test(p);
+		const hasNonAscii = /[^\u0000-\u0080]+/.test(p); // eslint-disable-line no-control-regex
+	
+		if (isExtendedLengthPath || hasNonAscii) {
+			return p;
+		}
+	
+		return p.replace(/\\/g, '/');
+	},
 	setSvgs: function () {
 		if (this.pathExists(this.source)) {
 			if (this.pathIsDir(this.source)) {
@@ -77,7 +88,7 @@ const Core = {
 		this.optionsChanged();
 	},
 	pathToGlob: function (p) {
-		return fg.sync(path.join(p, "/*.svg"));
+		return fg.sync(path.join(p, path.join("/", "*.svg")));
 	},
 	pathExists: function (p, name, throwErr = null) {
 		var exists = fs.existsSync(p);
@@ -102,6 +113,7 @@ const Core = {
 		return fs.existsSync(p) && fs.statSync(p).isFile();
 	},
 	setSource: function (source) {
+		source = this.slh(source);
 		switch (true) {
 			case typeof source === "string":
 				this.pathExists(source, "Source");
@@ -119,6 +131,7 @@ const Core = {
 		this.setSvgs();
 	},
 	setDest: function (destination) {
+		destination = this.slh(destination);
 		switch (true) {
 			case typeof destination === "string":
 				this.pathExists(destination, "Destination");
@@ -148,6 +161,13 @@ const Core = {
 	newDom: function (content = "<html></html>", options = {}) {
 		return new JSDOM(content, options);
 	},
+	basename: function (p, ext) {
+		if (process.platform == 'win32') {
+			return path.win32.basename(p, ext);
+		} else {
+			return path.posix.basename(p, ext);
+		}
+	},
 	process: function () {
 		return new Promise(async (resolve, reject) => {
 			try {
@@ -172,7 +192,7 @@ const Core = {
 						switch (true) {
 							case typeof self.destination === "string":
 								fs.writeFile(
-									path.join(self.destination, path.basename(svg.source)),
+									path.join(self.destination, self.basename(svg.source)),
 									svg.data,
 									cb
 								);
@@ -309,7 +329,7 @@ const Core = {
 					)
 				);
 			}
-			if (typeof svg === "string" && svg !== path.basename(svg)) {
+			if (typeof svg === "string" && svg !== this.basename(svg)) {
 				svg = Buffer.from(svg);
 			}
 			try {
