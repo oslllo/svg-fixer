@@ -55,9 +55,9 @@ const Core = {
 			);
 		}
 	},
-	slh: function (p) {
+	slash: function (p) {
 		const isExtendedLengthPath = /^\\\\\?\\/.test(p);
-		const hasNonAscii = /[^\u0000-\u0080]+/.test(p); // eslint-disable-line no-control-regex
+		const hasNonAscii = /[^\u0000-\u0080]+/.test(p);
 	
 		if (isExtendedLengthPath || hasNonAscii) {
 			return p;
@@ -113,7 +113,6 @@ const Core = {
 		return fs.existsSync(p) && fs.statSync(p).isFile();
 	},
 	setSource: function (source) {
-		source = this.slh(source);
 		switch (true) {
 			case typeof source === "string":
 				this.pathExists(source, "Source");
@@ -127,11 +126,11 @@ const Core = {
 				);
 				return;
 		}
-		this.source = source;
+		this.source = this.slash(source);
 		this.setSvgs();
 	},
 	setDest: function (destination) {
-		destination = this.slh(destination);
+		destination = this.slash(destination);
 		switch (true) {
 			case typeof destination === "string":
 				this.pathExists(destination, "Destination");
@@ -144,7 +143,7 @@ const Core = {
 					)} given`
 				);
 		}
-		this.destination = destination;
+		this.destination = this.slash(destination);
 	},
 	getType: function (arg) {
 		var type = typeof arg;

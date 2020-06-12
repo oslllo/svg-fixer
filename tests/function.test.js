@@ -69,7 +69,7 @@ describe("svgfixer.fix()", function () {
 	});
 
 	ABSOLUTE_BROKEN_ICON_FILE_PATHS_ARRAY = fg.sync(
-		path.join(path.resolve(RELATIVE_BROKEN_ICONS_DIR_PATH), "/*.svg")
+		Core.slash(path.join(path.resolve(RELATIVE_BROKEN_ICONS_DIR_PATH), path.join("/", "*.svg")))
 	);
 
 	it("resolves with absolute source FILE path", function (done) {
