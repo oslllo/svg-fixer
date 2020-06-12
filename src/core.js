@@ -88,7 +88,7 @@ const Core = {
 		this.optionsChanged();
 	},
 	pathToGlob: function (p) {
-		return fg.sync(path.join(p, path.join("/", "*.svg")));
+		return fg.sync(this.slash(path.join(p, path.join("/", "*.svg"))));
 	},
 	pathExists: function (p, name, throwErr = null) {
 		var exists = fs.existsSync(p);
