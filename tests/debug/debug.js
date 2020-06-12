@@ -26,8 +26,8 @@ var ABSOLUTE_BROKEN_ICONS_FILE_PATHS_ARRAY = fg.sync(
 async function run() {
 	try {
 		fs.emptyDirSync(destination);
-		const sw = new StopWatch('sw');
-		sw.start('New svg process')
+		const sw = new StopWatch("sw");
+		sw.start("New svg process");
 		await svgfixer.fix(source, destination, options);
 		sw.stop();
 		sw.prettyPrint();

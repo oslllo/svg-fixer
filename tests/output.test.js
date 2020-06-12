@@ -5,7 +5,7 @@ const fs = require("fs-extra");
 const path = require("path");
 const looksame = require("looks-same");
 const { JSDOM } = require("jsdom");
-const chai = require('chai');
+const chai = require("chai");
 const { assert } = chai;
 
 var brokenIconsPath = path.resolve("tests/assets/broken-icons");
@@ -18,18 +18,22 @@ describe("input and output SVGs are the same", () => {
 		var p = path.resolve(p);
 		var raw = fs.readFileSync(p, "utf8");
 		var dom = new JSDOM(raw);
-        var svgElement = Core.getSvgElementFromDom(dom);
-        Core.upscaleSvgElementDimensions(svgElement, 250);
+		var svgElement = Core.getSvgElementFromDom(dom);
+		Core.upscaleSvgElementDimensions(svgElement, 250);
 		var buffer = await Core.svgToPng(svgElement.outerHTML, options);
 		return buffer;
 	}
 
-	for(var i = 0; i < fixedIconsArray.length; i++) {
+	for (var i = 0; i < fixedIconsArray.length; i++) {
 		var icon = fixedIconsArray[i];
 		var index = i;
-		it(icon + ' matches expected output', async () => {
-			var iconBuffer = await getPngBuffer(`${brokenIconsPath}/${icon}`,  { extend: true });
-			var fixedBuffer = await getPngBuffer(`${fixedIconsPath}/${icon}`, { extend: true });
+		it(icon + " matches expected output", async () => {
+			var iconBuffer = await getPngBuffer(`${brokenIconsPath}/${icon}`, {
+				extend: true,
+			});
+			var fixedBuffer = await getPngBuffer(`${fixedIconsPath}/${icon}`, {
+				extend: true,
+			});
 			looksame(
 				iconBuffer,
 				fixedBuffer,
@@ -39,12 +43,16 @@ describe("input and output SVGs are the same", () => {
 						console.log(error);
 					}
 					if (equal != true) {
-						await Core.svgToPng(iconBuffer, { opts: `${failedIconsPath}/${index}.png` });
-						await Core.svgToPng(iconBuffer, { opts: `${failedIconsPath}/${index}-fixed.png` });
+						await Core.svgToPng(iconBuffer, {
+							opts: `${failedIconsPath}/${index}.png`,
+						});
+						await Core.svgToPng(iconBuffer, {
+							opts: `${failedIconsPath}/${index}-fixed.png`,
+						});
 					}
 					assert.equal(equal, true);
 				}
 			);
-		})
+		});
 	}
 });

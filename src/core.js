@@ -9,14 +9,14 @@ const path = require("path");
 const cliprogress = require("cli-progress");
 const asyncPool = require("tiny-async-pool");
 const jimp = require("jimp");
-const process = require('process');
+const process = require("process");
 
 const Core = {
 	svgToPngUri: function (svg) {
 		return new Promise((resolve, reject) => {
 			var svgElement = this.getSvgElementFromDom(this.newDom(svg));
 			var svgDimensions = this.getSvgElementDimensions(svgElement);
-			var dom = this.newDom('', { resources: "usable" });
+			var dom = this.newDom("", { resources: "usable" });
 			var document = dom.window.document;
 			var canvas = document.createElement("canvas");
 			var imgPreview = document.createElement("img");
@@ -24,23 +24,23 @@ const Core = {
 			imgPreview.style = "position: absolute; top: -9999px";
 			document.body.appendChild(imgPreview);
 			const encoded = encodeURIComponent(svg)
-			.replace(/'/g, '%27')
-			.replace(/"/g, '%22')
-			const header = 'data:image/svg+xml,'
-			const dataUrl = header + encoded
+				.replace(/'/g, "%27")
+				.replace(/"/g, "%22");
+			const header = "data:image/svg+xml,";
+			const dataUrl = header + encoded;
 			imgPreview.src = dataUrl;
 			imgPreview.onload = function () {
 				const img = new dom.window.Image();
 				canvas.width = svgDimensions.width;
 				canvas.height = svgDimensions.height;
-				img.src = imgPreview.src
+				img.src = imgPreview.src;
 				img.onload = function () {
 					canvasCtx.drawImage(img, 0, 0);
 					var uri = canvas.toDataURL("image/png");
 					resolve({ uri, svgDimensions, encoded });
-				}
-			}
-		})
+				};
+			};
+		});
 	},
 	optionsChanged: function () {
 		if (this.options.showProgressBar) {
@@ -58,12 +58,10 @@ const Core = {
 	slash: function (p) {
 		const isExtendedLengthPath = /^\\\\\?\\/.test(p);
 		const hasNonAscii = /[^\u0000-\u0080]+/.test(p);
-	
 		if (isExtendedLengthPath || hasNonAscii) {
 			return p;
 		}
-	
-		return p.replace(/\\/g, '/');
+		return p.replace(/\\/g, "/");
 	},
 	setSvgs: function () {
 		if (this.pathExists(this.source)) {
@@ -130,7 +128,6 @@ const Core = {
 		this.setSvgs();
 	},
 	setDest: function (destination) {
-		destination = this.slash(destination);
 		switch (true) {
 			case typeof destination === "string":
 				this.pathExists(destination, "Destination");
@@ -161,7 +158,7 @@ const Core = {
 		return new JSDOM(content, options);
 	},
 	basename: function (p, ext) {
-		if (process.platform == 'win32') {
+		if (process.platform == "win32") {
 			return path.win32.basename(p, ext);
 		} else {
 			return path.posix.basename(p, ext);
@@ -217,14 +214,14 @@ const Core = {
 								`Expected a direct path to file, ${svg} given. Skipping entry.`
 							);
 							reject();
-							return
+							return;
 						}
 						function loadSvgData(svg) {
 							return new Promise((resolve, reject) => {
 								fs.readFile(svg, "utf8", (err, data) => {
 									err ? reject(err) : resolve(data);
 								});
-							})
+							});
 						}
 						var svgData = await loadSvgData(svg);
 						dom.window.document.write(svgData);
@@ -272,16 +269,19 @@ const Core = {
 							tracedSvgNode.setAttribute(attribute.name, attribute.value);
 						}
 						var raw = tracedSvgNode.outerHTML;
-						process.tick({
-							svg: {
-								data: raw,
-								source: svg,
+						process.tick(
+							{
+								svg: {
+									data: raw,
+									source: svg,
+								},
 							},
-						}, () => resolve());
+							() => resolve()
+						);
 					});
 				}
 				var results = await asyncPool(
-					20,
+					this.options.fixConcurrency,
 					this.svgs,
 					_fixInstance
 				);
@@ -332,35 +332,42 @@ const Core = {
 				svg = Buffer.from(svg);
 			}
 			try {
-				function blankImage (dimensions) {
+				function blankImage(dimensions) {
 					return new Promise((resolve, reject) => {
-						new jimp(dimensions.width, dimensions.height, 0xFFFFFF, (err, image) => {
-							err ? reject(err) : resolve(image);
-						})
-					})
+						new jimp(
+							dimensions.width,
+							dimensions.height,
+							0xffffff,
+							(err, image) => {
+								err ? reject(err) : resolve(image);
+							}
+						);
+					});
 				}
 				var { uri, svgDimensions } = await this.svgToPngUri(svg.toString());
-				var s = await jimp.read(Buffer.from(uri.replace(/^data:image\/png;base64,/, ""), 'base64'));
+				var s = await jimp.read(
+					Buffer.from(uri.replace(/^data:image\/png;base64,/, ""), "base64")
+				);
 				if (options.flatten) {
-					var blank = await blankImage(svgDimensions)
+					var blank = await blankImage(svgDimensions);
 				}
 				if (options.extend) {
 					var extension = svgDimensions;
 					for (var d in extension) {
 						extension[d] = extension[d] + 10;
 					}
-					var blank = await blankImage(extension)
+					var blank = await blankImage(extension);
 				}
-				
+
 				s = blank.composite(s, 0, 0);
 				if (options.destination !== null) {
-					s.write(options.destination, (err) => {	
+					s.write(options.destination, (err) => {
 						err ? reject(err) : resolve();
-					})
+					});
 				} else {
 					s.getBuffer(jimp.MIME_PNG, (err, buffer) => {
 						err ? reject(err) : resolve(buffer);
-					})
+					});
 				}
 			} catch (e) {
 				reject(e);
