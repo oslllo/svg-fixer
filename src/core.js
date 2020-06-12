@@ -9,7 +9,6 @@ const path = require("path");
 const cliprogress = require("cli-progress");
 const asyncPool = require("tiny-async-pool");
 const jimp = require("jimp");
-const PromisePool = require('@supercharge/promise-pool')
 
 const Core = {
 	svgToPngUri: function (svg) {
