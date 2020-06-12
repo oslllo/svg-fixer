@@ -48,7 +48,7 @@ function rds(dir) {
 describe("svgfixer.fix()", function () {
 
 	afterEach(function () {
-		fs.emptyDirSync(ABSOLUTE_FIXED_ICONS_DIR_PATH);
+		fs.emptyDirSync(Core.slash(ABSOLUTE_FIXED_ICONS_DIR_PATH));
 	});
 
 	it("can set paramenters", async () => {
