@@ -4,8 +4,9 @@ const { fix, Core } = require("..");
 const fs = require("fs-extra");
 const path = require("path");
 const looksame = require("looks-same");
-const sharp = require("sharp");
 const { JSDOM } = require("jsdom");
+const chai = require("chai");
+const { assert } = chai;
 
 var brokenIconsPath = path.resolve("tests/assets/broken-icons");
 var failedIconsPath = path.resolve("tests/assets/failed-icons");
@@ -13,23 +14,26 @@ var fixedIconsPath = path.resolve("tests/assets/fixed-icons");
 var fixedIconsArray = fs.readdirSync(fixedIconsPath);
 
 describe("input and output SVGs are the same", () => {
-	var fixedIconsMapped = fixedIconsArray.map((iconExtensionName, index) => {
-		return [iconExtensionName, index];
-	});
 	async function getPngBuffer(p, options) {
 		var p = path.resolve(p);
 		var raw = fs.readFileSync(p, "utf8");
 		var dom = new JSDOM(raw);
-        var svgElement = Core.getSvgElementFromDom(dom);
-        Core.upscaleSvgElementDimensions(svgElement, 250);
+		var svgElement = Core.getSvgElementFromDom(dom);
+		Core.upscaleSvgElementDimensions(svgElement, 250);
 		var buffer = await Core.svgToPng(svgElement.outerHTML, options);
 		return buffer;
 	}
-	test.each(fixedIconsMapped)(
-		"%p matches expected icon",
-		async (iconExtensionName, index, done) => {
-			var iconBuffer = await getPngBuffer(`${brokenIconsPath}/${iconExtensionName}`,  { extend: true });
-			var fixedBuffer = await getPngBuffer(`${fixedIconsPath}/${iconExtensionName}`, { extend: true });
+
+	for (var i = 0; i < fixedIconsArray.length; i++) {
+		var icon = fixedIconsArray[i];
+		var index = i;
+		it(icon + " matches expected output", async () => {
+			var iconBuffer = await getPngBuffer(`${brokenIconsPath}/${icon}`, {
+				extend: true,
+			});
+			var fixedBuffer = await getPngBuffer(`${fixedIconsPath}/${icon}`, {
+				extend: true,
+			});
 			looksame(
 				iconBuffer,
 				fixedBuffer,
@@ -39,13 +43,16 @@ describe("input and output SVGs are the same", () => {
 						console.log(error);
 					}
 					if (equal != true) {
-						await sharp(iconBuffer).toFile(`${failedIconsPath}/${index}.png`);
-						await sharp(fixedBuffer).toFile(`${failedIconsPath}/${index}-fixed.png`);
+						await Core.svgToPng(iconBuffer, {
+							opts: `${failedIconsPath}/${index}.png`,
+						});
+						await Core.svgToPng(iconBuffer, {
+							opts: `${failedIconsPath}/${index}-fixed.png`,
+						});
 					}
-					expect(equal).toBe(true);
-					done();
+					assert.equal(equal, true);
 				}
 			);
-		}
-	);
+		});
+	}
 });

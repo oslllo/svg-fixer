@@ -5,7 +5,7 @@
   "main": "src/index.js",
   "scripts": {
     "debug:test": "node tests/debug/debug.js",
-    "test": "jest"
+    "test": "mocha --sort 'tests/*.test.js'"
   },
   "repository": {
     "type": "git",
@@ -37,14 +37,16 @@
     "colors": "^1.4.0",
     "fast-glob": "^3.2.2",
     "fs-extra": "^9.0.1",
+    "jimp": "^0.13.0",
     "jsdom": "^16.2.2",
     "oslllo-potrace": "^0.0.9",
-    "sharp": "^0.25.3",
     "tiny-async-pool": "^1.1.0"
   },
   "devDependencies": {
-    "jest": "^25.5.4",
+    "chai": "^4.2.0",
+    "chai-as-promised": "^7.1.1",
     "looks-same": "^7.2.3",
+    "mocha": "^8.0.1",
     "stopwatch-node": "^1.0.2"
   }
 }

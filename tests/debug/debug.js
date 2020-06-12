@@ -4,9 +4,13 @@ const svgfixer = require("../../");
 const fs = require("fs-extra");
 const fg = require("fast-glob");
 const path = require("path");
-// var source = path.resolve("tests/assets/broken-icons");
+// var source = "../assets/broken-icons/single";
+// var source = "tests/assets/broken-icons/single";
+// var source = path.resolve("tests/assets/broken-icons/double");
+// var source = path.resolve("tests/assets/broken-icons/single");
+var source = path.resolve("tests/assets/broken-icons");
 // var source = path.resolve("tests/assets/alot-of-icons");
-var source = path.resolve("tests/assets/broken-icons/icon-with-px-dimensions.svg");
+// var source = path.resolve("tests/assets/broken-icons/icon-with-px-dimensions.svg");
 var destination = path.resolve("tests/assets/fixed-icons");
 const { StopWatch } = require("stopwatch-node");
 var options = {
@@ -22,8 +26,8 @@ var ABSOLUTE_BROKEN_ICONS_FILE_PATHS_ARRAY = fg.sync(
 async function run() {
 	try {
 		fs.emptyDirSync(destination);
-		const sw = new StopWatch('sw');
-		sw.start('New svg process')
+		const sw = new StopWatch("sw");
+		sw.start("New svg process");
 		await svgfixer.fix(source, destination, options);
 		sw.stop();
 		sw.prettyPrint();

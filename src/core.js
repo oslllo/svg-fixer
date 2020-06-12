@@ -4,13 +4,44 @@ const colors = require("colors");
 const fs = require("fs");
 const fg = require("fast-glob");
 const { JSDOM } = require("jsdom");
-const sharp = require("sharp");
 const potrace = require("oslllo-potrace");
 const path = require("path");
 const cliprogress = require("cli-progress");
 const asyncPool = require("tiny-async-pool");
+const jimp = require("jimp");
+const process = require("process");
 
 const Core = {
+	svgToPngUri: function (svg) {
+		return new Promise((resolve, reject) => {
+			var svgElement = this.getSvgElementFromDom(this.newDom(svg));
+			var svgDimensions = this.getSvgElementDimensions(svgElement);
+			var dom = this.newDom("", { resources: "usable" });
+			var document = dom.window.document;
+			var canvas = document.createElement("canvas");
+			var imgPreview = document.createElement("img");
+			var canvasCtx = canvas.getContext("2d");
+			imgPreview.style = "position: absolute; top: -9999px";
+			document.body.appendChild(imgPreview);
+			const encoded = encodeURIComponent(svg)
+				.replace(/'/g, "%27")
+				.replace(/"/g, "%22");
+			const header = "data:image/svg+xml,";
+			const dataUrl = header + encoded;
+			imgPreview.src = dataUrl;
+			imgPreview.onload = function () {
+				const img = new dom.window.Image();
+				canvas.width = svgDimensions.width;
+				canvas.height = svgDimensions.height;
+				img.src = imgPreview.src;
+				img.onload = function () {
+					canvasCtx.drawImage(img, 0, 0);
+					var uri = canvas.toDataURL("image/png");
+					resolve({ uri, svgDimensions, encoded });
+				};
+			};
+		});
+	},
 	optionsChanged: function () {
 		if (this.options.showProgressBar) {
 			this.progressbar = new cliprogress.SingleBar(
@@ -23,6 +54,14 @@ const Core = {
 				cliprogress.Presets.shades_classic
 			);
 		}
+	},
+	slash: function (p) {
+		const isExtendedLengthPath = /^\\\\\?\\/.test(p);
+		const hasNonAscii = /[^\u0000-\u0080]+/.test(p);
+		if (isExtendedLengthPath || hasNonAscii) {
+			return p;
+		}
+		return p.replace(/\\/g, "/");
 	},
 	setSvgs: function () {
 		if (this.pathExists(this.source)) {
@@ -47,7 +86,7 @@ const Core = {
 		this.optionsChanged();
 	},
 	pathToGlob: function (p) {
-		return fg.sync(path.join(p, "/*.svg"));
+		return fg.sync(this.slash(path.join(p, path.join("/", "*.svg"))));
 	},
 	pathExists: function (p, name, throwErr = null) {
 		var exists = fs.existsSync(p);
@@ -68,7 +107,7 @@ const Core = {
 	pathIsDir: function (p) {
 		return fs.existsSync(p) && fs.statSync(p).isDirectory();
 	},
-	pathIsFile: function (p) {
+	pathIsFile: async function (p) {
 		return fs.existsSync(p) && fs.statSync(p).isFile();
 	},
 	setSource: function (source) {
@@ -85,7 +124,7 @@ const Core = {
 				);
 				return;
 		}
-		this.source = source;
+		this.source = this.slash(source);
 		this.setSvgs();
 	},
 	setDest: function (destination) {
@@ -101,7 +140,7 @@ const Core = {
 					)} given`
 				);
 		}
-		this.destination = destination;
+		this.destination = this.slash(destination);
 	},
 	getType: function (arg) {
 		var type = typeof arg;
@@ -115,18 +154,21 @@ const Core = {
 		this.setSource(source);
 		this.setDest(destination);
 	},
-	newDom: function (content = "<html></html>") {
-		return new JSDOM(content);
+	newDom: function (content = "<html></html>", options = {}) {
+		return new JSDOM(content, options);
+	},
+	basename: function (p, ext) {
+		if (process.platform == "win32") {
+			return path.win32.basename(p, ext);
+		} else {
+			return path.posix.basename(p, ext);
+		}
 	},
 	process: function () {
 		return new Promise(async (resolve, reject) => {
 			try {
 				var self = this;
 				var spb = this.options.showProgressBar;
-				var storage = {
-					objects: [],
-					buffers: [],
-				};
 				var progress = 0;
 				var process = {
 					setup: function () {
@@ -137,29 +179,27 @@ const Core = {
 							});
 						}
 					},
-					tick: function (data) {
+					tick: function (data, cb) {
 						if (spb) {
 							progress++;
 							self.progressbar.update(progress);
 						}
-						storage.objects.push(data.svg);
+						var svg = data.svg;
+						switch (true) {
+							case typeof self.destination === "string":
+								fs.writeFile(
+									path.join(self.destination, self.basename(svg.source)),
+									svg.data,
+									cb
+								);
+								break;
+						}
 					},
 					teardown: function () {
 						if (spb) {
 							self.progressbar.update(self.svgs.length);
 							self.progressbar.stop();
 							console.log(`${colors.green("Done!")}`);
-						}
-						switch (true) {
-							case typeof self.destination === "string":
-								for (var i = 0; i < storage.objects.length; i++) {
-									var svg = storage.objects[i];
-									fs.writeFileSync(
-										path.join(self.destination, path.basename(svg.source)),
-										svg.data
-									);
-								}
-								break;
 						}
 					},
 				};
@@ -173,9 +213,17 @@ const Core = {
 							console.log(
 								`Expected a direct path to file, ${svg} given. Skipping entry.`
 							);
-							resolve();
+							reject();
+							return;
 						}
-						var svgData = fs.readFileSync(svg, "utf8");
+						function loadSvgData(svg) {
+							return new Promise((resolve, reject) => {
+								fs.readFile(svg, "utf8", (err, data) => {
+									err ? reject(err) : resolve(data);
+								});
+							});
+						}
+						var svgData = await loadSvgData(svg);
 						dom.window.document.write(svgData);
 						var svgNode = self.getSvgElementFromDom(dom);
 						var originalSvgNode = svgNode.cloneNode(true);
@@ -221,13 +269,15 @@ const Core = {
 							tracedSvgNode.setAttribute(attribute.name, attribute.value);
 						}
 						var raw = tracedSvgNode.outerHTML;
-						process.tick({
-							svg: {
-								data: raw,
-								source: svg,
+						process.tick(
+							{
+								svg: {
+									data: raw,
+									source: svg,
+								},
 							},
-						});
-						resolve();
+							() => resolve()
+						);
 					});
 				}
 				var results = await asyncPool(
@@ -236,7 +286,7 @@ const Core = {
 					_fixInstance
 				);
 				process.teardown();
-				resolve(storage.buffers);
+				resolve();
 			} catch (e) {
 				reject(e);
 			}
@@ -278,29 +328,46 @@ const Core = {
 					)
 				);
 			}
-			if (typeof svg === "string" && svg !== path.basename(svg)) {
+			if (typeof svg === "string" && svg !== this.basename(svg)) {
 				svg = Buffer.from(svg);
 			}
 			try {
-				var s = await sharp(svg).png();
-				if (options.flatten) {
-					s = s.flatten({ background: { r: 255, g: 255, b: 255 } });
-				}
-				if (options.extend) {
-					s = s.extend({
-						top: 5,
-						bottom: 5,
-						left: 5,
-						right: 5,
-						background: { r: 255, g: 255, b: 255, alpha: 1 },
+				function blankImage(dimensions) {
+					return new Promise((resolve, reject) => {
+						new jimp(
+							dimensions.width,
+							dimensions.height,
+							0xffffff,
+							(err, image) => {
+								err ? reject(err) : resolve(image);
+							}
+						);
 					});
 				}
+				var { uri, svgDimensions } = await this.svgToPngUri(svg.toString());
+				var s = await jimp.read(
+					Buffer.from(uri.replace(/^data:image\/png;base64,/, ""), "base64")
+				);
+				if (options.flatten) {
+					var blank = await blankImage(svgDimensions);
+				}
+				if (options.extend) {
+					var extension = svgDimensions;
+					for (var d in extension) {
+						extension[d] = extension[d] + 10;
+					}
+					var blank = await blankImage(extension);
+				}
+
+				s = blank.composite(s, 0, 0);
 				if (options.destination !== null) {
-					await s.toFile(options.destination);
-					resolve();
+					s.write(options.destination, (err) => {
+						err ? reject(err) : resolve();
+					});
 				} else {
-					var buffer = await s.toBuffer();
-					resolve(buffer);
+					s.getBuffer(jimp.MIME_PNG, (err, buffer) => {
+						err ? reject(err) : resolve(buffer);
+					});
 				}
 			} catch (e) {
 				reject(e);

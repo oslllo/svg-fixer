@@ -4,14 +4,15 @@ node:
   - '12'
 
 before_script:
-  - npm install -g jest
+  - npm install -g mocha
   - npm install --dev
 
 cache:
   npm: false
 
 script:
-  - jest --runInBand
+  - mocha tests/function.test.js
+  - mocha tests/output.test.js
 
 branches:
   except:
