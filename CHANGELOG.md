@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.5.0
+
+- Changeed image processing engine from Sharp to Jimp. Fixes [#7](https://github.com/oslllo/svg-fixer/issues/7)
+- Fixed path issues on windows. Fixes [#8](https://github.com/oslllo/svg-fixer/issues/8)
+- Reworked async pools (fixConcurrency).
+
 ## 0.4.4
 
 - Updated dependencies. Fixes [#7](https://github.com/oslllo/svg-fixer/issues/7)
