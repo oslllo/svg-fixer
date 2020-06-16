@@ -1,0 +1,5 @@
+# Testing
+
+```shell
+npm test
+```
