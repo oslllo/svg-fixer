@@ -1,4 +1,4 @@
-<img src="images/cover.png" alt="Larakey Cover" width="500" height="auto"/>
+<img src="https://raw.githubusercontent.com/oslllo/svg-fixer/master/docs/images/cover.png" alt="Larakey Cover" width="500" height="auto"/>
 
 # SVG Fixer
 
