@@ -31,7 +31,7 @@
   "bugs": {
     "url": "https://github.com/oslllo/svg-fixer/issues"
   },
-  "homepage": "https://github.com/oslllo/svg-fixer#readme",
+  "homepage": "https://docs.oslllo.com/svg-fixer/master",
   "dependencies": {
     "cli-progress": "^3.8.2",
     "colors": "^1.4.0",

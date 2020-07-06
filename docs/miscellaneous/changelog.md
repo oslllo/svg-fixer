@@ -1,3 +1,5 @@
-# Changelog
+[Changelog](../CHANGELOG.md ':include :type=markdown')
 
-Please see [CHANGELOG](https://github.com/oslllo/svg-fixer/blob/master/CHANGELOG.md) for more information what has changed recently.
+---
+
+Please see [CHANGELOG](https://github.com/oslllo/svg-fixer/blob/master/CHANGELOG.md) for the RAW file.
