@@ -16,9 +16,9 @@ svgfixer.fix(source, destination, options);
 
 ### Parameters
 
-- `source`: path to folder containing multiple `SVG` files or a direct path to a single `SVG` file.
-- `destination`: path to store fixed svg icons.
-- `options`: fixer option parameters, see [HERE](#parameters).
+- `source | [string]`: path to folder containing multiple `SVG` files or a direct path to a single `SVG` file.
+- `destination | [string]`: path to store fixed svg icons.
+- `options | [object]`: fixer option parameters, see [Class API `setOptions()`](#class-api).
 
 > You can use a path that points to a directory with SVGs.
 
@@ -48,14 +48,17 @@ svgfixer.fix('directory/containing/broken-icon.svg', 'directory/to-store/fixed-s
 
 ## Using the `svgfixer.SVGFixer()` class
 
-### API
+### API <a id="class-api"></a>
 
-- `svgfixer.setOptions(options)`: set options/paramaters.
-    - `options`: see [HERE](#parameters)
-- `svgfixer.setSourceAndDest(source, destination)`: set source and destination paths.
-    - `source`: path to folder containing multiple `SVG` files or a direct path to a single `SVG` file.
-    - `destination`: path to store fixed svg icons.
-- `svgfixer.process()`: begin processing/fixing the SVG file(s).
+- `svgfixer.setOptions(options) | [function]`: set options/paramaters.
+    - `options | [object]`: options to help adjust the behaviour of the fixer
+        - `throwIfPathDoesNotExist | [boolean]`: throw error if any path does not exist. **default(true)**
+        - `showProgressBar | [boolean]`: show progress bar in CLI. **default(false)**
+        - `fixConcurrency | [integer]`: how many svgs can be fixed at the same time. **default(50)**
+- `svgfixer.setSourceAndDest(source, destination) | [function]`: set source and destination paths.
+    - `source | [string]`: path to folder containing multiple `SVG` files or a direct path to a single `SVG` file.
+    - `destination | [string]`: path to store fixed svg icons.
+- `svgfixer.process() | [function]`: begin processing/fixing the SVG file(s).
 
 ```js
 // Create a new fixer instance.
@@ -79,9 +82,3 @@ fixer.process()
     console.log("Error: " + error);
 });
 ```
-
-## Parameters
-
-- `throwIfPathDoesNotExist`: throw error if any path does not exist. **default(true)**
-- `showProgressBar`: show progress bar in CLI. **default(false)**
-- `fixConcurrency`: how many svgs can be fixed at the same time. **default(50)**
