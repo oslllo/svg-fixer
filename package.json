@@ -1,6 +1,6 @@
 {
   "name": "oslllo-svg-fixer",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "Converts SVG Strokes To Fill.",
   "main": "src/index.js",
   "scripts": {
