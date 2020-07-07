@@ -28,7 +28,7 @@ svgfixer.fix('directory/containing/svgs', 'directory/to-store/fixed-svgs')
     console.log("Done");
 })
 .catch((error) => {
-    console.log("Error: " + error);
+    throw error;
 });
 ```
 
@@ -40,7 +40,7 @@ svgfixer.fix('directory/containing/broken-icon.svg', 'directory/to-store/fixed-s
     console.log("Done");
 })
 .catch((error) => {
-    console.log("Error: " + error);
+    throw error;
 });
 ```
 
@@ -79,6 +79,6 @@ fixer.process()
     console.log("Done");
 })
 .catch((error) => {
-    console.log("Error: " + error);
+    throw error;
 });
 ```

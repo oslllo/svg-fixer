@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.5.1
+
+- Updated `README.md`.
+- Updated documentation.
+
 ## 0.5.0
 
 - Changeed image processing engine from Sharp to Jimp. Fixes [#7](https://github.com/oslllo/svg-fixer/issues/7)
