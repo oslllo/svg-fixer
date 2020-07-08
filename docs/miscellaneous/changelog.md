@@ -1,4 +1,4 @@
-[Changelog](../CHANGELOG.md ':include :type=markdown')
+[CHANGELOG.md](../symlinks/CHANGELOG.md ':include :type=markdown')
 
 ---
 
