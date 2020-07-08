@@ -35,7 +35,7 @@
   "dependencies": {
     "cli-progress": "^3.8.2",
     "colors": "^1.4.0",
-    "fast-glob": "^3.2.3",
+    "fast-glob": "^3.2.4",
     "fs-extra": "^9.0.1",
     "jimp": "^0.13.0",
     "jsdom": "^16.2.2",
