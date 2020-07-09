@@ -1,5 +1,10 @@
 # Introduction
 
+![Cover Image](../images/cover.png)
+
+[![Travis (.org)](https://img.shields.io/travis/oslllo/svg-fixer?label=Travis%20CI)](https://travis-ci.org/github/oslllo/svg-fixer)
+[![npm](https://img.shields.io/npm/v/oslllo-svg-fixer)](https://www.npmjs.com/package/oslllo-svg-fixer)
+
 ### The Objective
 
 I wanted to convert some `svg icons` to `fonts` using tools like [icomoon.io](https://icomoon.io/app/#/select), [fontello.com](http://fontello.com) and [webfont](https://www.npmjs.com/package/webfont)
