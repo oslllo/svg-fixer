@@ -37,7 +37,7 @@
     "colors": "^1.4.0",
     "fast-glob": "^3.2.4",
     "fs-extra": "^9.0.1",
-    "jimp": "^0.13.0",
+    "jimp": "^0.14.0",
     "jsdom": "^16.2.2",
     "oslllo-potrace": "^0.0.9",
     "tiny-async-pool": "^1.1.0"
