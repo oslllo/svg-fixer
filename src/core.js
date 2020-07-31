@@ -10,38 +10,9 @@ const cliprogress = require("cli-progress");
 const asyncPool = require("tiny-async-pool");
 const jimp = require("jimp");
 const process = require("process");
+const Svg2 = require("oslllo-svg2");
 
 const Core = {
-	svgToPngUri: function (svg) {
-		return new Promise((resolve, reject) => {
-			var svgElement = this.getSvgElementFromDom(this.newDom(svg));
-			var svgDimensions = this.getSvgElementDimensions(svgElement);
-			var dom = this.newDom("", { resources: "usable" });
-			var document = dom.window.document;
-			var canvas = document.createElement("canvas");
-			var imgPreview = document.createElement("img");
-			var canvasCtx = canvas.getContext("2d");
-			imgPreview.style = "position: absolute; top: -9999px";
-			document.body.appendChild(imgPreview);
-			const encoded = encodeURIComponent(svg)
-				.replace(/'/g, "%27")
-				.replace(/"/g, "%22");
-			const header = "data:image/svg+xml,";
-			const dataUrl = header + encoded;
-			imgPreview.src = dataUrl;
-			imgPreview.onload = function () {
-				const img = new dom.window.Image();
-				canvas.width = svgDimensions.width;
-				canvas.height = svgDimensions.height;
-				img.src = imgPreview.src;
-				img.onload = function () {
-					canvasCtx.drawImage(img, 0, 0);
-					var uri = canvas.toDataURL("image/png");
-					resolve({ uri, svgDimensions, encoded });
-				};
-			};
-		});
-	},
 	optionsChanged: function () {
 		if (this.options.showProgressBar) {
 			this.progressbar = new cliprogress.SingleBar(
@@ -154,9 +125,6 @@ const Core = {
 		this.setSource(source);
 		this.setDest(destination);
 	},
-	newDom: function (content = "<html></html>", options = {}) {
-		return new JSDOM(content, options);
-	},
 	basename: function (p, ext) {
 		if (process.platform == "win32") {
 			return path.win32.basename(p, ext);
@@ -204,8 +172,6 @@ const Core = {
 					},
 				};
 				process.setup();
-				var tracedDom = this.newDom();
-				var dom = this.newDom();
 				function _fixInstance(svgPath) {
 					return new Promise(async (resolve, reject) => {
 						var svg = svgPath;
@@ -216,27 +182,12 @@ const Core = {
 							reject();
 							return;
 						}
-						function loadSvgData(svg) {
-							return new Promise((resolve, reject) => {
-								fs.readFile(svg, "utf8", (err, data) => {
-									err ? reject(err) : resolve(data);
-								});
-							});
-						}
-						var svgData = await loadSvgData(svg);
-						dom.window.document.write(svgData);
-						var svgNode = self.getSvgElementFromDom(dom);
+						var svgNode = Svg2(svg).toElement();
 						var originalSvgNode = svgNode.cloneNode(true);
-						var {
-							svgUpscaled,
-							svgUpscaleMultiplier,
-						} = self.upscaleSvgElementDimensions(svgNode);
-
-						var svgNodeDimensions = self.getSvgElementDimensions(svgNode);
-						var originalSvgNodeDimensions = self.getSvgElementDimensions(
-							originalSvgNode
-						);
-
+						var instance = Svg2(svgNode.outerHTML).svg.resize({ width: 600, height: Svg2.AUTO });
+						svgNode = instance.toElement();
+						var svgNodeDimensions = Svg2(svgNode.outerHTML).svg.dimensions();
+						var originalSvgNodeDimensions = Svg2(originalSvgNode.outerHTML).svg.dimensions();
 						var originalAttributes = Object.values(
 							originalSvgNode.attributes
 						).map(function (attribute) {
@@ -245,18 +196,13 @@ const Core = {
 
 						var raw = svgNode.outerHTML;
 						var svgBuffer = Buffer.from(raw);
-						var svgPngBuffer = await self.svgToPng(svgBuffer);
+						var svgPngBuffer = await Svg2(svgBuffer).png().toBuffer();
 						var trace = new potrace.Potrace();
 						await trace.loadImage(svgPngBuffer);
 						await trace.process();
-						var scale = 1;
-						if (svgUpscaled) {
-							scale =
-								originalSvgNodeDimensions.height / svgNodeDimensions.height;
-						}
+						var scale = originalSvgNodeDimensions.height / svgNodeDimensions.height;
 						var tracedSvg = trace.getSVG(scale);
-						tracedDom.window.document.write(tracedSvg);
-						var tracedSvgNode = self.getSvgElementFromDom(tracedDom);
+						var tracedSvgNode = Svg2(tracedSvg).toElement();
 						while (tracedSvgNode.attributes.length > 0) {
 							tracedSvgNode.removeAttribute(tracedSvgNode.attributes[0].name);
 						}
@@ -292,166 +238,13 @@ const Core = {
 			}
 		});
 	},
-	getSvgElementFromDom: function (dom, index = 0) {
-		return dom.window.document.getElementsByTagName("svg")[index];
-	},
 	makePathAbsolute: function (p) {
 		if (!path.isAbsolute(p)) {
 			p = path.resolve(p);
 		}
 
 		return p;
-	},
-	/**
-	 *
-	 * @param {string | Buffer} svg
-	 * @param {string | null} opts
-	 */
-	svgToPng: async function (svg, opts) {
-		var options = {
-			destination: null,
-			extend: false,
-			flatten: true,
-		};
-		if (arguments.length === 2) {
-			for (var opt in opts) {
-				if (options.hasOwnProperty(opt)) {
-					options[opt] = opts[opt];
-				}
-			}
-		}
-		return new Promise(async (resolve, reject) => {
-			if (!typeof svg !== "string" && !svg instanceof Buffer) {
-				reject(
-					TypeError(
-						`'svg' argument should be of type Buffer or string, ${typeof svg} given`
-					)
-				);
-			}
-			if (typeof svg === "string" && svg !== this.basename(svg)) {
-				svg = Buffer.from(svg);
-			}
-			try {
-				function blankImage(dimensions) {
-					return new Promise((resolve, reject) => {
-						new jimp(
-							dimensions.width,
-							dimensions.height,
-							0xffffff,
-							(err, image) => {
-								err ? reject(err) : resolve(image);
-							}
-						);
-					});
-				}
-				var { uri, svgDimensions } = await this.svgToPngUri(svg.toString());
-				var s = await jimp.read(
-					Buffer.from(uri.replace(/^data:image\/png;base64,/, ""), "base64")
-				);
-				if (options.flatten) {
-					var blank = await blankImage(svgDimensions);
-				}
-				if (options.extend) {
-					var extension = svgDimensions;
-					for (var d in extension) {
-						extension[d] = extension[d] + 10;
-					}
-					var blank = await blankImage(extension);
-				}
-
-				s = blank.composite(s, 0, 0);
-				if (options.destination !== null) {
-					s.write(options.destination, (err) => {
-						err ? reject(err) : resolve();
-					});
-				} else {
-					s.getBuffer(jimp.MIME_PNG, (err, buffer) => {
-						err ? reject(err) : resolve(buffer);
-					});
-				}
-			} catch (e) {
-				reject(e);
-			}
-		});
-	},
-	filterDimensionUnits: function (dimension) {
-		var _units = ["rem", "px", "em"];
-		for (var i = 0; i < _units.length; i++) {
-			var _unit = _units[i];
-			if (dimension.search(_unit) !== -1) {
-				var _replaced = dimension.replace(_unit, "");
-				switch (_unit) {
-					case "px":
-						return _replaced;
-						break;
-					case "em":
-					case "rem":
-						return _replaced * 16;
-						break;
-				}
-			}
-		}
-		return dimension;
-	},
-	getSvgElementDimensions: function (svgElement) {
-		var _dimensionNames = ["width", "height"];
-		var _d = { width: 0, height: 0 };
-		if (
-			svgElement.hasAttribute(_dimensionNames[0]) &&
-			svgElement.hasAttribute(_dimensionNames[1])
-		) {
-			var _width = svgElement.getAttribute(_dimensionNames[0]);
-			var _height = svgElement.getAttribute(_dimensionNames[1]);
-			for (var i = 0; i < _dimensionNames.length; i++) {
-				switch (_dimensionNames[i]) {
-					case "width":
-						_width = this.filterDimensionUnits(_width);
-						break;
-					case "height":
-						_height = this.filterDimensionUnits(_height);
-						break;
-				}
-			}
-			_d.width = Number(_width);
-			_d.height = Number(_height);
-		} else if (svgElement.hasAttribute("viewBox")) {
-			var _viewbox = svgElement.getAttribute("viewBox").split(" ");
-			_d.width = Number(_viewbox[2]);
-			_d.height = Number(_viewbox[3]);
-		}
-		return _d;
-	},
-	upscaleSvgElementDimensions: function (svgElement, upscaleTo = 600) {
-		var svgUpscaled = false;
-		var svgUpscaleMultiplier = 1;
-		var svgDimensions = this.getSvgElementDimensions(svgElement);
-		if (svgDimensions.width < upscaleTo || svgDimensions.height < upscaleTo) {
-			var lowest = "height";
-			if (svgDimensions.width < svgDimensions.height) {
-				lowest = "width";
-			}
-			svgUpscaleMultiplier = upscaleTo / svgDimensions[lowest];
-			var sdArray = Object.values(svgDimensions);
-			sdArray.forEach((value, index) => {
-				switch (index) {
-					case 0:
-						svgElement.setAttribute(
-							"width",
-							svgDimensions.width * svgUpscaleMultiplier
-						);
-						break;
-					case 1:
-						svgElement.setAttribute(
-							"height",
-							svgDimensions.height * svgUpscaleMultiplier
-						);
-						break;
-				}
-			});
-			svgUpscaled = true;
-		}
-		return { svgUpscaled, svgUpscaleMultiplier };
-	},
+	}
 };
 
 module.exports = { Core };
