@@ -39,7 +39,7 @@
     "fs-extra": "^9.0.1",
     "jimp": "^0.14.0",
     "jsdom": "^16.3.0",
-    "oslllo-potrace": "^0.0.9",
+    "oslllo-potrace": "^0.0.10",
     "oslllo-svg2": "0.0.1",
     "tiny-async-pool": "^1.1.0"
   },
