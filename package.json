@@ -41,6 +41,7 @@
     "jsdom": "^16.4.0",
     "oslllo-potrace": "^0.0.9",
     "oslllo-svg2": "0.0.1",
+    "oslllo-validator": "0.0.1",
     "tiny-async-pool": "^1.1.0"
   },
   "devDependencies": {
