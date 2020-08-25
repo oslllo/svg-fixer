@@ -20,8 +20,6 @@ const ABSOLUTE_BROKEN_ICONS_DIR_PATH = path.resolve(RELATIVE_BROKEN_ICONS_DIR_PA
 const ABSOLUTE_FAILED_ICONS_DIR_PATH = path.resolve(RELATIVE_FAILED_ICONS_DIR_PATH);
 const ABSOLUTE_FIXED_ICONS_DIR_PATH = path.resolve(RELATIVE_FIXED_ICONS_DIR_PATH);
 
-var ABSOLUTE_BROKEN_ICON_FILE_PATHS_ARRAY;
-
 if (fs.existsSync(ABSOLUTE_FIXED_ICONS_DIR_PATH)) {
     fs.emptyDirSync(ABSOLUTE_FIXED_ICONS_DIR_PATH);
 } else {
@@ -66,13 +64,14 @@ describe("svgfixer()", function () {
         assert.equal(_options.fixConcurrency, testParameters.fixConcurrency);
     });
 
-    ABSOLUTE_BROKEN_ICON_FILE_PATHS_ARRAY = fg.sync(
-        path.join(path.resolve(RELATIVE_BROKEN_ICONS_DIR_PATH), path.join("/", "*.svg"))
+    var ABSOLUTE_BROKEN_ICON_FILE_PATH = path.join(
+        path.resolve(RELATIVE_BROKEN_ICONS_DIR_PATH),
+        fs.readdirSync(RELATIVE_BROKEN_ICONS_DIR_PATH)[0]
     );
 
     it("resolves with absolute source FILE path", function (done) {
         assert.equal(fs.readdirSync(ABSOLUTE_FIXED_ICONS_DIR_PATH).length, 0);
-        svgfixer(ABSOLUTE_BROKEN_ICON_FILE_PATHS_ARRAY[0], ABSOLUTE_FIXED_ICONS_DIR_PATH)
+        svgfixer(ABSOLUTE_BROKEN_ICON_FILE_PATH, ABSOLUTE_FIXED_ICONS_DIR_PATH)
             .fix()
             .then(() => {
                 assert.equal(fs.readdirSync(ABSOLUTE_FIXED_ICONS_DIR_PATH).length, 1);
@@ -88,7 +87,7 @@ describe("svgfixer()", function () {
         svgfixer(
             path.join(
                 RELATIVE_BROKEN_ICONS_DIR_PATH,
-                path.basename(ABSOLUTE_BROKEN_ICON_FILE_PATHS_ARRAY[0])
+                path.basename(ABSOLUTE_BROKEN_ICON_FILE_PATH)
             ),
             ABSOLUTE_FIXED_ICONS_DIR_PATH
         )
@@ -191,7 +190,10 @@ describe("Exceptions", function () {
                 svgfixer(RELATIVE_BROKEN_ICONS_DIR_PATH_SINGLE, "invalid/path.icon.svg"),
             TypeError
         );
-        assert.throws(() => svgfixer(RELATIVE_BROKEN_ICONS_DIR_PATH_SINGLE, 1), TypeError);
+        assert.throws(
+            () => svgfixer(RELATIVE_BROKEN_ICONS_DIR_PATH_SINGLE, 1),
+            TypeError
+        );
     });
 
     it("throws with invalid options argument", async function () {
