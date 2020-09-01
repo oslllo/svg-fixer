@@ -1,7 +1,7 @@
 "use strict";
 
 const fs = require("fs-extra");
-const Svg2 = require("../../../svg2");
+const Svg2 = require("oslllo-svg2");
 const looksame = require("looks-same");
 const { assert, path2 } = require("./helper");
 
