@@ -5,7 +5,7 @@
   "main": "src/index.js",
   "scripts": {
     "debug:test": "node tests/debug/debug.js",
-    "test": "mocha --sort 'tests/*.test.js'"
+    "test": "mocha && mocha test/src/test.output"
   },
   "repository": {
     "type": "git",
@@ -40,7 +40,7 @@
     "jimp": "^0.14.0",
     "jsdom": "^16.4.0",
     "oslllo-potrace": "^0.0.9",
-    "oslllo-svg2": "0.0.1",
+    "oslllo-svg2": "0.1.0",
     "oslllo-validator": "0.0.1",
     "tiny-async-pool": "^1.1.0"
   },

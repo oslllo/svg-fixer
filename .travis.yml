@@ -11,14 +11,13 @@ cache:
   npm: false
 
 script:
-  - mocha tests/function.test.js
-  - mocha tests/output.test.js
+  - npm test
 
 branches:
   except:
   - dev
 
-  
+
 jobs:
   include:
     - os: linux
