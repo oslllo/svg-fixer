@@ -6,6 +6,6 @@
     "slow": 30000,
     "timeout": 5000,
     "ui": "bdd",
-    "watch-files": ["tests/*.test.js"],
+    "watch-files": ["test/*.test.js"],
     "watch-ignore": ["node_modules"]
   }
