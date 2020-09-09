@@ -1,7 +1,7 @@
 "use strict";
 
+const fs = require("fs");
 const path = require("path");
-const fs = require("fs-extra");
 const fg = require("fast-glob");
 const error = require("./error");
 const is = require("oslllo-validator");
