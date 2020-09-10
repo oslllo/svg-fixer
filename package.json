@@ -36,7 +36,7 @@
     "cli-progress": "^3.8.2",
     "colors": "^1.4.0",
     "fast-glob": "^3.2.4",
-    "oslllo-potrace": "^0.0.9",
+    "oslllo-potrace": "^1.1.0",
     "oslllo-svg2": "0.1.0",
     "oslllo-validator": "0.0.1",
     "tiny-async-pool": "^1.1.0"
