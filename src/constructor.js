@@ -12,6 +12,8 @@ const SVGFixer = function (source, destination, options = {}) {
     this.location = new Location(this, source, destination);
     this.source = this.location.source;
     this.destination = this.location.destination;
+
+    return this;
 };
 
 SVGFixer.prototype = {

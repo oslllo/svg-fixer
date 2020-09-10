@@ -1,7 +1,7 @@
 "use strict";
 
 const Svg2 = require("oslllo-svg2");
-const potrace = require("oslllo-potrace");
+const Potrace = require("oslllo-potrace");
 
 const Svg = function (path) {
     this.path = path;
@@ -59,11 +59,9 @@ Svg.prototype = {
     process: function () {
         return new Promise(async (resolve, reject) => {
             try {
-                var trace = new potrace.Potrace();
                 var pngBuffer = await this.resized.svg2.png().toBuffer();
-                await trace.loadImage(pngBuffer);
-                await trace.process();
-                var traced = this._restore(trace.getSVG(this.scale));
+                var traced = await Potrace(pngBuffer, { svgSize: this.scale }).trace();
+                traced = this._restore(traced);
                 resolve(traced);
             } catch (err) {
                 reject(err)
