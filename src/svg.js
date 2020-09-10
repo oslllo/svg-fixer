@@ -61,8 +61,6 @@ Svg.prototype = {
             try {
                 var pngBuffer = await this.resized.svg2.png().toBuffer();
                 var traced = await Potrace(pngBuffer, { svgSize: this.scale }).trace();
-                // await trace.loadImage();
-                // await trace.process();
                 traced = this._restore(traced);
                 resolve(traced);
             } catch (err) {
