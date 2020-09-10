@@ -36,9 +36,6 @@
     "cli-progress": "^3.8.2",
     "colors": "^1.4.0",
     "fast-glob": "^3.2.4",
-    "fs-extra": "^9.0.1",
-    "jimp": "^0.14.0",
-    "jsdom": "^16.4.0",
     "oslllo-potrace": "^0.0.9",
     "oslllo-svg2": "0.1.0",
     "oslllo-validator": "0.0.1",
@@ -47,9 +44,10 @@
   "devDependencies": {
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
-    "eslint": "^7.7.0",
+    "eslint": "^7.8.1",
     "looks-same": "^7.2.3",
-    "mocha": "^8.1.1",
-    "stopwatch-node": "^1.0.2"
+    "mocha": "^8.1.3",
+    "stopwatch-node": "^1.0.2",
+    "fs-extra": "^9.0.1"
   }
 }
