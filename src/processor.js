@@ -1,15 +1,9 @@
 "use strict";
 
-// const Svg = require("./svg");
 const fs = require("fs");
 const path = require("path");
-const error = require("./error");
-const Svg2 = require("oslllo-svg2");
 const Svg = require("./svg");
 const is = require("oslllo-validator");
-const SVGFixer = require("./constructor");
-const potrace = require("oslllo-potrace");
-const asyncPool = require("tiny-async-pool");
 
 const Processor = function (fixer) {
     this.fixer = fixer;
@@ -17,45 +11,37 @@ const Processor = function (fixer) {
 };
 
 Processor.prototype = {
-    start: function () {
-        return new Promise(async (resolve, reject) => {
-            try {
-                this.setup();
-                var svgs = this.fixer.source;
-                var concurrency = this.fixer.options.get("fixConcurrency");
-                svgs = svgs.map((path) => {
-                    return { path: path, instance: this };
-                });
-                await asyncPool(concurrency, svgs, this.instance);
-                this.teardown();
-                resolve();
-            } catch (err) {
-                reject(err);
+    start: async function () {
+        this.setup();
+        var svgs = this.fixer.source;
+        svgs = svgs.map((source) => {
+            var destination = path.join(
+                this.fixer.destination,
+                this.fixer.location.basename(source)
+            );
+            if (!is.pathToFile(source) || path.extname(source) != ".svg") {
+                throw new Error(
+                    `expected a direct path to a svg file, ${source} was given.`
+                );
             }
+
+            return { source, destination };
         });
+        for (var i = 0; i < svgs.length; i++) {
+            await this.instance(svgs[i]);
+        }
+        this.teardown();
     },
     setup: function () {},
     tick: function (callback) {
         callback();
     },
     teardown: function () {},
-    instance: function (data) {
-        if (!is.pathToFile(data.path) || path.extname(data.path) != ".svg") {
-            throw new Error(
-                `expected a direct path to a svg file, ${data.path} was given.`
-            );
-        }
-        return new Promise(async (resolve, reject) => {
-            var instance = data.instance;
-            var svg = new Svg(data.path);
-            var fixed = await svg.process();
-            var destination = path.join(
-                instance.fixer.destination,
-                instance.fixer.location.basename(svg.path)
-            );
-            fs.writeFile(destination, fixed, () =>
-                instance.tick(() => resolve())
-            );
+    instance: async function ({ source, destination }) {
+        var svg = new Svg(source);
+        var fixed = await svg.process();
+        fs.writeFile(destination, fixed, () => {
+            this.tick(() => Promise.resolve());
         });
     },
 };

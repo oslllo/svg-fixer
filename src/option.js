@@ -5,7 +5,6 @@ const is = require("oslllo-validator");
 
 const Option = function (options) {
     this.data = {
-        fixConcurrency: 50,
         showProgressBar: false,
         throwIfDestinationDoesNotExist: true,
     };
@@ -33,11 +32,12 @@ Option.prototype = {
                 option
             );
         }
+
         return this.data[option];
     },
     update: function (options) {
         for (var key in options) {
-            if (options.hasOwnProperty(key)) {
+            if (Object.prototype.hasOwnProperty.call(options, key)) {
                 this.data[key] = options[key];
             }
         }

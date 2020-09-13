@@ -7,7 +7,6 @@ const { SVGFixer, assert, path2 } = require("./helper");
 describe("test.svgfixer", () => {
     it("can set the options parameter", async () => {
         var options = {
-            fixConcurrency: 55,
             showProgressBar: true,
             throwIfDestinationDoesNotExist: false,
         };

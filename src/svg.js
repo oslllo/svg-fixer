@@ -56,17 +56,12 @@ Svg.prototype = {
 
         return element.outerHTML;
     },
-    process: function () {
-        return new Promise(async (resolve, reject) => {
-            try {
-                var pngBuffer = await this.resized.svg2.png().toBuffer();
-                var traced = await Potrace(pngBuffer, { svgSize: this.scale }).trace();
-                traced = this._restore(traced);
-                resolve(traced);
-            } catch (err) {
-                reject(err)
-            }
-        });
+    process: async function () {
+        var pngBuffer = await this.resized.svg2.png().toBuffer();
+        var traced = await Potrace(pngBuffer, { svgSize: this.scale }).trace();
+        traced = this._restore(traced);
+
+        return traced;
     },
 };
 

@@ -24,7 +24,7 @@ const Location = function (instance, source, destination) {
     var locations = { source, destination };
     for (var location in locations) {
         locations[location] = this.makeAbsolute(locations[location]);
-        locations[location] = this.slash(locations[location]);
+        locations[location] = locations[location].replace(/\\/gu, "/");
     }
     source = locations.source;
     source = this.processSource(source);
@@ -37,9 +37,10 @@ Location.prototype = {
     basename: function (location) {
         if (process.platform == "win32") {
             return path.win32.basename(location);
-        } else {
-            return path.posix.basename(location);
         }
+
+        return path.posix.basename(location);
+
     },
     exists: function (location) {
         return fs.existsSync(location);
@@ -52,16 +53,7 @@ Location.prototype = {
         return location;
     },
     toGlob: function (location) {
-        return fg.sync(this.slash(path.join(location, path.join("/", "*.svg"))));
-    },
-    slash: function (location) {
-        const isExtendedLengthPath = /^\\\\\?\\/.test(location);
-        const hasNonAscii = /[^\u0000-\u0080]+/.test(location);
-        if (isExtendedLengthPath || hasNonAscii) {
-            return location;
-        }
-
-        return location.replace(/\\/g, "/");
+        return fg.sync(path.join(location, path.join("/", "*.svg")).replace(/\\/gu, "/"));
     },
     processSource: function (source) {
         if (is.pathToDir(source)) {
