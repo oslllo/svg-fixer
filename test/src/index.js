@@ -6,7 +6,7 @@ const { path2 } = require("./helper");
 /**
  * @description Prepare for tests.
  */
-function prepare() {
+function prepare () {
     ["failed", "fixed"].forEach(function (dir) {
         var directory = path2[dir].relative;
         if (fs.existsSync(directory)) {
@@ -21,7 +21,7 @@ function prepare() {
  * @description - Empty directory
  * @param {String} dir - Directory path string
  */
-function emptyDir(dir) {
+function emptyDir (dir) {
     fs.emptyDirSync(dir);
     if (fs.readdirSync(dir).length) {
         throw new Error(`failed to empty the ${dir} directory`);

@@ -17,16 +17,11 @@ const SVGFixer = function (source, destination, options = {}) {
 };
 
 SVGFixer.prototype = {
-    fix: function () {
-        return new Promise(async (resolve, reject) => {
-            var processor = new Processor(this);
-            try {
-                await processor.start();
-                resolve(this);
-            } catch (err) {
-                reject(err);
-            }
-        });
+    fix: async function () {
+        var processor = new Processor(this);
+        await processor.start();
+
+        return this;
     },
 };
 
