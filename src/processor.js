@@ -37,11 +37,16 @@ Processor.prototype = {
         callback();
     },
     teardown: function () {},
-    instance: async function ({ source, destination }) {
-        var svg = new Svg(source);
-        var fixed = await svg.process();
-        fs.writeFile(destination, fixed, () => {
-            this.tick(() => Promise.resolve());
+    instance: function ({ source, destination }) {
+        return new Promise(async (resolve, reject) => {
+            try {
+                var svg = new Svg(source);
+                var fixed = await svg.process();
+                fs.writeFileSync(destination, fixed);
+                this.tick(() => resolve());
+            } catch (err) {
+                reject(err);
+            }
         });
     },
 };
