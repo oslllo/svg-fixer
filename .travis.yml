@@ -23,5 +23,4 @@ jobs:
     - os: linux
       dist: bionic
     - os: osx
-      osx_image: xcode11.4
     - os: windows
