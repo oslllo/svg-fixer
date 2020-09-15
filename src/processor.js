@@ -3,20 +3,28 @@
 const fs = require("fs");
 const path = require("path");
 const Svg = require("./svg");
+const colors = require("colors");
 const is = require("oslllo-validator");
+const cliprogress = require("cli-progress");
 
 const Processor = function (fixer) {
     this.fixer = fixer;
-    this.progress = 0;
+    this.progress = {
+        status: 0,
+        bar: undefined,
+        show: this.fixer.options.get("showProgressBar"),
+    };
+    this.source = this.fixer.source;
+    this.destination = this.fixer.destination;
 };
 
 Processor.prototype = {
     start: async function () {
         this.setup();
-        var svgs = this.fixer.source;
+        var svgs = this.source;
         svgs = svgs.map((source) => {
             var destination = path.join(
-                this.fixer.destination,
+                this.destination,
                 this.fixer.location.basename(source)
             );
             if (!is.pathToFile(source) || path.extname(source) != ".svg") {
@@ -32,11 +40,41 @@ Processor.prototype = {
         }
         this.teardown();
     },
-    setup: function () {},
+    setup: function () {
+        if (this.progress.show) {
+            process.stdout.write(
+                `${colors.green("Fixing: ")} ${this.fixer.location.original.source}`
+            );
+            process.stdout.write("\n");
+            this.progress.bar = new cliprogress.SingleBar(
+                {
+                    format:
+                        `${colors.yellow("Progress")} |` +
+                        colors.yellow("{bar}") +
+                        "| {percentage}% || {value}/{total} Chunks || Speed: {speed}",
+                },
+                cliprogress.Presets.shades_classic
+            );
+            this.progress.bar.start(this.source.length, 0, {
+                speed: "N/A",
+            });
+        }
+    },
     tick: function (callback) {
+        if (this.progress.show) {
+            this.progress.status++;
+            this.progress.bar.update(this.progress.status);
+        }
         callback();
     },
-    teardown: function () {},
+    teardown: function () {
+        if (this.progress.show) {
+            this.progress.bar.update(this.source.length);
+            this.progress.bar.stop();
+            process.stdout.write(`${colors.green("Done!")}`);
+            process.stdout.write("\n");
+        }
+    },
     instance: function ({ source, destination }) {
         return new Promise(async (resolve, reject) => {
             try {
