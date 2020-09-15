@@ -21,6 +21,9 @@ const Location = function (instance, source, destination) {
             throw error.invalidPathError("destination", source);
         }
     }
+    this.original = {
+        source: source,
+    };
     var locations = { source, destination };
     for (var location in locations) {
         locations[location] = this.makeAbsolute(locations[location]);
@@ -40,7 +43,6 @@ Location.prototype = {
         }
 
         return path.posix.basename(location);
-
     },
     exists: function (location) {
         return fs.existsSync(location);
