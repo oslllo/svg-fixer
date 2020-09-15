@@ -92,7 +92,10 @@ module.exports = {
         "lines-between-class-members": "error",
         "max-classes-per-file": "error",
         "max-depth": "error",
-        "max-len": ["error", { code: 90, ignoreComments: true }],
+        "max-len": [
+            "error",
+            { code: 90, ignoreComments: true, ignoreTemplateLiterals: true },
+        ],
         "max-lines": "off",
         "max-lines-per-function": ["off"],
         "max-nested-callbacks": "off",
@@ -106,6 +109,7 @@ module.exports = {
         "newline-after-var": "off",
         "newline-before-return": "error",
         "newline-per-chained-call": "error",
+        "no-async-promise-executor": "off",
         "no-alert": "error",
         "no-array-constructor": "error",
         "no-await-in-loop": "off",
@@ -273,7 +277,7 @@ module.exports = {
             files: ["test/src/test.*"],
             rules: {
                 "max-len": "off",
-                "no-magic-numbers": "off"
+                "no-magic-numbers": "off",
             },
         },
     ],
