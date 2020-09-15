@@ -80,5 +80,4 @@ inquirer.prompt(questions).then(async (answers) => {
         stopwatch.stop();
         stopwatch.prettyPrint();
     }
-    console.log("done");
 });
