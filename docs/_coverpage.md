@@ -3,8 +3,9 @@
 
 # SVG Fixer
 
-[![Travis (.org)](https://img.shields.io/travis/oslllo/svg-fixer?label=Travis%20CI)](https://travis-ci.org/github/oslllo/svg-fixer)
+[![Travis (.org)](https://img.shields.io/travis/oslllo/svg-fixer)](https://travis-ci.org/github/oslllo/svg-fixer)
 [![npm](https://img.shields.io/npm/v/oslllo-svg-fixer)](https://www.npmjs.com/package/oslllo-svg-fixer)
+[![Coveralls github](https://img.shields.io/coveralls/github/oslllo/svg-fixer)](https://coveralls.io/github/oslllo/svg-fixer)
 
 > Convert SVG Strokes To Fills
 
