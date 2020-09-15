@@ -24,3 +24,5 @@ jobs:
       dist: bionic
     - os: osx
     - os: windows
+
+after_success: npm run coverage
