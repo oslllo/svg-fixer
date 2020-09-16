@@ -5,6 +5,29 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.0] - 2020/9/16
+
+⚠️ Contains breaking changes.
+
+### Breaking Changes
+
+- `svgfixer.fix(source, destination, options)` ***=>*** `SVGFixer(source, destination, options).fix()`.
+    - It was changed from a wrapper function to a method function for `SVGFixer`.
+    - It still returns a `Promise`.
+    - `fix()` no more takes in `parameters`, those should be passed into `SVGFixer()`.
+- `svgfixer.SVGFixer()` class ***=>*** `SVGFixer()`.
+    - The `.setOptions(options)` method has been removed, `options` should now be passed in class constructor as the 3rd `parameter`.
+    - The `.setSourceAndDest()` method has been removed, `source` and `destination` should now be passed in class constructor as the 1st and 2nd `parameters`.
+    - The `.process()` method has been removed, use `.fix()` instead.
+    - `SVGFixer()` does not require the [`new`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/new) operator anymore.
+- `fixConcurrency` has been removed, might be reimplemented on later versions.
+
+### Changed
+
+- Updated dependencies.
+- Refactored codebase.
+- Refactored progressbar.
+
 ## [0.6.0] - 2020/8/13
 
 ### Security
