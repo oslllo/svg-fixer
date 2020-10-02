@@ -1,84 +1,96 @@
 # Basic Usage
 
+- [`constructor`](#svgfixer-constructor)
+- [`fix()`](#svgfixer-fix)
+
 ## Require Package
 
 ```js
-const svgfixer = require('oslllo-svg-fixer');
+const SVGFixer = require('oslllo-svg-fixer');
 ```
 
 ---
 
-## Using the `svgfixer.fix()` wrapper
+<a id="svgfixer-constructor"></a>
+
+## Using the SVGFixer `constructor`
+
+Constructor factory to create an instance of `SVGFixer`, to which further methods are chained.
+
+### Usage
 
 ```js
-svgfixer.fix(source, destination, options);
+SVGFixer(source, destination, options);
 ```
 
 ### Parameters
 
-- `source | [string]`: path to folder containing multiple `SVG` files or a direct path to a single `SVG` file.
-- `destination | [string]`: path to store fixed svg icons.
-- `options | [object]`: fixer option parameters, see [Class API `setOptions()`](#class-api).
+- `source` ([**String**](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)): path to folder containing multiple `SVG` files or a direct path to a single `SVG` file.
+- `destination`  ([**String**](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)): path to store fixed svg icons.
+- `options` ([**Object**](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)): fixer option parameters.
+    - `throwIfDestinationDoesNotExist` ([**Boolean**](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)): throw `TypeError` if destination path does not exist. **default(true)**
+    - `showProgressBar` ([**Boolean**](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)) : show progress bar in CLI. **default(false)**
 
-> You can use a path that points to a directory with SVGs.
+### Throws
 
-```js
-svgfixer.fix('directory/containing/svgs', 'directory/to-store/fixed-svgs')
-.then(() => {
-    console.log("Done");
-})
-.catch((error) => {
-    throw error;
-});
-```
+- [**TypeError**](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypeError): if a `parameter` is invalid.
 
-> Or a path that point directly so a single file.
+### Returns
+
+- [**SVGFixer**](#svgfixer-constructor) `this`
+
+### Examples
 
 ```js
-svgfixer.fix('directory/containing/broken-icon.svg', 'directory/to-store/fixed-svgs')
-.then(() => {
-    console.log("Done");
-})
-.catch((error) => {
-    throw error;
-});
+
+var options = {
+    showProgressBar: true,
+    throwIfDestinationDoesNotExist: false,
+};
+
+SVGFixer('directory/containing/svgs', 'directory/to-store/fixed-svgs', options); // Returns instance
+
+// Or with a path that points directly so a single file.
+
+SVGFixer('directory/containing/broken-icon.svg', 'directory/to-store/fixed-svgs', options); // Returns instance
 ```
 
 ---
 
-## Using the `svgfixer.SVGFixer()` class
+<a id="svgfixer-fix"></a>
 
-### API <a id="class-api"></a>
+## Using the `.fix()` method
 
-- `svgfixer.setOptions(options) | [function]`: set options/paramaters.
-    - `options | [object]`: options to help adjust the behaviour of the fixer
-        - `throwIfPathDoesNotExist | [boolean]`: throw error if any path does not exist. **default(true)**
-        - `showProgressBar | [boolean]`: show progress bar in CLI. **default(false)**
-        - `fixConcurrency | [integer]`: how many svgs can be fixed at the same time. **default(50)**
-- `svgfixer.setSourceAndDest(source, destination) | [function]`: set source and destination paths.
-    - `source | [string]`: path to folder containing multiple `SVG` files or a direct path to a single `SVG` file.
-    - `destination | [string]`: path to store fixed svg icons.
-- `svgfixer.process() | [function]`: begin processing/fixing the SVG file(s).
+Used to begin processing/fixing the SVG file(s).
+
+### Usage
 
 ```js
-// Create a new fixer instance.
-var fixer = new svgfixer.SVGFixer();
-
-// Set fixer options/parameters
-fixer.setOptions({
-    throwIfPathDoesNotExist: true,
-    showProgressBar: false,
-});
-
-// Set source and destination paths
-fixer.setSourceAndDest('directory/containing/svgs', 'directory/to-store/fixed-svgs');
-
-// Begin processing the SVGs.
-fixer.process()
+SVGFixer(source, destination, options).fix()
 .then(() => {
-    console.log("Done");
+    console.log("done");
 })
-.catch((error) => {
-    throw error;
+.catch((err) => {
+    throw err;
+});
+```
+
+### Parameters
+
+- `none`
+
+### Returns
+
+- [**Promise**](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise)
+
+### Examples
+
+```js
+SVGFixer('directory/containing/svgs', 'directory/to-store/fixed-svgs').fix()
+.then(() => {
+    console.log("done");
+})
+.catch((err) => {
+    throw err;
 });
 ```
