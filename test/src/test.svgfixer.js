@@ -70,7 +70,7 @@ describe("test.svgfixer", () => {
 
     describe("output", () => {
         /** @this */
-        async function outputFixedSvgs() {
+        async function outputFixedSvgs () {
             this.timeout(30000);
             emptyDir(path2.fixed.relative);
             var source = path2.multiple.absolute;
@@ -97,7 +97,7 @@ describe("exceptions", () => {
      * @param {*} name
      * @param {*} arg
      */
-    function message(name, arg) {
+    function message (name, arg) {
         return is.string(arg)
             ? error.invalidPathError(name, arg).message
             : error.invalidParameterError(name, "string", arg).message;
