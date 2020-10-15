@@ -274,10 +274,11 @@ module.exports = {
     },
     overrides: [
         {
-            files: ["test/src/test.*"],
+            files: ["test/src/**"],
             rules: {
                 "max-len": "off",
                 "no-magic-numbers": "off",
+                "newline-per-chained-call": "off",
             },
         },
     ],
