@@ -1,76 +1,32 @@
 "use strict";
 
+const path = require("path");
 const fs = require("fs-extra");
-const Svg2 = require("oslllo-svg2");
-const looksame = require("looks-same");
-const { assert, path2 } = require("./helper");
+const { assert, path2, fg } = require("./helper");
+const { brokenAndFixedSvgsMatch } = require("./");
 
 describe("test.output", () => {
-    var fixedArray = fs.readdirSync(path2.fixed.absolute);
-    var fixed = path2.fixed.absolute;
-    var broken = path2.multiple.absolute;
     var failed = path2.failed.absolute;
-    fixedArray.forEach((svg, index) => {
-        it(`${svg} matches expected output`, async () => {
-            var resize = { width: 250, height: Svg2.AUTO };
-            var brokenBuffer = await Svg2(`${broken}/${svg}`)
-                .svg.resize(resize)
-                .extend(20)
-                .png()
-                .toBuffer();
-            var fixedBuffer = await Svg2(`${fixed}/${svg}`)
-                .svg.resize(resize)
-                .extend(20)
-                .png()
-                .toBuffer();
-
-            return new Promise((resolve, reject) => {
-                looksame(
-                    brokenBuffer,
-                    fixedBuffer,
-                    { strict: false, tolerance: 3.5 },
-                    (err, { equal }) => {
-                        if (err) {
-                            reject(err);
-                        } else {
-                            if (!equal) {
-                                fs.writeFileSync(`${failed}/${index}.png`, brokenBuffer);
-                                fs.writeFileSync(
-                                    `${failed}/${index}-fixed.png`,
-                                    fixedBuffer
-                                );
-                            }
-                            assert.isTrue(
-                                equal,
-                                `SVG ${svg} did not match expected output`
-                            );
-                            resolve();
-                        }
-                    }
-                );
-            });
-        });
-    });
-    fixedArray.forEach((svg) => {
-        it(`outputs svg with the correct attributes for ${svg}`, () => {
-            var brokenSvg = Svg2(`${broken}/${svg}`).toElement();
-            var fixedSvg = Svg2(`${fixed}/${svg}`).toElement();
-            assert.equal(brokenSvg.attributes.length, fixedSvg.attributes.length);
-            /**
-             * @description - Get svg element attributes.
-             * @param {SVGSVGElement} element
-             */
-            function getAttributesObj (element) {
-                return Array.prototype.slice.call(element.attributes).map((attribute) => {
-                    var value = {};
-                    value[attribute.nodeName] = attribute.nodeValue;
-
-                    return value;
-                });
+    var fixed = fg.sync(path2.fixed.relative + "/*.svg");
+    var broken = fg.sync(path2.multiple.relative + "/*.svg");
+    assert.equal(
+        fixed.length,
+        broken.length,
+        "The number of fixed and broken icons does not match."
+    );
+    fixed.forEach((svg, index) => {
+        var basename = path.basename(svg);
+        it(`${basename} matches expected output`, async () => {
+            var { equal, buffer } = await brokenAndFixedSvgsMatch(
+                broken[index],
+                fixed[index]
+            );
+            if (!equal) {
+                var filename = path.parse(basename).name;
+                fs.writeFileSync(failed + "/" + filename + ".broken.png", buffer.broken);
+                fs.writeFileSync(failed + "/" + filename + ".fixed.png", buffer.fixed);
             }
-            var brokenAttributes = getAttributesObj(brokenSvg);
-            var fixedAttributes = getAttributesObj(fixedSvg);
-            assert.deepEqual(brokenAttributes, fixedAttributes);
+            assert.isTrue(equal, `SVG ${basename} did not match expected output`);
         });
     });
 });

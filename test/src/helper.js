@@ -2,6 +2,7 @@
 
 const fs = require("fs");
 const path = require("path");
+const fg = require("fast-glob");
 const SVGFixer = require("../../");
 const { assert } = require("chai");
 
@@ -47,6 +48,7 @@ const path2 = (function () {
 })();
 
 module.exports = {
+    fg,
     path2,
     assert,
     SVGFixer,
