@@ -1,6 +1,7 @@
 "use strict";
 
 const path = require("path");
+const fs = require("fs-extra");
 const is = require("oslllo-validator");
 const error = require("../../src/error");
 const { SVGFixer, assert, path2 } = require("./helper");
@@ -32,6 +33,16 @@ describe("test.exceptions", () => {
                     message("source", arg)
                 );
             });
+        });
+        it("throws if source file is not a svg file", () => {
+            var source = path.resolve("test/assets/images/svg.png").replace(/\\/gu, "/");
+            var destination = path2.fixed.relative;
+            assert.isTrue(fs.existsSync(source), "source test image does not exist");
+            assert.throws(
+                () => SVGFixer(source, destination),
+                Error,
+                `one of the source file paths does not point to a .svg file. ${source}`
+            );
         });
     });
 
@@ -70,6 +81,12 @@ describe("test.exceptions", () => {
                     error.invalidParameterError("options", "object", arg).message
                 );
             });
+        });
+        it("does not throw if destination folder does not exist and options.throwIfDestinationDoesNotExist is set to false", () => {
+            var source = path2.single.absolute;
+            var destination = "test/assets/temp-fixed-icons";
+            var options = { throwIfDestinationDoesNotExist: false };
+            assert.doesNotThrow(() => SVGFixer(source, destination, options));
         });
     });
 
