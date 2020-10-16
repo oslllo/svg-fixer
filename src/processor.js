@@ -4,7 +4,6 @@ const fs = require("fs");
 const path = require("path");
 const Svg = require("./svg");
 const colors = require("colors");
-const is = require("oslllo-validator");
 const cliprogress = require("cli-progress");
 
 const Processor = function (fixer) {
@@ -25,13 +24,8 @@ Processor.prototype = {
         svgs = svgs.map((source) => {
             var destination = path.join(
                 this.destination,
-                this.fixer.location.basename(source)
+                path.basename(source)
             );
-            if (!is.pathToFile(source) || path.extname(source) != ".svg") {
-                throw new Error(
-                    `expected a direct path to a svg file, ${source} was given.`
-                );
-            }
 
             return { source, destination };
         });

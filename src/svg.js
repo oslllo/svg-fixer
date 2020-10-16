@@ -10,13 +10,13 @@ const Svg = function (path) {
     this.svg2 = Svg2(this.path);
     this.element = this.svg2.toElement();
     this.outerHTML = this.element.outerHTML;
-    this.resized = this._resized();
-    this.original = this._original();
-    this.scale = this._scale();
+    this.resized = this.getResized();
+    this.original = this.getOriginal();
+    this.scale = this.getScale();
 };
 
 Svg.prototype = {
-    _resized: function () {
+    getResized: function () {
         var element = Svg2(this.outerHTML).svg
             .resize({
                 width: 600,
@@ -28,7 +28,7 @@ Svg.prototype = {
 
         return { element, svg2, dimensions };
     },
-    _original: function () {
+    getOriginal: function () {
         var element = this.element.cloneNode(true);
         var dimensions = this.svg2.svg.dimensions();
         var attributes = Object.values(element.attributes).map(function (attribute) {
@@ -37,10 +37,10 @@ Svg.prototype = {
 
         return { element, dimensions, attributes };
     },
-    _scale: function () {
+    getScale: function () {
         return this.original.dimensions.height / this.resized.dimensions.height;
     },
-    _restore: function (outerHTML) {
+    toOriginal: function (outerHTML) {
         var element = Svg2(outerHTML).toElement();
         while (element.attributes.length > 0) {
             element.removeAttribute(element.attributes[0].name);
@@ -59,7 +59,7 @@ Svg.prototype = {
     process: async function () {
         var pngBuffer = await this.resized.svg2.png().toBuffer();
         var traced = await Potrace(pngBuffer, { svgSize: this.scale }).trace();
-        traced = this._restore(traced);
+        traced = this.toOriginal(traced);
 
         return traced;
     },

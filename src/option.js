@@ -37,7 +37,7 @@ Option.prototype = {
     },
     update: function (options) {
         for (var key in options) {
-            if (Object.prototype.hasOwnProperty.call(options, key)) {
+            if (Object.prototype.hasOwnProperty.call(this.data, key)) {
                 this.data[key] = options[key];
             }
         }

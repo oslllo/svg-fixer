@@ -21,48 +21,33 @@ const Location = function (instance, source, destination) {
             throw error.invalidPathError("destination", destination);
         }
     }
-    this.original = {
-        source: source,
-    };
+    this.original = { source };
     var locations = { source, destination };
     for (var location in locations) {
-        locations[location] = this.makeAbsolute(locations[location]);
-        locations[location] = locations[location].replace(/\\/gu, "/");
+        locations[location] = path.resolve(locations[location]).replace(/\\/gu, "/");
     }
-    source = locations.source;
-    source = this.processSource(source);
-    destination = locations.destination;
-    this.source = source;
-    this.destination = destination;
+    this.source = this.process(locations.source);
+    this.destination = locations.destination;
 };
 
 Location.prototype = {
-    basename: function (location) {
-        if (process.platform == "win32") {
-            return path.win32.basename(location);
-        }
-
-        return path.posix.basename(location);
-    },
     exists: function (location) {
         return fs.existsSync(location);
     },
-    makeAbsolute: function (location) {
-        if (!path.isAbsolute(location)) {
-            location = path.resolve(location);
+    process: function (source) {
+        source = [source];
+        if (is.pathToDir(source[0])) {
+            source = fg.sync(
+                path.join(source[0], path.join("/", "*.svg")).replace(/\\/gu, "/")
+            );
         }
-
-        return location;
-    },
-    toGlob: function (location) {
-        return fg.sync(path.join(location, path.join("/", "*.svg")).replace(/\\/gu, "/"));
-    },
-    processSource: function (source) {
-        if (is.pathToDir(source)) {
-            source = this.toGlob(source);
-        } else {
-            source = [source];
-        }
+        source.forEach((svgPath) => {
+            if (!is.pathToFile(svgPath) || path.extname(svgPath) != ".svg") {
+                throw new Error(
+                    `one of the source file paths does not point to a .svg file. ${svgPath}`
+                );
+            }
+        });
 
         return source;
     },
