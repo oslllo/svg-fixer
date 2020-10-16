@@ -35,7 +35,7 @@ describe("test.exceptions", () => {
             });
         });
         it("throws if source file is not a svg file", () => {
-            var source = path.resolve("test/assets/images/svg.png");
+            var source = path.resolve("test/assets/images/svg.png").replace(/\\/gu, "/");
             var destination = path2.fixed.relative;
             assert.isTrue(fs.existsSync(source), "source test image does not exist");
             assert.throws(
