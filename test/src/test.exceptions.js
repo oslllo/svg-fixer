@@ -2,6 +2,7 @@
 
 const path = require("path");
 const fs = require("fs-extra");
+const { isEmptyDir } = require("./");
 const is = require("oslllo-validator");
 const error = require("../../src/error");
 const { SVGFixer, assert, path2 } = require("./helper");
@@ -82,15 +83,31 @@ describe("test.exceptions", () => {
                 );
             });
         });
-        it("does not throw if destination folder does not exist and options.throwIfDestinationDoesNotExist is set to false", () => {
-            var source = path2.single.absolute;
-            var destination = "test/assets/temp-fixed-icons";
-            var options = { throwIfDestinationDoesNotExist: false };
-            assert.doesNotThrow(() => SVGFixer(source, destination, options));
+        describe("if options.throwIfDestinationDoesNotExist is set to false", () => {
+            it("does not throw if destination folder does not exist", () => {
+                var source = path2.single.absolute;
+                var destination = "test/assets/temp-fixed-icons";
+                if (fs.existsSync(destination)) {
+                    fs.removeSync(destination);
+                }
+                var options = { throwIfDestinationDoesNotExist: false };
+                assert.doesNotThrow(() => SVGFixer(source, destination, options));
+            });
+            it("will export svg(s) to destination if it does not exist.", async () => {
+                var source = path2.single.absolute;
+                var destination = "test/assets/temp-fixed-icons";
+                var options = { throwIfDestinationDoesNotExist: false };
+                if (fs.existsSync(destination)) {
+                    fs.removeSync(destination);
+                }
+                assert.isFalse(fs.existsSync(destination));
+                await SVGFixer(source, destination, options).fix();
+                assert.isFalse(isEmptyDir(destination));
+            });
         });
     });
 
-    describe("options", () => {
+    describe("instance options", () => {
         it("throws when you try to get an option key/value that does not exist", () => {
             var instance = SVGFixer(path2.single.absolute, path2.fixed.absolute);
             var options = Object.keys(instance.options.all());
