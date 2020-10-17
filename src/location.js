@@ -19,6 +19,8 @@ const Location = function (instance, source, destination) {
     if (!this.exists(destination)) {
         if (instance.options.get("throwIfDestinationDoesNotExist")) {
             throw error.invalidPathError("destination", destination);
+        } else {
+            fs.mkdirSync(destination);
         }
     }
     this.original = { source };
