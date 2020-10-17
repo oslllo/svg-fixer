@@ -5,7 +5,7 @@ const fs = require("fs-extra");
 const { isEmptyDir } = require("./");
 const is = require("oslllo-validator");
 const error = require("../../src/error");
-const { SVGFixer, assert, path2 } = require("./helper");
+const { SVGFixer, assert, path2, expect } = require("./helper");
 
 describe("test.exceptions", () => {
     /**
@@ -44,6 +44,28 @@ describe("test.exceptions", () => {
                 Error,
                 `one of the source file paths does not point to a .svg file. ${source}`
             );
+        });
+        describe("if source svg is invalid", () => {
+            var source = path
+                .resolve("test/assets/broken-icons/invalid/invalid.svg")
+                .replace(/\\/gu, "/");
+            var destination = path2.fixed.relative;
+            it("rejects if (promise)", function () {
+                return expect(SVGFixer(source, destination).fix()).to.be.rejectedWith(
+                    Error
+                );
+            });
+            it("returns an err if (callback)", function (done) {
+                /**
+                 * @ignore
+                 * @description - Test callback function
+                 */
+                function callback (err) {
+                    assert.isTrue(err instanceof Error);
+                    done();
+                }
+                SVGFixer(source, destination).fix(callback);
+            });
         });
     });
 

@@ -2,6 +2,7 @@
 
 const Option = require("./option");
 const Location = require("./location");
+const is = require("oslllo-validator");
 const Processor = require("./processor");
 
 const SVGFixer = function (source, destination, options = {}) {
@@ -17,11 +18,15 @@ const SVGFixer = function (source, destination, options = {}) {
 };
 
 SVGFixer.prototype = {
-    fix: async function () {
+    fix: function (callback) {
         var processor = new Processor(this);
-        await processor.start();
+        if (is.fn(callback)) {
+            processor.start(callback);
 
-        return this;
+            return this;
+        }
+
+        return processor.start();
     },
 };
 
