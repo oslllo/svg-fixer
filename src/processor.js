@@ -4,6 +4,7 @@ const fs = require("fs");
 const path = require("path");
 const Svg = require("./svg");
 const colors = require("colors");
+const is = require("oslllo-validator");
 const cliprogress = require("cli-progress");
 
 const Processor = function (fixer) {
@@ -18,21 +19,40 @@ const Processor = function (fixer) {
 };
 
 Processor.prototype = {
-    start: async function () {
-        this.setup();
-        var svgs = this.source;
-        svgs = svgs.map((source) => {
-            var destination = path.join(
-                this.destination,
-                path.basename(source)
-            );
+    start: function (callback) {
+        if (is.fn(callback)) {
+            this.pipeline()
+                .then((fixer) => {
+                    callback(null, fixer);
+                })
+                .catch((err) => {
+                    callback(err);
+                });
 
-            return { source, destination };
-        });
-        for (var i = 0; i < svgs.length; i++) {
-            await this.instance(svgs[i]);
+            return this.fixer;
         }
-        this.teardown();
+
+        return this.pipeline();
+    },
+    pipeline: function () {
+        return new Promise(async (resolve, reject) => {
+            try {
+                this.setup();
+                var svgs = this.source;
+                svgs = svgs.map((source) => {
+                    var destination = path.join(this.destination, path.basename(source));
+
+                    return { source, destination };
+                });
+                for (var i = 0; i < svgs.length; i++) {
+                    await this.instance(svgs[i]);
+                }
+                this.teardown();
+                resolve(this.fixer);
+            } catch (err) {
+                reject(err);
+            }
+        });
     },
     setup: function () {
         if (this.progress.show) {

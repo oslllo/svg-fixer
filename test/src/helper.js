@@ -4,7 +4,7 @@ const fs = require("fs");
 const path = require("path");
 const fg = require("fast-glob");
 const SVGFixer = require("../../");
-const { assert } = require("chai");
+const { assert, expect } = require("chai").use(require("chai-as-promised"));
 
 const path2 = (function () {
     var single = {
@@ -51,5 +51,6 @@ module.exports = {
     fg,
     path2,
     assert,
+    expect,
     SVGFixer,
 };
