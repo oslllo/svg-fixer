@@ -42,6 +42,7 @@
     "oslllo-validator": "1.0.1"
   },
   "devDependencies": {
+    "capture-console": "^1.0.1",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
     "coveralls": "^3.1.0",
