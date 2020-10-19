@@ -4,16 +4,12 @@ const { SVGFixer, assert, path2 } = require("./helper");
 
 describe("test.parameters", () => {
     describe("options parameters", () => {
-        it("can set the options parameter", async () => {
+        it("can set the options parameter", () => {
             var options = {
                 showProgressBar: true,
                 throwIfDestinationDoesNotExist: false,
             };
-            var instance = await SVGFixer(
-                path2.direct.absolute,
-                path2.fixed.absolute,
-                options
-            ).fix();
+            var instance = SVGFixer(path2.direct.absolute, path2.fixed.absolute, options);
             var set = instance.options.all();
             var keys = {
                 set: Object.values(set),

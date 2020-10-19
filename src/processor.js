@@ -3,17 +3,12 @@
 const fs = require("fs");
 const path = require("path");
 const Svg = require("./svg");
-const colors = require("colors");
 const is = require("oslllo-validator");
-const cliprogress = require("cli-progress");
+const Progress = require("./progress");
 
 const Processor = function (fixer) {
     this.fixer = fixer;
-    this.progress = {
-        status: 0,
-        bar: undefined,
-        show: this.fixer.options.get("showProgressBar"),
-    };
+    this.progress = undefined;
     this.source = this.fixer.source;
     this.destination = this.fixer.destination;
 };
@@ -55,38 +50,22 @@ Processor.prototype = {
         });
     },
     setup: function () {
-        if (this.progress.show) {
-            process.stdout.write(
-                `${colors.green("Fixing: ")} ${this.fixer.location.original.source}`
+        if (this.fixer.options.get("showProgressBar")) {
+            this.progress = new Progress(
+                this.fixer.location.original.source,
+                this.source.length
             );
-            process.stdout.write("\n");
-            this.progress.bar = new cliprogress.SingleBar(
-                {
-                    format:
-                        `${colors.yellow("Progress")} |` +
-                        colors.yellow("{bar}") +
-                        "| {percentage}% || {value}/{total} Chunks || Speed: {speed}",
-                },
-                cliprogress.Presets.shades_classic
-            );
-            this.progress.bar.start(this.source.length, 0, {
-                speed: "N/A",
-            });
         }
     },
     tick: function (callback) {
-        if (this.progress.show) {
-            this.progress.status++;
-            this.progress.bar.update(this.progress.status);
+        if (is.defined(this.progress)) {
+            this.progress.tick();
         }
         callback();
     },
     teardown: function () {
-        if (this.progress.show) {
-            this.progress.bar.update(this.source.length);
-            this.progress.bar.stop();
-            process.stdout.write(`${colors.green("Done!")}`);
-            process.stdout.write("\n");
+        if (is.defined(this.progress)) {
+            this.progress.stop();
         }
     },
     instance: function ({ source, destination }) {
