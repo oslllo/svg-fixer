@@ -19,7 +19,7 @@ describe("test.progress", () => {
         capcon.stopCapture(process.stdout);
 
         var expected = [
-            "\u001b[32mFixing:\u001b[39m /var/www/html/forks/svg-fixer/test/assets/broken-icons/single/x-square.svg",
+            "\u001b[32mFixing:\u001b[39m " + path2.direct.absolute,
             "\n",
             "\u001b[32mDone!\u001b[39m",
             "\n",
