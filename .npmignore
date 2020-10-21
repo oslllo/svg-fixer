@@ -2,3 +2,4 @@ test
 media
 node_modules
 .travis.yml
+temp
