@@ -19,7 +19,7 @@ describe("test.cli", () => {
         this.timeout(10000); // eslint-disable-line no-invalid-this
         assert.isTrue(isEmptyDir(destination));
         exec(
-            "src/cli.js -s " + path2.direct.relative + " -d " + destination,
+            "node src/cli.js -s " + path2.direct.relative + " -d " + destination,
             (error, stdout, stderr) => {
                 if (error) {
                     done(new Error(`error: ${error.message}`));
@@ -37,7 +37,7 @@ describe("test.cli", () => {
         this.timeout(10000); // eslint-disable-line no-invalid-this
         assert.isTrue(isEmptyDir(destination));
         exec(
-            "src/cli.js -s " + path2.double.relative + " -d " + destination,
+            "node src/cli.js -s " + path2.double.relative + " -d " + destination,
             (error, stdout, stderr) => {
                 if (error) {
                     done(new Error(`error: ${error.message}`));
@@ -55,7 +55,7 @@ describe("test.cli", () => {
         this.timeout(10000); // eslint-disable-line no-invalid-this
         assert.isTrue(isEmptyDir(destination));
         exec(
-            "src/cli.js -s ./invalid/destination -d " + destination,
+            "node src/cli.js -s ./invalid/destination -d " + destination,
             (error, stdout) => {
                 assert.isTrue(error instanceof Error);
                 assert.isTrue(
