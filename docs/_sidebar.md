@@ -7,7 +7,7 @@
         * [`constructor`](#svgfixer-constructor)
         * [`fix()`](#svgfixer-fix)
     * [CLI](getting-started/cli.md)
-        * [Installation] (#installation)
+        * [Installation](#svgfixer-cli-installation)
         * [Usage](#svgfixer-cli-usage)
         * [Exit Codes](#svgfixer-cli-exit-codes)
 

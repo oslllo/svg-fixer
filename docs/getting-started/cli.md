@@ -1,5 +1,7 @@
 # CLI
 
+<a id="svgfixer-cli-installation">
+
 ## Installation
 
 - [`global`](#svgfixer-cli-install-global)
