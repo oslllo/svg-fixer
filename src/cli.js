@@ -7,6 +7,7 @@ const colors = require("colors");
 var argvs = require("yargs/yargs")(process.argv.slice(2)); // eslint-disable-line no-magic-numbers
 
 argvs
+    .usage("\nUsage: oslllo-svg-fixer [source] [destination] [options]")
     .option("source", {
         alias: "s",
         describe: "path containing SVG(s).",
