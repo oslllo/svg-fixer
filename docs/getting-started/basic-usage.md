@@ -111,6 +111,8 @@ async function fix() {
 fix(); // Run function
 ```
 
+<a id="svgfixer-fix-callback"></a>
+
 ### Fix using a `callback`
 
 #### Usage
