@@ -63,7 +63,11 @@ SVGFixer('directory/containing/broken-icon.svg', 'directory/to-store/fixed-svgs'
 
 Used to begin processing/fixing the SVG file(s).
 
-### Usage
+<a id="svgfixer-fix-promise"></a>
+
+### Fix using a `promise`
+
+#### Usage
 
 ```js
 SVGFixer(source, destination, options).fix()
@@ -75,15 +79,15 @@ SVGFixer(source, destination, options).fix()
 });
 ```
 
-### Parameters
+#### Parameters
 
 - `none`
 
-### Returns
+#### Returns
 
 - [**Promise**](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise)
 
-### Examples
+#### Examples
 
 ```js
 SVGFixer('directory/containing/svgs', 'directory/to-store/fixed-svgs').fix()
@@ -93,4 +97,62 @@ SVGFixer('directory/containing/svgs', 'directory/to-store/fixed-svgs').fix()
 .catch((err) => {
     throw err;
 });
+```
+
+```js
+async function fix() {
+    try {
+        await SVGFixer('directory/containing/svgs', 'directory/to-store/fixed-svgs').fix();
+    } catch (err) {
+        throw err;
+    }
+}
+
+fix(); // Run function
+```
+
+### Fix using a `callback`
+
+#### Usage
+
+```js
+SVGFixer(source, destination, options).fix(function (err, fixer) {
+    if (err) {
+        throw err;
+    }
+    console.log("done");
+});
+```
+
+#### Parameters
+
+- `callback` ([**Function**](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function))
+    - `err` ([**Error**](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error)): if something bad happens during processing.
+    - `fixer` ([**SVGFixer**](#svgfixer-constructor) `this`): an instance of `SVGFixer` is provided if no error is thrown.
+
+
+#### Returns
+
+- [**SVGFixer**](#svgfixer-constructor) `this`
+
+#### Examples
+
+```js
+SVGFixer(source, destination, options).fix(function (err, fixer) {
+    if (err) {
+        throw err;
+    }
+    console.log("done");
+});
+```
+
+```js
+function callback (err, fixer) {
+    if (err) {
+        throw err;
+    }
+    console.log("done");
+}
+
+SVGFixer(source, destination, options).fix(callback);
 ```
