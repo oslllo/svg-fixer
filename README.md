@@ -12,6 +12,10 @@ Attempts to fix your svg by turning it into a fill / single path (and making it 
 
 ---
 
+![Strokes To Files Demo](docs/images/demo.gif)
+
+---
+
 ## Documentation, Installation, and Usage Instructions
 
 See the full installation and usage documentation [HERE](https://docs.oslllo.com/svg-fixer/master/).

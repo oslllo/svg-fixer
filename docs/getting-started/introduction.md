@@ -6,6 +6,12 @@
 [![npm](https://img.shields.io/npm/v/oslllo-svg-fixer)](https://www.npmjs.com/package/oslllo-svg-fixer)
 [![Coveralls github](https://img.shields.io/coveralls/github/oslllo/svg-fixer)](https://coveralls.io/github/oslllo/svg-fixer)
 
+---
+
+![Strokes To Files Demo](../images/demo.gif)
+
+---
+
 ### The Objective
 
 I wanted to convert some `svg icons` to `fonts` using tools like [icomoon.io](https://icomoon.io/app/#/select), [fontello.com](http://fontello.com) and [webfont](https://www.npmjs.com/package/webfont)
