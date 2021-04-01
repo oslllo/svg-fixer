@@ -2,7 +2,7 @@
 
 ![Cover Image](docs/images/cover.png)
 
-[![Travis (.org)](https://img.shields.io/travis/oslllo/svg-fixer)](https://travis-ci.com/github/oslllo/svg-fixer)
+[![CI/Test](https://github.com/oslllo/svg-fixer/actions/workflows/ci.test.yml/badge.svg)](https://github.com/oslllo/svg-fixer/actions/workflows/ci.test.yml)
 [![npm](https://img.shields.io/npm/v/oslllo-svg-fixer)](https://www.npmjs.com/package/oslllo-svg-fixer)
 [![Coveralls github](https://img.shields.io/coveralls/github/oslllo/svg-fixer)](https://coveralls.io/github/oslllo/svg-fixer)
 
@@ -63,12 +63,14 @@ stroke-linejoin="round">
 
 When we try to convert this `SVG` into a font using one of these `SVG To Font` conversion tools we get the following errors.
 
-| [icomoon.io](https://icomoon.io/app/#/select) error | [fontello.com](http://fontello.com) error | [webfont](https://www.npmjs.com/package/webfont) error |
-|---------------------------|------------------------------|------------------------------|
+| [icomoon.io](https://icomoon.io/app/#/select) error                              | [fontello.com](http://fontello.com) error                                           | [webfont](https://www.npmjs.com/package/webfont) error                           |
+| -------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
 | [![Icomoon Error](docs/images/icomoon-error.png)](docs/images/icomoon-error.png) | [![Fontello Error](docs/images/fontello-error.png)](docs/images/fontello-error.png) | [![Webfont Error](docs/images/webfont-error.png)](docs/images/webfont-error.png) |
 
 <!-- ### WHAT HAPPENDS IF WE IGNORE THESE ERRORS? -->
+
 ### Ignoring The Errors
+
 <!-- ### What Happends If We Ignore These Errors? -->
 
 What happends if you ignore these errors? well, the font pack with the icon(s) will come out `"corrupt/incorrect"`, `different than expected` or `not even render at all` (blank).
@@ -77,9 +79,9 @@ What happends if you ignore these errors? well, the font pack with the icon(s) w
 
 > The icon not showning up or rendering in the font pack when we ignore the errors and just create the font anyway.
 
-| [icomoon.io](https://icomoon.io/app/#/select) blank | [fontello.com](http://fontello.com)  blank | [webfont](https://www.npmjs.com/package/webfont) blank <small style="color: #9a9a9a">using [fontdrop.info](https://fontdrop.info) to preview the font</small> |
-|---------------------------|------------------------------|------------------------------|
-| [![Icomoon Blank](docs/images/icomoon-blank.png)](docs/images/icomoon-blank.png) | [![Fontello Blank](docs/images/fontello-blank.png)](docs/images/fontello-blank.png) | [![Webfont Blank](docs/images/webfont-blank.png)](docs/images/webfont-blank.png) |
+| [icomoon.io](https://icomoon.io/app/#/select) blank                              | [fontello.com](http://fontello.com) blank                                           | [webfont](https://www.npmjs.com/package/webfont) blank <small style="color: #9a9a9a">using [fontdrop.info](https://fontdrop.info) to preview the font</small> |
+| -------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [![Icomoon Blank](docs/images/icomoon-blank.png)](docs/images/icomoon-blank.png) | [![Fontello Blank](docs/images/fontello-blank.png)](docs/images/fontello-blank.png) | [![Webfont Blank](docs/images/webfont-blank.png)](docs/images/webfont-blank.png)                                                                              |
 
 ### The Solution
 
@@ -89,9 +91,9 @@ I created this `package` to solve this issue, now you can `"fix"` svg icons to m
 
 The icon in a font pack after we run it through [`SVGFixer()`](https://github.com/oslllo/svg-fixer).
 
-| [icomoon.io](https://icomoon.io/app/#/select) fixed | [fontello.com](http://fontello.com)  fixed | [webfont](https://www.npmjs.com/package/webfont) fixed <small style="color: #9a9a9a">using [fontdrop.info](https://fontdrop.info) to preview the font</small> |
-|---------------------------|------------------------------|------------------------------|
-| [![Icomoon Fixed](docs/images/icomoon-fixed.png)](docs/images/icomoon-fixed.png) | [![Fontello Fixed](docs/images/fontello-fixed.png)](docs/images/fontello-fixed.png) | [![Webfont Fixed](docs/images/webfont-fixed.png)](docs/images/webfont-fixed.png) |
+| [icomoon.io](https://icomoon.io/app/#/select) fixed                              | [fontello.com](http://fontello.com) fixed                                           | [webfont](https://www.npmjs.com/package/webfont) fixed <small style="color: #9a9a9a">using [fontdrop.info](https://fontdrop.info) to preview the font</small> |
+| -------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [![Icomoon Fixed](docs/images/icomoon-fixed.png)](docs/images/icomoon-fixed.png) | [![Fontello Fixed](docs/images/fontello-fixed.png)](docs/images/fontello-fixed.png) | [![Webfont Fixed](docs/images/webfont-fixed.png)](docs/images/webfont-fixed.png)                                                                              |
 
 ---
 
@@ -102,4 +104,3 @@ The icon in a font pack after we run it through [`SVGFixer()`](https://github.co
 ```
 
 ---
-

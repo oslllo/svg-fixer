@@ -11,7 +11,7 @@
   "scripts": {
     "debug": "node scripts/debug.js",
     "test": "nyc mocha test/main.test.js && mocha test/output.test.js",
-    "coverage": "nyc report --reporter=text-lcov | coveralls"
+    "coverage": "node_modules/.bin/nyc report --reporter=lcovonly"
   },
   "repository": {
     "type": "git",
