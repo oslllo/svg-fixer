@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.3] - 2021/4/1
+
+### Fixed
+
+- Fixed vulnerability.
+
+### Updated
+
+- Updated dependencies.
+
 ## [1.1.2] - 2020/12/12
 
 ### Fixed
@@ -59,15 +69,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Breaking Changes
 
-- `svgfixer.fix(source, destination, options)` ***=>*** `SVGFixer(source, destination, options).fix()`.
-    - It was changed from a wrapper function to a method function for `SVGFixer`.
-    - It still returns a `Promise`.
-    - `fix()` no more takes in `parameters`, those should be passed into `SVGFixer()`.
-- `svgfixer.SVGFixer()` class ***=>*** `SVGFixer()`.
-    - The `.setOptions(options)` method has been removed, `options` should now be passed in class constructor as the 3rd `parameter`.
-    - The `.setSourceAndDest()` method has been removed, `source` and `destination` should now be passed in class constructor as the 1st and 2nd `parameters`.
-    - The `.process()` method has been removed, use `.fix()` instead.
-    - `SVGFixer()` does not require the [`new`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/new) operator anymore.
+- `svgfixer.fix(source, destination, options)` **_=>_** `SVGFixer(source, destination, options).fix()`.
+  - It was changed from a wrapper function to a method function for `SVGFixer`.
+  - It still returns a `Promise`.
+  - `fix()` no more takes in `parameters`, those should be passed into `SVGFixer()`.
+- `svgfixer.SVGFixer()` class **_=>_** `SVGFixer()`.
+  - The `.setOptions(options)` method has been removed, `options` should now be passed in class constructor as the 3rd `parameter`.
+  - The `.setSourceAndDest()` method has been removed, `source` and `destination` should now be passed in class constructor as the 1st and 2nd `parameters`.
+  - The `.process()` method has been removed, use `.fix()` instead.
+  - `SVGFixer()` does not require the [`new`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/new) operator anymore.
 - `fixConcurrency` has been removed, might be reimplemented on later versions.
 
 ### Changed
@@ -140,13 +150,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added new tests
 - Added an perfomance increase by ~67%
 
-    |Version|completion (%)|Time (seconds)|Number of SVGs fixed|
-    |------|------|-----|-----|
-    |v0.4.0|100.00|~ 127|1315|
-    |v0.3.3|100.00|~ 190|1315|
-    |-|-|-|-|
-    |**VPS**|**CPU**|**RAM**|||
-    ||Intel(R) Xeon(R) E5-1650 v3 3.50GHz (2x) | 1548MiB|||
+  | Version | completion (%)                           | Time (seconds) | Number of SVGs fixed |
+  | ------- | ---------------------------------------- | -------------- | -------------------- | --- |
+  | v0.4.0  | 100.00                                   | ~ 127          | 1315                 |
+  | v0.3.3  | 100.00                                   | ~ 190          | 1315                 |
+  | -       | -                                        | -              | -                    |
+  | **VPS** | **CPU**                                  | **RAM**        |                      |     |
+  |         | Intel(R) Xeon(R) E5-1650 v3 3.50GHz (2x) | 1548MiB        |                      |     |
 
 ### Fixed
 
