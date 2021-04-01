@@ -18,14 +18,13 @@ describe("test.progress", () => {
 
         capcon.stopCapture(process.stdout);
 
-        var expected = [
-            "\u001b[32mFixing:\u001b[39m " + path2.direct.absolute,
-            "\n",
-            "\u001b[32mDone!\u001b[39m",
-            "\n",
-        ];
+        var expected = ["Fixing:", path2.direct.absolute, "Done!"];
 
-        assert.deepEqual(output, expected);
+        output = output.join(" ");
+
+        expected.forEach((value) => {
+            assert.isTrue(output.includes(value));
+        });
     });
     it("does not show progress bar if showProgressBar is set to false", async () => {
         var output = [];
