@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+### [1.2.1](https://www.github.com/oslllo/svg-fixer/compare/v1.2.0...v1.2.1) (2021-05-06)
+
+
+### Bug Fixes
+
+* drop yargs version to 16 ([7b4d9cc](https://www.github.com/oslllo/svg-fixer/commit/7b4d9ccb563027b24aefe59d394848b8937067b9))
+* package breaking when process.env.NODE_ENV env variable is set ([51c6318](https://www.github.com/oslllo/svg-fixer/commit/51c6318340b97d6840ab7d2c499c77aff27b6f10))
+
 ## [1.2.0] - 2021/4/1
 
 ### Fixed
