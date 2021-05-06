@@ -44,7 +44,7 @@
     "fast-glob": "^3.2.5",
     "oslllo-potrace": "^1.1.2",
     "oslllo-svg2": "^0.2.3",
-    "oslllo-validator": "1.1.1",
+    "oslllo-validator": "^2.0.0",
     "yargs": "^16.2.0"
   },
   "devDependencies": {
