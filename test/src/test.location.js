@@ -6,4 +6,4 @@ const { SVGFixer, assert, path2 } = require("./helper");
 
 describe("test.location", () => {
 
-})
+});

@@ -10,6 +10,8 @@
   ],
   "scripts": {
     "debug": "node scripts/debug.js",
+    "lint": "node_modules/.bin/eslint --src test ./",
+    "lint:fix": "node_modules/.bin/eslint --fix src test ./",
     "test": "nyc mocha test/main.test.js && mocha test/output.test.js",
     "coverage": "node_modules/.bin/nyc report --reporter=lcovonly"
   },
