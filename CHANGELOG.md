@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.3.0](https://www.github.com/oslllo/svg-fixer/compare/v1.2.1...v1.3.0) (2021-05-15)
+
+
+### Features
+
+* add support for svgs with light colored fill ([#45](https://www.github.com/oslllo/svg-fixer/issues/45)) ([47aa95d](https://www.github.com/oslllo/svg-fixer/commit/47aa95da9e7054b84f3b2d36528784c5dbe6663d))
+
+
+### Bug Fixes
+
+* **eslint:** script error ([d34780e](https://www.github.com/oslllo/svg-fixer/commit/d34780e1db64d350695f5be7c4713136f9c66331))
+
 ### [1.2.1](https://www.github.com/oslllo/svg-fixer/compare/v1.2.0...v1.2.1) (2021-05-06)
 
 
