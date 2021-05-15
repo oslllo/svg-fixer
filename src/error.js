@@ -10,9 +10,9 @@
  * @private
  */
 const invalidParameterError = function (name, expected, actual) {
-    return new TypeError(
-        `Expected <${expected}> for [${name}] but received ${actual} of type <${typeof actual}>`
-    );
+  return new TypeError(
+    `Expected <${expected}> for [${name}] but received ${actual} of type <${typeof actual}>`
+  );
 };
 
 /**
@@ -24,10 +24,10 @@ const invalidParameterError = function (name, expected, actual) {
  * @private
  */
 const invalidPathError = function (name, path) {
-    return new TypeError(`${name} path ${path} does not exist.`);
+  return new TypeError(`${name} path ${path} does not exist.`);
 };
 
 module.exports = {
-    invalidPathError: invalidPathError,
-    invalidParameterError: invalidParameterError,
+  invalidPathError: invalidPathError,
+  invalidParameterError: invalidParameterError,
 };
