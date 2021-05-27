@@ -11,23 +11,27 @@ const Svg = function (path) {
   this.svg2 = Svg2(this.path);
   this.element = this.svg2.toElement();
   this.outerHTML = this.element.outerHTML;
-  this.resized = this.getResized();
   this.original = this.getOriginal();
+  this.resized = this.getResized();
   this.scale = this.getScale();
 };
 
 Svg.prototype = {
   getResized: function () {
-    var element = Svg2(this.outerHTML)
-      .svg.resize({
-        width: 600,
-        height: Svg2.AUTO,
-      })
-      .toElement();
+    var element = Svg2(this.outerHTML).svg.resize(this.getResizeDimensions()).toElement();
     var svg2 = Svg2(element.outerHTML);
     var dimensions = svg2.svg.dimensions();
 
     return { element, svg2, dimensions };
+  },
+  getResizeDimensions() {
+    const width = 600;
+    const dimensions = {
+      width: width,
+      height: (width / this.original.dimensions.width) * this.original.dimensions.height,
+    };
+
+    return dimensions;
   },
   getOriginal: function () {
     var element = this.element.cloneNode(true);
@@ -37,7 +41,7 @@ Svg.prototype = {
     return { element, dimensions, attributes };
   },
   getScale: function () {
-    return this.original.dimensions.height / this.resized.dimensions.height;
+    return this.original.dimensions.width / this.resized.dimensions.width;
   },
   getFirstPathElement(element) {
     return element.getElementsByTagName("path")[0];
