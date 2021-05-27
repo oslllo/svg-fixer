@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+### [1.3.1](https://www.github.com/oslllo/svg-fixer/compare/v1.3.0...v1.3.1) (2021-05-27)
+
+
+### Bug Fixes
+
+* output svg being smaller than viewBox ([#48](https://www.github.com/oslllo/svg-fixer/issues/48)) ([f658614](https://www.github.com/oslllo/svg-fixer/commit/f65861448802b9b7c6cd6c889207b5f1a7c66592))
+
 ## [1.3.0](https://www.github.com/oslllo/svg-fixer/compare/v1.2.1...v1.3.0) (2021-05-15)
 
 
