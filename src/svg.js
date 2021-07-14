@@ -100,9 +100,27 @@ Svg.prototype = {
       });
 
       if (!this.filled) {
-        element.setAttribute("fill", "black");
+        const pathColor = this.getPathStyleFillColor();
+        const fill = pathColor ? pathColor : "black";
+        element.setAttribute("fill", fill);
       }
     }
+  },
+  getPathStyleFillColor() {
+    var path = this.getFirstPathElement(this.original.element);
+    var style = path.getAttribute("style");
+    if (!style) {
+      return false;
+    }
+    var fill = style.split(";").find((e) => e.includes("fill:"));
+    if (fill && !fill.includes("none")) {
+      const splits = fill.split(":");
+
+      // eslint-disable-next-line no-magic-numbers
+      return splits[splits.length - 1];
+    }
+
+    return false;
   },
   toOriginal: function (outerHTML) {
     var element = Svg2(outerHTML).toElement();
