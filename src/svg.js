@@ -142,6 +142,9 @@ Svg.prototype = {
   },
   process: async function () {
     var element = this.checkFillState(this.resized.element.cloneNode(true));
+    if (!element.getAttribute("viewBox")) {
+      element.setAttribute("viewBox", `0 0 ${this.original.dimensions.width} ${this.original.dimensions.height}`);
+    }
     var pngBuffer = await Svg2(element.outerHTML).png({ transparent: false }).toBuffer();
     var traced = await Potrace(pngBuffer, { svgSize: this.scale }).trace();
     traced = this.toOriginal(traced);
