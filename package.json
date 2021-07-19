@@ -44,7 +44,7 @@
   "dependencies": {
     "cli-progress": "^3.9.0",
     "colors": "^1.4.0",
-    "fast-glob": "^3.2.5",
+    "fast-glob": "^3.2.6",
     "oslllo-potrace": "^1.1.3",
     "oslllo-svg2": "^0.3.0",
     "oslllo-validator": "^2.0.0",
