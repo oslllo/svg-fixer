@@ -42,7 +42,7 @@
   },
   "homepage": "https://docs.oslllo.com/svg-fixer/master",
   "dependencies": {
-    "cli-progress": "^3.9.0",
+    "cli-progress": "^3.10.0",
     "colors": "^1.4.0",
     "fast-glob": "^3.2.7",
     "oslllo-potrace": "^1.1.4",
