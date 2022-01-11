@@ -43,7 +43,7 @@
   "homepage": "https://docs.oslllo.com/svg-fixer/master",
   "dependencies": {
     "cli-progress": "^3.10.0",
-    "colors": "1.4.0",
+    "ansi-colors": "^4.1.1",
     "fast-glob": "^3.2.7",
     "oslllo-potrace": "^1.1.4",
     "oslllo-svg2": "^0.3.1",

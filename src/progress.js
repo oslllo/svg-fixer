@@ -1,6 +1,6 @@
 "use strict";
 
-const colors = require("colors");
+const colors = require("ansi-colors");
 const cliprogress = require("cli-progress");
 
 const Progress = function (source, max) {
