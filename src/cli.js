@@ -3,7 +3,7 @@
 "use strict";
 
 const SVGFixer = require("../");
-const colors = require("colors");
+const colors = require("ansi-colors");
 var argvs = require("yargs/yargs")(process.argv.slice(2)); // eslint-disable-line no-magic-numbers
 
 argvs
