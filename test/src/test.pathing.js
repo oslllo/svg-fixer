@@ -20,14 +20,12 @@ describe("test.pathing", () => {
   var pathtest = function (source, destination, type, directory) {
     describe(`${directory} (directory/file) => ${type}`, () => {
       var spacer = "        ";
-      it(`can fix and store SVGs with (${type}) pathing. \n ${spacer} | source: ${source} \n ${spacer} | destination: ${destination}`, async () => {
+      it("emptied directory", async () => {
         emptyDir(path2.fixed.relative);
-        assert.equal(
-          fs.readdirSync(destination).length,
-          0,
-          "destination directory is not empty"
-        );
+        assert.equal(fs.readdirSync(destination).length, 0, "destination directory is not empty");
         await SVGFixer(source, destination).fix();
+      });
+      it(`can fix and store SVGs with (${type}) pathing. \n ${spacer} | source: ${source} \n ${spacer} | destination: ${destination}`, () => {
         assert.equal(
           fs.readdirSync(destination).length,
           fs.lstatSync(source).isFile() ? 1 : fs.readdirSync(source).length,

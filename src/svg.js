@@ -51,7 +51,7 @@ Svg.prototype = {
       /**
        * Ignore <path></path> "d" attribute.
        */
-      if (attribute.name !== "d") {
+      if (attribute && attribute.name && attribute.name !== "d") {
         return { name: attribute.name, value: attribute.value };
       }
 

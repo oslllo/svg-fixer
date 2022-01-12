@@ -27,7 +27,7 @@ describe("test.attributes", () => {
        * @param {SVGSVGElement} element
        * @returns {Object}
        */
-      function getElementAttributes (element) {
+      function getElementAttributes(element) {
         return Array.prototype.slice.call(element.attributes).map((attribute) => {
           var value = {};
           value[attribute.nodeName] = attribute.nodeValue;
