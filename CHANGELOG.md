@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.0](https://www.github.com/oslllo/svg-fixer/compare/v1.4.1...v2.0.0) (2022-01-12)
+
+
+### Bug Fixes
+
+* **security:** audit fix ([6047ad8](https://www.github.com/oslllo/svg-fixer/commit/6047ad88645d9f4cb251ca9bac04f278c902aa85))
+
+
+### Miscellaneous Chores
+
+* release 2.0.0 ([7abe789](https://www.github.com/oslllo/svg-fixer/commit/7abe789afc9ba6ff04c4f32a284561cf497f0c48))
+
 ### [1.4.1](https://www.github.com/oslllo/svg-fixer/compare/v1.4.0...v1.4.1) (2021-09-05)
 
 
