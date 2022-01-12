@@ -47,40 +47,48 @@ function isEmptyDir(dir) {
 function brokenAndFixedSvgsMatch(brokenSvgPath, fixedSvgPath) {
   return new Promise(async (resolve, reject) => {
     var resize = { width: 250, height: Svg2.AUTO };
+
     var buffers = await Promise.all(
       [brokenSvgPath, fixedSvgPath].map(function (svgPath) {
         if (path.extname(svgPath) == ".svg") {
-          return Svg2(svgPath).svg.resize(resize).extend(20).png({ transparent: false }).toBuffer();
+          return Svg2(svgPath).svg.resize(resize).extend(30).png({ transparent: false }).toBuffer();
         }
 
         return fs.readFileSync(svgPath);
       })
     );
-    looksame(buffers[0], buffers[1], { strict: false, tolerance: 3.5 }, (err, results) => {
-      if (err) {
-        reject(err);
-      } else {
-        looksame.createDiff(
-          {
-            reference: buffers[0],
-            current: buffers[1],
-            highlightColor: "#ff00ff",
-            strict: false,
-            tolerance: 3.5,
-          },
-          (error, diff) => {
-            if (error) {
-              reject(error);
-            } else {
-              resolve({
-                equal: results.equal,
-                buffer: { broken: buffers[0], fixed: buffers[1], diff: diff },
-              });
+    var tolerance = 3.5;
+    if (brokenSvgPath.includes("sparkles-outline")) {
+      tolerance = 7;
+    }
+    looksame(
+      buffers[0],
+      buffers[1],
+      { strict: false, tolerance: tolerance, ignoreAntialiasing: true },
+      (err, results) => {
+        if (err) {
+          reject(err);
+        } else {
+          looksame.createDiff(
+            {
+              reference: buffers[0],
+              current: buffers[1],
+              highlightColor: "#ff00ff",
+            },
+            (error, diff) => {
+              if (error) {
+                reject(error);
+              } else {
+                resolve({
+                  equal: results.equal,
+                  buffer: { broken: buffers[0], fixed: buffers[1], diff: diff },
+                });
+              }
             }
-          }
-        );
+          );
+        }
       }
-    });
+    );
   });
 }
 
