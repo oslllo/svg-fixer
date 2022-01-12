@@ -14,11 +14,14 @@ describe("test.progress", () => {
       showProgressBar: true,
     };
 
-    await SVGFixer(path2.direct.absolute, path2.fixed.absolute, options).fix();
+    const source = path2.single.absolute;
+    const destination = path2.fixed.absolute;
+
+    await SVGFixer(source, destination, options).fix();
 
     capcon.stopCapture(process.stdout);
 
-    var expected = ["Fixing:", path2.direct.absolute, "Done!"];
+    var expected = ["Fixing:", source, "Done!"];
 
     output = output.join(" ");
 
@@ -36,7 +39,10 @@ describe("test.progress", () => {
       showProgressBar: false,
     };
 
-    await SVGFixer(path2.direct.absolute, path2.fixed.absolute, options).fix();
+    const source = path2.single.absolute;
+    const destination = path2.fixed.absolute;
+
+    await SVGFixer(source, destination, options).fix();
 
     capcon.stopCapture(process.stdout);
 
