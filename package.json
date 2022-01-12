@@ -48,7 +48,7 @@
     "oslllo-potrace": "^2.0.0",
     "oslllo-svg2": "^1.0.0",
     "oslllo-validator": "^3.0.0",
-    "yargs": "^17.3.1"
+    "yargs": "^16.2.0"
   },
   "devDependencies": {
     "capture-console": "^1.0.1",
