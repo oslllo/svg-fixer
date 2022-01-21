@@ -47,10 +47,23 @@ const path2 = (function () {
   };
 })();
 
+const hookStream = function(_stream, fn) {
+  // Reference default write method
+  var old_write = _stream.write;
+  // _stream now write with our shiny function
+  _stream.write = fn;
+
+  return function() {
+    // reset to the default write method
+    _stream.write = old_write;
+  };
+};
+
 module.exports = {
   fg,
   path2,
   assert,
   expect,
   SVGFixer,
+  hookStream
 };
