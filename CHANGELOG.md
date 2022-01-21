@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+### [2.0.2](https://www.github.com/oslllo/svg-fixer/compare/v2.0.1...v2.0.2) (2022-01-21)
+
+
+### Bug Fixes
+
+* **actions:** disable fail-fast ([f296efd](https://www.github.com/oslllo/svg-fixer/commit/f296efd02b46ab2dc35368202c3ce2397dc52355))
+* **test:** exclude win32 in test.progress because actions is broken ([b49b8a3](https://www.github.com/oslllo/svg-fixer/commit/b49b8a38cd103724dae2d37cbaea9025274b8eb4))
+* **test:** failing progress test ([4336457](https://www.github.com/oslllo/svg-fixer/commit/43364579e8170e019a39c86e5db731fca283063f))
+
 ### [2.0.1](https://www.github.com/oslllo/svg-fixer/compare/v2.0.0...v2.0.1) (2022-01-21)
 
 
