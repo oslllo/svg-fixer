@@ -46,7 +46,7 @@
     "cli-progress": "^3.10.0",
     "fast-glob": "^3.2.10",
     "oslllo-potrace": "^2.0.0",
-    "oslllo-svg2": "^1.0.0",
+    "oslllo-svg2": "^2.0.0",
     "oslllo-validator": "^3.0.0",
     "yargs": "^16.2.0"
   },
