@@ -7,15 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [2.0.0](https://www.github.com/oslllo/svg-fixer/compare/v1.4.1...v2.0.0) (2022-01-12)
 
+This version did not break the api so upgrading from `< v0.3.1` without any changes should be fine. The reason for the major version change is just in case something did break.
 
-### Bug Fixes
+### Changed
 
-* **security:** audit fix ([6047ad8](https://www.github.com/oslllo/svg-fixer/commit/6047ad88645d9f4cb251ca9bac04f278c902aa85))
+- Removed `Canvas & JSDOM` to fix very slow `npm install` cycles.
+- Switched from `Canvas` to `svg2png-wasm`.
 
+### Updated
 
-### Miscellaneous Chores
+- Updated dependencies
 
-* release 2.0.0 ([7abe789](https://www.github.com/oslllo/svg-fixer/commit/7abe789afc9ba6ff04c4f32a284561cf497f0c48))
 
 ### [1.4.1](https://www.github.com/oslllo/svg-fixer/compare/v1.4.0...v1.4.1) (2021-09-05)
 
