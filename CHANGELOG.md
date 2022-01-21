@@ -8,9 +8,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### [2.0.1](https://www.github.com/oslllo/svg-fixer/compare/v2.0.0...v2.0.1) (2022-01-21)
 
 
-### Bug Fixes
+### Refactor
 
-* **changelog:** correct v2.0.0 notes ([65f22f0](https://www.github.com/oslllo/svg-fixer/commit/65f22f0d44fbc097a4c0fc3e5a792c5559c5a071))
+- improve perfomance ([3b310aa](https://github.com/oslllo/svg-fixer/commit/3b310aaf3bf39f47b0bb56a722f03d40ad6a1b31))
 
 ## [2.0.0](https://www.github.com/oslllo/svg-fixer/compare/v1.4.1...v2.0.0) (2022-01-12)
 
