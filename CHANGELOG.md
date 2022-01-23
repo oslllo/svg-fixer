@@ -14,7 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [2.0.0](https://www.github.com/oslllo/svg-fixer/compare/v1.4.1...v2.0.0) (2022-01-12)
 
-This version did not break the api so upgrading from `< v0.3.1` without any changes should be fine. The reason for the major version change is just in case something did break.
+This version did not break the api so upgrading from `v1.0.0` without any changes should be fine. The reason for the major version change is just in case something did break.
 
 ### Changed
 
