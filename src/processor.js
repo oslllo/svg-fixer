@@ -71,7 +71,8 @@ Processor.prototype = {
   instance: function ({ source, destination }) {
     return new Promise(async (resolve, reject) => {
       try {
-        var svg = new Svg(source);
+        var resolution = this.fixer.options.get("traceResolution");
+        var svg = new Svg(source, resolution);
         var fixed = await svg.process();
         fs.writeFileSync(destination, fixed);
         this.tick(() => resolve());

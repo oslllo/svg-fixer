@@ -8,6 +8,7 @@ describe("test.parameters", () => {
       var options = {
         showProgressBar: true,
         throwIfDestinationDoesNotExist: false,
+        traceResolution: 600,
       };
       var instance = SVGFixer(path2.direct.absolute, path2.fixed.absolute, options);
       var set = instance.options.all();
@@ -26,6 +27,7 @@ describe("test.parameters", () => {
       var valid = {
         showProgressBar: false,
         throwIfDestinationDoesNotExist: true,
+        traceResolution: 600,
       };
       var invalid = {
         invalidoptions: true,

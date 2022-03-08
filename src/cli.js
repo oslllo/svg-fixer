@@ -32,6 +32,12 @@ argvs
     default: true,
     type: "boolean",
   })
+  .option("trace-resolution", {
+    alias: "tr",
+    describe: "resolution of trace image: larger == higher quality and slower processing",
+    default: 600,
+    type: "number",
+  })
   .help();
 
 argvs = argvs.argv;
@@ -41,6 +47,7 @@ const destination = argvs["destination"]; // eslint-disable-line dot-notation
 const options = {
   showProgressBar: argvs["show-progress"],
   throwIfDestinationDoesNotExist: argvs["strict-destination"],
+  traceResolution: argvs["trace-resolution"],
 };
 
 (async () => {
