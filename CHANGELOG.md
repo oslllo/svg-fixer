@@ -5,7 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-### [2.0.1](https://www.github.com/oslllo/svg-fixer/compare/v2.0.0...v2.0.1) (2022-01-21)
+## [2.1.0](https://www.github.com/oslllo/svg-fixer/compare/v2.0.1...v2.1.1) (2022-03-8)
+
+### Added
+
+- add configurable trace resolution ([#72](https://github.com/oslllo/svg-fixer/pull/72))
+
+### Updated
+
+- Updated dependencies
+
+## [2.0.1](https://www.github.com/oslllo/svg-fixer/compare/v2.0.0...v2.0.1) (2022-01-21)
 
 
 ### Refactor
@@ -26,7 +36,7 @@ This version did not break the api so upgrading from `v1.0.0` without any change
 - Updated dependencies
 
 
-### [1.4.1](https://www.github.com/oslllo/svg-fixer/compare/v1.4.0...v1.4.1) (2021-09-05)
+## [1.4.1](https://www.github.com/oslllo/svg-fixer/compare/v1.4.0...v1.4.1) (2021-09-05)
 
 
 ### Bug Fixes
