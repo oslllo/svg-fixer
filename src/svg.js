@@ -3,9 +3,10 @@
 const Svg2 = require("oslllo-svg2");
 const Potrace = require("oslllo-potrace");
 
-const Svg = function (path) {
+const Svg = function (path, traceResolution) {
   this.filled = false;
   this.path = path;
+  this.traceResolution = traceResolution;
   this.png = new Object();
   this.resized = new Object();
   this.svg2 = Svg2(this.path);
@@ -25,13 +26,12 @@ Svg.prototype = {
     return { element, svg2, dimensions };
   },
   getResizeDimensions() {
-    const width = 600;
-    const dimensions = {
+    const width = this.traceResolution;
+
+    return {
       width: width,
       height: (width / this.original.dimensions.width) * this.original.dimensions.height,
     };
-
-    return dimensions;
   },
   getOriginal: function () {
     var element = this.element.cloneNode(true);

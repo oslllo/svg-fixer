@@ -54,6 +54,12 @@ var questions = [
     message: "Throw if destination does not exist?",
     default: "Y",
   },
+  {
+    type: "input",
+    name: "traceResolution",
+    message: "Enter the resolution of the trace image",
+    default: 600,
+  },
 ];
 
 inquirer.prompt(questions).then(async (answers) => {
@@ -68,6 +74,7 @@ inquirer.prompt(questions).then(async (answers) => {
   var options = {
     showProgressBar: answers.showProgressBar,
     throwIfDestinationDoesNotExist: answers.throwIfDestinationDoesNotExist,
+    traceResolution: answers.traceResolution,
   };
   var stopwatch;
   fs.emptyDirSync(destination);

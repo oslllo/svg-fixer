@@ -30,6 +30,7 @@ SVGFixer(source, destination, options);
 - `options` ([**Object**](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)): fixer option parameters.
     - `throwIfDestinationDoesNotExist` ([**Boolean**](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)): throw `TypeError` if destination path does not exist. **default(true)**
     - `showProgressBar` ([**Boolean**](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)) : show progress bar in CLI. **default(false)**
+    - `traceResolution` ([**Number**](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)) : resolution of the image to trace to create the new SVG.  Larger number is higher quality and slower processing.  **default(600)**
 
 ### Throws
 
@@ -50,7 +51,7 @@ var options = {
 
 SVGFixer('directory/containing/svgs', 'directory/to-store/fixed-svgs', options); // Returns instance
 
-// Or with a path that points directly so a single file.
+// Or with a path that points directly to a single file.
 
 SVGFixer('directory/containing/broken-icon.svg', 'directory/to-store/fixed-svgs', options); // Returns instance
 ```
