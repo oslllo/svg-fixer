@@ -42,12 +42,12 @@
   },
   "homepage": "https://docs.oslllo.com/svg-fixer/master",
   "dependencies": {
-    "ansi-colors": "^4.1.1",
-    "cli-progress": "^3.11.0",
+    "ansi-colors": "^4.1.3",
+    "cli-progress": "^3.11.2",
     "fast-glob": "^3.2.11",
-    "oslllo-potrace": "^2.0.0",
-    "oslllo-svg2": "^2.0.1",
-    "oslllo-validator": "^3.0.0",
+    "oslllo-potrace": "^2.0.1",
+    "oslllo-svg2": "^2.0.2",
+    "oslllo-validator": "^3.1.0",
     "yargs": "^16.2.0"
   },
   "devDependencies": {
