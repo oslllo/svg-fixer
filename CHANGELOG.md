@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.2.0](https://www.github.com/oslllo/svg-fixer/compare/v2.1.2...v2.2.0) (2022-10-19)
+
+
+### Features
+
+* closes [#82](https://www.github.com/oslllo/svg-fixer/issues/82) - fix negative viewBox min-x min-y bug ([b64aa75](https://www.github.com/oslllo/svg-fixer/commit/b64aa75b4ea8d3b7a0378cc1f9ce27c92b4f606f))
+
 ### [2.1.2](https://www.github.com/oslllo/svg-fixer/compare/v2.1.0...v2.1.2) (2022-07-16)
 
 
