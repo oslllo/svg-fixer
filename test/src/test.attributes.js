@@ -27,16 +27,30 @@ describe("test.attributes", () => {
        * @param {SVGSVGElement} element
        * @returns {Object}
        */
-      function getElementAttributes(element) {
+      function getElementAttributes(element, brokenSvg = false) {
         return Array.prototype.slice.call(element.attributes).map((attribute) => {
           var value = {};
+          if (brokenSvg) {
+            if (attribute.nodeName === "viewBox") {
+              switch (basename) {
+                case "negative-x-viewbox.svg":
+                case "negative-y-viewbox.svg":
+                case "negative-x-y-viewbox.svg":
+                  value[attribute.nodeName] = "0 0 540 540";
+
+                  return value;
+                default:
+              }
+            }
+          }
+
           value[attribute.nodeName] = attribute.nodeValue;
 
           return value;
         });
       }
       var attributes = {
-        broken: getElementAttributes(svgs.broken),
+        broken: getElementAttributes(svgs.broken, true),
         fixed: getElementAttributes(svgs.fixed),
       };
       assert.deepEqual(attributes.broken, attributes.fixed);

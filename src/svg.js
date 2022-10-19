@@ -78,7 +78,17 @@ Svg.prototype = {
   setAttributes(element, attributes) {
     attributes.forEach((attribute) => {
       if (attribute) {
-        if (element.tagName.toLowerCase() === "path") {
+        if (attribute.name === "viewBox") {
+          const value = attribute.value.split(" ");
+          const x = 2;
+          for (var i = 0; i < x; i++) {
+            /**
+             * Set min-x & min-y to 0
+             */
+            value[i] = "0";
+          }
+          element.setAttribute(attribute.name, value.join(" "));
+        } else if (element.tagName.toLowerCase() === "path") {
           if (
             (attribute.name === "stroke" && this.valueIsNotBlack(attribute.value)) ||
             (attribute.name === "fill" && this.valueIsNotBlack(attribute.value))
