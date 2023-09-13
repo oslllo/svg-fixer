@@ -48,6 +48,7 @@
     "oslllo-potrace": "^2.0.1",
     "oslllo-svg2": "^2.0.2",
     "oslllo-validator": "^3.1.0",
+    "piscina": "^4.1.0",
     "yargs": "^16.2.0"
   },
   "devDependencies": {

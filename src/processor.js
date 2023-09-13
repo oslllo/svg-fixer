@@ -1,10 +1,13 @@
 "use strict";
 
-const fs = require("fs");
 const path = require("path");
-const Svg = require("./svg");
 const is = require("oslllo-validator");
 const Progress = require("./progress");
+const Piscina = require("piscina");
+
+const workerPool = new Piscina({
+  filename: path.resolve(__dirname, "tracer.js")
+});
 
 const Processor = function (fixer) {
   this.fixer = fixer;
@@ -34,14 +37,23 @@ Processor.prototype = {
       try {
         this.setup();
         var svgs = this.source;
+
+        const resolution = this.fixer.options.get("traceResolution");
+
         svgs = svgs.map((source) => {
           var destination = path.join(this.destination, path.basename(source));
 
-          return { source, destination };
+          return { source, destination, resolution };
         });
-        for (var i = 0; i < svgs.length; i++) {
-          await this.instance(svgs[i]);
-        }
+
+        const workerPromises = svgs.map(async (svg) => {
+          await workerPool.run(svg);
+          // eslint-disable-next-line no-empty-function
+          this.tick(() => {});
+        });
+
+        await Promise.all(workerPromises);
+
         this.teardown();
         resolve(this.fixer);
       } catch (err) {
@@ -67,19 +79,6 @@ Processor.prototype = {
     if (is.defined(this.progress)) {
       this.progress.stop();
     }
-  },
-  instance: function ({ source, destination }) {
-    return new Promise(async (resolve, reject) => {
-      try {
-        var resolution = this.fixer.options.get("traceResolution");
-        var svg = new Svg(source, resolution);
-        var fixed = await svg.process();
-        fs.writeFileSync(destination, fixed);
-        this.tick(() => resolve());
-      } catch (err) {
-        reject(err);
-      }
-    });
   },
 };
 
