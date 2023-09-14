@@ -48,7 +48,8 @@ Processor.prototype = {
 
         const workerPromises = svgs.map(async (svg) => {
           await workerPool.run(svg);
-          this.tick();
+          // eslint-disable-next-line no-empty-function
+          this.tick(() => {});
         });
 
         await Promise.all(workerPromises);
@@ -72,8 +73,7 @@ Processor.prototype = {
     if (is.defined(this.progress)) {
       this.progress.tick();
     }
-
-    return callback?.();
+    callback();
   },
   teardown: function () {
     if (is.defined(this.progress)) {
