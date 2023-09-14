@@ -10,11 +10,11 @@
   ],
   "scripts": {
     "debug": "node scripts/debug.js",
-    "lint": "node_modules/.bin/eslint -- src test ./",
-    "lint:fix": "node_modules/.bin/eslint --fix src test ./",
+    "lint": "./node_modules/.bin/eslint -- src test ./",
+    "lint:fix": "./node_modules/.bin/eslint --fix src test ./",
     "test:only": "nyc mocha test/main.test.js && mocha test/output.test.js",
     "test": "nyc mocha test/main.test.js && mocha test/output.test.js && npm run lint",
-    "coverage": "node_modules/.bin/nyc report --reporter=lcovonly"
+    "coverage": "./node_modules/.bin/nyc report --reporter=lcovonly"
   },
   "repository": {
     "type": "git",
