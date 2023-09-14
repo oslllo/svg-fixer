@@ -63,5 +63,8 @@
     "mocha-lcov-reporter": "^1.3.0",
     "nyc": "^15.1.0",
     "stopwatch-node": "^1.1.0"
+  },
+  "engines" : { 
+    "node" : ">=16.0.0"
   }
 }
