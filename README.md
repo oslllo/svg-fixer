@@ -6,6 +6,8 @@
 [![npm](https://img.shields.io/npm/v/oslllo-svg-fixer)](https://www.npmjs.com/package/oslllo-svg-fixer)
 [![Coveralls github](https://img.shields.io/coveralls/github/oslllo/svg-fixer)](https://coveralls.io/github/oslllo/svg-fixer)
 
+🎉 v3.0.0 Is now 11x faster thanks to @ericfennis, see [#89](https://github.com/oslllo/svg-fixer/pull/89).
+
 🎉 v2.0.0 Removed `Canvas & JSDOM` no more slow `npm install` cycles.
 
 Attempts to fix your svg by turning it into a fill / single path (and making it font compatible as a bonus).
