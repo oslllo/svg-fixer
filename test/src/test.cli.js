@@ -5,7 +5,7 @@ const { emptyDir, isEmptyDir } = require(".");
 const { exec } = require("child_process");
 const { assert, path2 } = require("./helper");
 
-const timeout = 30000;
+const timeout = 20000;
 var destination = "temp";
 
 if (!fs.existsSync(destination)) {

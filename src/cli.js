@@ -53,6 +53,7 @@ const options = {
 (async () => {
   try {
     await SVGFixer(source, destination, options).fix();
+    process.exit(0); // eslint-disable-line no-process-exit, no-magic-numbers
   } catch (err) {
     console.log("\n" + colors.red("ERR: " + err.message + "\n")); // eslint-disable-line no-console
     console.log(colors.yellow("STACK: " + err.stack + "\n")); // eslint-disable-line no-console
