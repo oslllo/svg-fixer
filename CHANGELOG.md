@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [3.0.0](https://github.com/oslllo/svg-fixer/compare/v2.2.0...v3.0.0) (2023-09-16)
 
+⚠️ Contains breaking changes.
+
+### Breaking Changes
+
+* Dropped support for node `<16.0.0`
+* This version will not work with `<16.0.0`
+
 ### Features
 
 * Made the tool 11x faster thanks to @ericfennis, see [#89](https://github.com/oslllo/svg-fixer/pull/89)
