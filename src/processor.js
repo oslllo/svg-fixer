@@ -58,6 +58,7 @@ Processor.prototype = {
         resolve(this.fixer);
       } catch (err) {
         reject(err);
+        this.teardown();
       }
     });
   },
