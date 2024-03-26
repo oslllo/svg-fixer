@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.0.0](https://github.com/oslllo/svg-fixer/compare/v3.0.0...v4.0.0) (2024-03-26)
+
+
+### Bug Fixes
+
+* node version ([8a45ad0](https://github.com/oslllo/svg-fixer/commit/8a45ad02df73759d99ef58a467edaf6697415292))
+* Process never ends on error when use promise [#98](https://github.com/oslllo/svg-fixer/issues/98) ([9cacc5c](https://github.com/oslllo/svg-fixer/commit/9cacc5c08016a4882a745009221ae51f55769d0c))
+
 ## [3.0.0](https://github.com/oslllo/svg-fixer/compare/v2.2.0...v3.0.0) (2023-09-16)
 
 ⚠️ Contains breaking changes.
