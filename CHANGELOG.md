@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [4.0.0](https://github.com/oslllo/svg-fixer/compare/v3.0.0...v4.0.0) (2024-03-26)
 
+### Breaking
+* drop support for node 16
 
 ### Bug Fixes
 
