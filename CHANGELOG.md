@@ -8,6 +8,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [5.0.0](https://github.com/oslllo/svg-fixer/compare/v4.0.1...v5.0.0) (2024-07-21)
 
 
+### Breaking Changes
+
+* Breaking changes will only affect users on node 21.x, as the security fixes will throw a deprication warning that might
+  cause the fixer to exit if you are using it in a cli. See https://github.com/yarnpkg/yarn/issues/9005 for more details.
+
 ### Bug Fixes
 
 * security vulnerabilities ([0ade74b](https://github.com/oslllo/svg-fixer/commit/0ade74b4813387c5af448da815ed5f9e667f1c16))
