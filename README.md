@@ -22,7 +22,7 @@ Attempts to fix your svg by turning it into a fill / single path (and making it 
 
 ## Documentation, Installation, and Usage Instructions
 
-See the full installation and usage documentation [HERE](https://docs.oslllo.com/svg-fixer/master/).
+See the full installation and usage documentation [HERE](https://docs-oslllo-com.onrender.com/svg-fixer/master/).
 
 ### The Objective
 
