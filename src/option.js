@@ -2,12 +2,13 @@
 
 const error = require("./error");
 const is = require("oslllo-validator");
+const { DEFAULT_TRACE_RESOLUTION } = require("./constants");
 
 const Option = function (options) {
   this.data = {
     showProgressBar: false,
     throwIfDestinationDoesNotExist: true,
-    traceResolution: 600,
+    traceResolution: DEFAULT_TRACE_RESOLUTION,
   };
   if (!is.object(options)) {
     throw error.invalidParameterError("options", "object", options);
