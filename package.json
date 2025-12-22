@@ -13,7 +13,8 @@
     "lint": "eslint -- src test ./",
     "lint:fix": "eslint --fix src test ./",
     "test:only": "nyc mocha test/main.test.js && mocha test/output.test.js",
-    "test": "nyc mocha test/main.test.js && mocha test/output.test.js && npm run lint",
+    "test": "nyc npm run test:all  && npm run lint",
+    "test:all": "mocha test/main.test.js && mocha test/output.test.js",
     "test:cli": "mocha test/src/test.cli.js",
     "coverage": "nyc report --reporter=lcovonly"
   },
