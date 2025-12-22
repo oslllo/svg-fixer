@@ -5,6 +5,24 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [6.0.0](https://github.com/oslllo/svg-fixer/compare/v5.0.0...v6.0.0) (2025-12-22)
+
+
+### Features
+
+* add fixString static method to SVGFixer ([254107b](https://github.com/oslllo/svg-fixer/commit/254107b9045b9619a70f37815a36d6e8b17581b7))
+
+
+### Bug Fixes
+
+* **ci:** switch from npm ci to npm install ([2e7dbb3](https://github.com/oslllo/svg-fixer/commit/2e7dbb3d58b74f71d8e810820ca6b007a8e44d1c))
+* **security:** audit fix ([50940e8](https://github.com/oslllo/svg-fixer/commit/50940e8d87865708dfc6586b96bab9058f4c3f86))
+
+
+### Miscellaneous Chores
+
+* release 6.0.0 ([8f17d1e](https://github.com/oslllo/svg-fixer/commit/8f17d1ef5f0eb52cb45bbe3989a3c4d61a16d5a2))
+
 ## [5.0.0](https://github.com/oslllo/svg-fixer/compare/v4.0.1...v5.0.0) (2024-07-21)
 
 
