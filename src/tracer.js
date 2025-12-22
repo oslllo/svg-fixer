@@ -1,10 +1,10 @@
 "use strict";
 
 const fs = require("fs/promises");
-const Svg = require("./svg");
+
+const fix = require("./fixer");
 
 module.exports = async ({ source, destination, resolution }) => {
-  const svg = new Svg(source, resolution);
-  const fixed = await svg.process();
+  const fixed = await fix({ source, resolution });
   await fs.writeFile(destination, fixed);
 };

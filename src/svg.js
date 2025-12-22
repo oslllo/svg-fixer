@@ -3,13 +3,12 @@
 const Svg2 = require("oslllo-svg2");
 const Potrace = require("oslllo-potrace");
 
-const Svg = function (path, traceResolution) {
+const Svg = function (pathOrBuffer, traceResolution) {
   this.filled = false;
-  this.path = path;
   this.traceResolution = traceResolution;
   this.png = new Object();
   this.resized = new Object();
-  this.svg2 = Svg2(this.path);
+  this.svg2 = Svg2(pathOrBuffer);
   this.element = this.svg2.toElement();
   this.outerHTML = this.element.outerHTML;
   this.original = this.getOriginal();
