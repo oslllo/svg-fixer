@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [6.0.1](https://github.com/oslllo/svg-fixer/compare/v6.0.0...v6.0.1) (2025-12-22)
+
+
+### Bug Fixes
+
+* **ci:** failing workflow ([ec5d7dd](https://github.com/oslllo/svg-fixer/commit/ec5d7ddccd891a12b0355c401cdfcf6f9a87c020))
+
 ## [6.0.0](https://github.com/oslllo/svg-fixer/compare/v5.0.0...v6.0.0) (2025-12-22)
 
 
